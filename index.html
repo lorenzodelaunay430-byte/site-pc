@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Montage PC - Lorenzo</title>
-  <link rel="stylesheet" href="style.css"> <!-- On relie le CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>Montage PC par Lorenzo</h1>
     <nav>
       <button id="configurateurBtn">⚙️ Configurateur</button>
-      <button id="contactBtn">📩 Contact</button>
+      <button id="contactBtn" onclick="window.location.href='mailto:tonmail@gmail.com'">📩 Contact</button>
     </nav>
   </header>
 
   <main>
     <section class="about">
       <h2>À propos</h2>
-      <p>Je m’appelle <b>Lorenzo</b>, j’ai <b>15 ans</b>. 
+      <p>Je m’appelle <b>Lorenzo</b>, j’ai <b>15 ans</b>.
       J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, j’ai appris à monter des ordinateurs.
       J’ai déjà aidé des amis et monté mon propre PC. Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.</p>
     </section>
@@ -49,6 +49,33 @@
     </section>
   </main>
 
-  <script src="script.js" defer></script> <!-- On relie le JS -->
+  <!-- Popup Configurateur -->
+  <div id="configModal" class="modal">
+    <div class="modal-content">
+      <h2>⚙️ Configurateur</h2>
+      <label for="cpu">Processeur :</label>
+      <select id="cpu">
+        <option value="amd">AMD Ryzen 5</option>
+        <option value="intel">Intel i5</option>
+      </select>
+
+      <label for="gpu">Carte Graphique :</label>
+      <select id="gpu">
+        <option value="nvidia">Nvidia RTX 3060</option>
+        <option value="amd">AMD RX 6600</option>
+      </select>
+
+      <label for="ram">RAM :</label>
+      <select id="ram">
+        <option value="corsair">Corsair 16 Go</option>
+        <option value="kingston">Kingston 16 Go</option>
+      </select>
+
+      <p id="configResult"></p>
+      <button id="fermerConfig">Fermer</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
