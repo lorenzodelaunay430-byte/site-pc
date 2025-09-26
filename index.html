@@ -13,6 +13,7 @@
       background-size: cover;
       opacity: 0;
       animation: fadeIn 1.5s ease-in forwards;
+      overflow-x: hidden;
     }
 
     @keyframes fadeIn {
@@ -103,6 +104,22 @@
       margin: 10px auto;
       border-radius: 10px;
     }
+
+    /* 🎃 Animation des citrouilles */
+    .pumpkin {
+      position: fixed;
+      top: -50px;
+      font-size: 30px;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -155,6 +172,25 @@
       } else {
         document.getElementById("resultat").innerText = "Veuillez remplir tous les champs.";
       }
+    }
+
+    // 🎃 Génération des citrouilles
+    function createPumpkin() {
+      const pumpkin = document.createElement("div");
+      pumpkin.classList.add("pumpkin");
+      pumpkin.innerText = "🎃";
+      pumpkin.style.left = Math.random() * window.innerWidth + "px";
+      pumpkin.style.animationDuration = (3 + Math.random() * 2) + "s";
+      document.body.appendChild(pumpkin);
+
+      setTimeout(() => {
+        pumpkin.remove();
+      }, 5000);
+    }
+
+    // Lancer plusieurs citrouilles à l'ouverture
+    for (let i = 0; i < 15; i++) {
+      setTimeout(createPumpkin, i * 300);
     }
   </script>
 </body>
