@@ -11,19 +11,63 @@
       color: white;
       background: url("https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
       background-size: cover;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     header {
       text-align: center;
       padding: 50px;
       background: rgba(0, 0, 0, 0.6);
+      transform: translateY(-50px);
+      opacity: 0;
+      animation: slideDown 1s ease-out forwards;
+      animation-delay: 1s;
     }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     section {
       margin: 40px auto;
       padding: 20px;
       max-width: 800px;
       background: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s ease-out forwards;
     }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section:nth-of-type(1) { animation-delay: 2s; }
+    section:nth-of-type(2) { animation-delay: 2.3s; }
+    section:nth-of-type(3) { animation-delay: 2.6s; }
+    section:nth-of-type(4) { animation-delay: 2.9s; }
+
     h1, h2 {
       text-align: center;
     }
