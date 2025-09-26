@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Montage PC - [Ton Nom]</title>
+  <style>
+    :root{--accent:#0b5ed7;--bg:#f7f7fb;--card:#fff}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;padding:20px;margin:0;background:var(--bg);color:#111}
+    .container{max-width:1000px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    h1{margin:0;font-size:1.5rem}
+    nav a{margin-left:14px;text-decoration:none;color:#333;font-size:0.95rem}
+    .hero{background:var(--card);padding:24px;border-radius:12px;box-shadow:0 6px 18px rgba(10,10,20,0.06);margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:820px){.grid{grid-template-columns:1fr 320px}}
+    .card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(10,10,20,0.06)}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none}
+    .portfolio img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    footer{font-size:0.85rem;color:#555;margin-top:18px}
+    .muted{color:#666;font-size:0.95rem}
+    .disclaimer{background:#fff3cd;border-left:4px solid #ffd966;padding:10px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Montage PC — [Ton Prénom]</h1>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero card">
+      <p class="muted">Je monte votre PC à la carte : vous fournissez les composants, je réalise l'assemblage, les tests et l'installation système.</p>
+      <p><strong>Prix conseillé :</strong> petit service entre particuliers — me contacter pour un devis.</p>
+      <a class="btn" href="#contact">Me contacter</a>
+    </section>
+
+    <div class="grid">
+      <main>
+        <section id="services" class="card">
+          <h2>Services</h2>
+          <ul>
+            <li>Assemblage complet (vérification des composants, montage physique)</li>
+            <li>Installation système (Windows/Linux) et drivers</li>
+            <li>Tests de stabilité (Burn-in, benchmarks de base)</li>
+            <li>Conseils d'achat et optimisation de câblage</li>
+          </ul>
+          <div class="disclaimer">
+            <strong>Important :</strong> service non commercialisé (activité entre particuliers). Je ne suis pas une entreprise. Voir la section Contact pour conditions.
+          </div>
+        </section>
+
+        <section id="portfolio" class="card portfolio" style="margin-top:14px">
+          <h2>Portfolio</h2>
+          <!-- Remplace les src par tes images -->
+          <img src="https://via.placeholder.com/800x400?text=PC+1" alt="PC 1">
+          <p class="muted">PC Gaming — montage & cable management.</p>
+        </section>
+      </main>
+
+      <aside>
+        <div id="contact" class="card">
+          <h3>Contact</h3>
+          <p>Email : <a href="mailto:tonmail@example.com">tonmail@example.com</a></p>
+          <p>Téléphone : 06 XX XX XX XX (ou via parents)</p>
+          <p class="muted">Horaires : sur RDV</p>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4>Tarif recommandé</h4>
+          <p class="muted">Pour l'instant : service informel — fixation d'un prix avec le client. Évite les paiements en ligne si tu n'as pas de statut légal.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <p>© [Ton Prénom] — Montage PC. Affiche clairement que tu es mineur si tu veux être totalement transparent.</p>
+    </footer>
+  </div>
+</body>
+</html>
