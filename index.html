@@ -3,41 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Montage PC - [Ton Nom]</title>
+  <title>Montage PC — Lorenzo</title>
   <style>
-    :root{--accent:#0b5ed7;--bg:#f7f7fb;--card:#fff}
+    :root{
+      --accent:#0b5ed7;
+      --bg:#f7f7fb;
+      --card:#ffffff;
+      --muted:#666;
+    }
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Arial;padding:20px;margin:0;background:var(--bg);color:#111}
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;padding:20px;margin:0;background:var(--bg);color:#111}
     .container{max-width:1000px;margin:0 auto}
     header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-    h1{margin:0;font-size:1.5rem}
+    h1{margin:0;font-size:1.6rem}
     nav a{margin-left:14px;text-decoration:none;color:#333;font-size:0.95rem}
-    .hero{background:var(--card);padding:24px;border-radius:12px;box-shadow:0 6px 18px rgba(10,10,20,0.06);margin-bottom:18px}
+    .hero{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(10,10,20,0.06);margin-bottom:18px}
     .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    @media(min-width:820px){.grid{grid-template-columns:1fr 320px}}
+    @media(min-width:820px){.grid{grid-template-columns:1fr 360px}}
     .card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(10,10,20,0.06)}
     .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none}
-    .portfolio img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .muted{color:var(--muted);font-size:0.95rem}
+    .portfolio img{width:100%;height:auto;object-fit:cover;border-radius:8px}
     footer{font-size:0.85rem;color:#555;margin-top:18px}
-    .muted{color:#666;font-size:0.95rem}
-    .disclaimer{background:#fff3cd;border-left:4px solid #ffd966;padding:10px;border-radius:6px}
+    label{display:block;margin-top:10px;font-weight:600}
+    input[type="number"], textarea, select {width:100%;padding:8px;border-radius:8px;border:1px solid #ddd;margin-top:6px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .row{display:flex;gap:10px}
+    .row > *{flex:1}
+    .price-box{font-size:1.25rem;font-weight:700;margin-top:10px}
+    .contact-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .note{font-size:0.9rem;color:#444;margin-top:8px}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Montage PC — [Ton Prénom]</h1>
+      <h1>Montage PC — Lorenzo</h1>
       <nav>
         <a href="#services">Services</a>
-        <a href="#portfolio">Portfolio</a>
+        <a href="#estimate">Estimation</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <section class="hero card">
-      <p class="muted">Je monte votre PC à la carte : vous fournissez les composants, je réalise l'assemblage, les tests et l'installation système.</p>
-      <p><strong>Prix conseillé :</strong> petit service entre particuliers — me contacter pour un devis.</p>
-      <a class="btn" href="#contact">Me contacter</a>
+      <p class="muted">Je réalise l'assemblage de PC à la carte : vous fournissez les composants, je m'occupe du montage, tests et installation.</p>
+      <div style="margin-top:10px">
+        <a class="btn" href="#estimate">Obtenir une estimation</a>
+        <a style="margin-left:8px;text-decoration:none;color:#333" href="tel:+33763122670">📞 07 63 12 26 70</a>
+      </div>
     </section>
 
     <div class="grid">
@@ -45,44 +59,135 @@
         <section id="services" class="card">
           <h2>Services</h2>
           <ul>
-            <li>Assemblage complet (vérification des composants, montage physique)</li>
-            <li>Installation système (Windows/Linux) et drivers</li>
-            <li>Tests de stabilité (Burn-in, benchmarks de base)</li>
-            <li>Conseils d'achat et optimisation de câblage</li>
+            <li>Assemblage physique et vérification des composants</li>
+            <li>Installation système (Windows / Linux) et drivers</li>
+            <li>Tests de démarrage et tests de stabilité de base</li>
+            <li>Conseils cable management et optimisation</li>
           </ul>
-          <div class="disclaimer">
-            <strong>Important :</strong> service non commercialisé (activité entre particuliers). Je ne suis pas une entreprise. Voir la section Contact pour conditions.
-          </div>
+          <p class="note">Exemples : montage d'un PC Gaming, d'une station de travail ou d'un PC de bureautique. Photos sur la droite.</p>
         </section>
 
         <section id="portfolio" class="card portfolio" style="margin-top:14px">
-          <h2>Portfolio</h2>
-          <!-- Remplace les src par tes images -->
-          <img src="https://via.placeholder.com/800x400?text=PC+1" alt="PC 1">
-          <p class="muted">PC Gaming — montage & cable management.</p>
+          <h2>Exemple</h2>
+          <img src="https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg" alt="Montage PC">
+          <p class="muted">Photo illustrative.</p>
+        </section>
+
+        <section id="estimate" class="card" style="margin-top:14px">
+          <h2>Calculateur de tarif</h2>
+          <p class="small">Indique le nombre de composants et le temps estimé. L'estimation s'affichera en dessous et le bouton "Me contacter" ouvrira ton client mail avec l'estimation.</p>
+
+          <label for="components">Nombre de composants (carte mère, CPU, RAM, GPU, disque, alim, boîtier...)</label>
+          <input id="components" type="number" min="1" value="6">
+
+          <label for="hours">Temps de montage estimé (heures)</label>
+          <input id="hours" type="number" min="0.5" step="0.5" value="1.5">
+
+          <label for="complexity">Complexité</label>
+          <select id="complexity">
+            <option value="1">Normale</option>
+            <option value="1.25">Avancée (watercooling, câblage complet)</option>
+            <option value="1.5">Très avancée (modding, configurations personnalisées)</option>
+          </select>
+
+          <label for="notes">Notes / Ex : composants fournis, OS souhaité (optionnel)</label>
+          <textarea id="notes" rows="3" placeholder="Ex : Windows 11 à installer, montage silencieux..."></textarea>
+
+          <div class="price-box" id="priceBox">Estimation : — €</div>
+
+          <div class="contact-actions">
+            <a id="mailtoBtn" class="btn" href="#">Me contacter</a>
+            <a id="telBtn" class="btn" style="background:#28a745" href="tel:+33763122670">Appeler (07 63 12 26 70)</a>
+          </div>
+
+          <p class="small" style="margin-top:8px">Tarif calculé automatiquement. Tu peux modifier les tarifs dans le script si tu veux d'autres valeurs par défaut.</p>
         </section>
       </main>
 
       <aside>
         <div id="contact" class="card">
           <h3>Contact</h3>
-          <p>Email : <a href="lorenzodelaunay430@gmail.com">tonmail@example.com</a></p>
-          <p>Téléphone : 0763122670 (ou via parents)</p>
+          <p>Email : <span id="displayEmail">lorenzo@example.com</span></p>
+          <p>Téléphone : <a href="tel:+33763122670">07 63 12 26 70</a></p>
           <p class="muted">Horaires : sur RDV</p>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h4>Tarif recommandé</h4>
-          <p class="muted">Pour l'instant : service informel — fixation d'un prix avec le client. Évite les paiements en ligne si tu n'as pas de statut légal.</p>
+          <h4>Comment ça marche</h4>
+          <ol class="small">
+            <li>Vous apportez les composants (avec factures si possible).</li>
+            <li>Je procède au montage, tests et installation.</li>
+            <li>Remise et explication rapide du système.</li>
+          </ol>
         </div>
       </aside>
     </div>
 
     <footer>
-      <p>© [Lorenzo] — Montage PC. Affiche clairement que tu es mineur si tu veux être totalement transparent.</p>
+      <p>© Lorenzo — Montage PC.</p>
     </footer>
   </div>
+
+  <script>
+    // --------- CONFIG ---------
+    // Remplace cette adresse par ton vrai e-mail :
+    const CONTACT_EMAIL = "lorenzo@example.com";
+    // Tarif de base (modifiable) :
+    const PRICE_PER_COMPONENT = 6; // € par composant
+    const PRICE_PER_HOUR = 25; // € par heure de montage
+    // --------------------------
+
+    // DOM
+    const compsEl = document.getElementById('components');
+    const hoursEl = document.getElementById('hours');
+    const complexityEl = document.getElementById('complexity');
+    const notesEl = document.getElementById('notes');
+    const priceBox = document.getElementById('priceBox');
+    const mailtoBtn = document.getElementById('mailtoBtn');
+    const displayEmail = document.getElementById('displayEmail');
+
+    displayEmail.textContent = CONTACT_EMAIL;
+
+    function calcPrice(){
+      const comps = Math.max(0, Number(compsEl.value) || 0);
+      const hours = Math.max(0, Number(hoursEl.value) || 0);
+      const complexityFactor = Number(complexityEl.value) || 1;
+      // Calcul simple : composants + temps, multiplié par complexité
+      const raw = (comps * PRICE_PER_COMPONENT) + (hours * PRICE_PER_HOUR);
+      const total = Math.round(raw * complexityFactor * 100) / 100; // arrondir 2 déc.
+      return total;
+    }
+
+    function updateUI(){
+      const price = calcPrice();
+      priceBox.textContent = `Estimation : ${price.toLocaleString('fr-FR')} € (hors pièces)`;
+      // Prépare mailto avec subject + body encodés
+      const subject = encodeURIComponent("Demande de montage PC - estimation");
+      const bodyLines = [
+        `Bonjour Lorenzo,`,
+        ``,
+        `Je souhaite un montage PC.`,
+        `Nombre de composants : ${compsEl.value}`,
+        `Temps estimé (heures) : ${hoursEl.value}`,
+        `Complexité : ${complexityEl.options[complexityEl.selectedIndex].text}`,
+        `Notes : ${notesEl.value || '-'}`,
+        ``,
+        `Estimation fournie : ${price.toLocaleString('fr-FR')} € (hors pièces)`,
+        ``,
+        `Merci de me répondre pour fixer un RDV.`,
+      ];
+      const body = encodeURIComponent(bodyLines.join('\n'));
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      mailtoBtn.setAttribute('href', mailto);
+    }
+
+    // Events
+    [compsEl,hoursEl,complexityEl,notesEl].forEach(el=>{
+      el.addEventListener('input', updateUI);
+    });
+
+    // Initial UI update
+    updateUI();
+  </script>
 </body>
 </html>
-<img src="https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg" alt="Montage PC" style="max-width:100%;border-radius:12px;">
-
