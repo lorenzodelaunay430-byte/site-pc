@@ -16,9 +16,7 @@
       background: #222;
       padding: 15px;
     }
-    header h1 {
-      margin: 0;
-    }
+    header h1 { margin: 0; }
     nav button {
       margin: 5px;
       padding: 10px 15px;
@@ -28,21 +26,10 @@
       cursor: pointer;
       border-radius: 5px;
     }
-    nav button:hover {
-      background: #cc5200;
-    }
-    section {
-      margin: 40px auto;
-      max-width: 800px;
-    }
-    section img {
-      max-width: 100%;
-      border-radius: 10px;
-    }
-    input, select {
-      margin: 5px;
-      padding: 5px;
-    }
+    nav button:hover { background: #cc5200; }
+    section { margin: 40px auto; max-width: 900px; }
+    section img { max-width: 100%; border-radius: 10px; }
+    input, select { margin: 5px; padding: 5px; }
     .modal {
       display: none;
       position: fixed;
@@ -59,7 +46,7 @@
       padding: 20px;
       border-radius: 10px;
       text-align: center;
-      width: 300px;
+      width: 320px;
     }
     .citrouille {
       position: fixed;
@@ -81,9 +68,22 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    .brands button:hover {
-      background: #666;
+    .brands button:hover { background: #666; }
+    .pc-list { display: none; margin-top: 20px; }
+    .pc-item {
+      background: #222;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
+    .pc-item img {
+      width: 120px;
+      border-radius: 8px;
+    }
+    .pc-item div { text-align: left; }
   </style>
 </head>
 <body>
@@ -121,11 +121,66 @@
 
     <section class="brands">
       <h2>🔥 Top Marques</h2>
-      <button>MSI</button>
-      <button>ASUS</button>
-      <button>Corsair</button>
-      <button>AMD</button>
-      <button>Acer</button>
+      <button onclick="afficherPC('msi')">MSI</button>
+      <button onclick="afficherPC('asus')">ASUS</button>
+      <button onclick="afficherPC('corsair')">Corsair</button>
+      <button onclick="afficherPC('amd')">AMD</button>
+      <button onclick="afficherPC('acer')">Acer</button>
+
+      <div id="pc-msi" class="pc-list">
+        <div class="pc-item">
+          <img src="https://asset.msi.com/resize/image/global/product/product_1663814305f8e6d2a2c9e6ee19f51a6b1b32980f33.png" alt="MSI GF63">
+          <div>
+            <h3>MSI GF63 Thin</h3>
+            <p>i5 + RTX 3050 + 16Go RAM</p>
+            <p>💵 899€</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pc-asus" class="pc-list">
+        <div class="pc-item">
+          <img src="https://dlcdnwebimgs.asus.com/gain/207c-726d-4e52-8e11-158c4f90e1a1/w800" alt="ASUS TUF">
+          <div>
+            <h3>ASUS TUF Gaming F15</h3>
+            <p>i7 + RTX 3060 + 16Go RAM</p>
+            <p>💵 1199€</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pc-corsair" class="pc-list">
+        <div class="pc-item">
+          <img src="https://cwsmgmt.corsair.com/pdp/merchandised-images/CH-9109114-NA-K100_RGB_Gaming_Keyboard_01.png" alt="Corsair Accessoire">
+          <div>
+            <h3>Corsair Accessoires</h3>
+            <p>Claviers, RAM Vengeance, boîtiers…</p>
+            <p>💵 à partir de 89€</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pc-amd" class="pc-list">
+        <div class="pc-item">
+          <img src="https://www.amd.com/system/files/2022-11/1562851-amd-ryzen-7000-1260x709.jpg" alt="AMD Ryzen">
+          <div>
+            <h3>AMD Ryzen 7 Laptop</h3>
+            <p>Ryzen 7 5800H + Radeon 660M</p>
+            <p>💵 999€</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pc-acer" class="pc-list">
+        <div class="pc-item">
+          <img src="https://static.acer.com/up/Resource/Acer/Laptops/Nitro_5/Images/20220315/Nitro-5_AN515-58_Bl_D_modelmain.png" alt="Acer Nitro 5">
+          <div>
+            <h3>Acer Nitro 5</h3>
+            <p>i5 + RTX 3050Ti + 8Go RAM</p>
+            <p>💵 799€</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -188,6 +243,12 @@
       const ram = document.getElementById("ram").value;
       configResult.innerText = "Ta config : " + cpu + " + " + gpu + " + " + ram;
     };
+
+    // --- PC portables ---
+    function afficherPC(marque) {
+      document.querySelectorAll(".pc-list").forEach(div => div.style.display = "none");
+      document.getElementById("pc-" + marque).style.display = "block";
+    }
 
     // --- Animation Halloween (citrouilles) ---
     document.addEventListener("DOMContentLoaded", () => {
