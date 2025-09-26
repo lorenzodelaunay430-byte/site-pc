@@ -369,6 +369,90 @@ priceMomentBtn.addEventListener('click', async ()=>{
     priceMomentBtn.disabled = false;
   }
 });
+<section id="brands">
+  <h2>Top marques</h2>
+  <div class="brand-list">
+    <button class="brand-btn" data-brand="msi">MSI</button>
+    <button class="brand-btn" data-brand="asus">ASUS</button>
+    <button class="brand-btn" data-brand="corsair">Corsair</button>
+    <button class="brand-btn" data-brand="amd">AMD</button>
+    <button class="brand-btn" data-brand="acer">Acer</button>
+  </div>
+  <div id="brand-products">
+    <!-- les produits apparaîtront ici quand on clique -->
+  </div>
+</section>
+
+<style>
+  .brand-list { display: flex; gap: 14px; justify-content: center; margin-bottom:16px; }
+  .brand-btn { padding: 10px 16px; border: none; border-radius:8px; background:#444; color:#fff; cursor:pointer; }
+  .brand-btn.active { background: var(--accent); }
+  #brand-products .product-card { display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin-bottom:10px; }
+  #brand-products .product-card img { width:100px; height:60px; object-fit:cover; border-radius:4px; }
+  #brand-products .product-meta { color:#fff; }
+</style>
+
+<script>
+  // Exemple de données initiales (quelques produits)
+  const brandProducts = {
+    msi: [
+      { name: "MSI Thin 15", img: "https://via.placeholder.com/160x90?text=MSI+Thin+15", url: "", price: "699 €" },
+      { name: "MSI Titan 18 HX", img: "https://via.placeholder.com/160x90?text=MSI+Titan+18", url: "", price: "6 499 €" }
+    ],
+    asus: [
+      { name: "ASUS ROG Strix", img: "https://via.placeholder.com/160x90?text=ASUS+ROG", url: "", price: "1 500 €" },
+      { name: "ASUS TUF Gaming", img: "https://via.placeholder.com/160x90?text=ASUS+TUF", url: "", price: "1 100 €" }
+    ],
+    corsair: [
+      { name: "Corsair Vengeance DDR5 32 Go", img: "https://via.placeholder.com/160x90?text=Corsair+DDR5", url: "", price: "160 €" }
+    ],
+    amd: [
+      { name: "AMD Ryzen 7 5800X", img: "https://via.placeholder.com/160x90?text=Ryzen+7", url: "", price: "320 €" }
+    ],
+    acer: [
+      { name: "Acer Predator Helios 16", img: "https://via.placeholder.com/160x90?text=Acer+Predator", url: "", price: "2 000 €" }
+    ]
+  };
+
+  const buttons = document.querySelectorAll('.brand-btn');
+  const container = document.getElementById('brand-products');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // désactiver les autres
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const brand = btn.dataset.brand;
+      showBrandProducts(brand);
+    });
+  });
+
+  function showBrandProducts(brand) {
+    const list = brandProducts[brand] || [];
+    container.innerHTML = '';
+    if (list.length === 0) {
+      container.innerHTML = '<p style="color:#fff">Aucun produit pour cette marque.</p>';
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}">
+        <div class="product-meta">
+          <div>${p.name}</div>
+          <div>${p.price}</div>
+        </div>
+      `;
+      if (p.url) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => window.open(p.url, '_blank'));
+      }
+      container.appendChild(card);
+    });
+  }
+</script>
 
 /* ============= INTEGRATION AMAZON (guide) =============
 
@@ -388,3 +472,4 @@ Je peux t'aider à écrire un petit script Node.js (ou un cloud function) pour i
 </script>
 </body>
 </html>
+
