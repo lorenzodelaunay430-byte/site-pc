@@ -1,81 +1,390 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Montage PC - Lorenzo</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Montage PC — Lorenzo</title>
+<style>
+  :root{--accent:#0b5ed7;--accent2:#ff6b00}
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:#fff;
+    background:url("https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg") center/cover no-repeat fixed;
+    overflow-x:hidden;
+  }
+  header{padding:28px 18px;text-align:center;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.25));position:relative;z-index:10}
+  header h1{margin:0;font-size:28px}
+  header p{margin:6px 0 0;color:rgba(255,255,255,.9)}
+  /* Configurator + price button top-right */
+  #btns-top{position:fixed;top:14px;right:14px;display:flex;gap:10px;z-index:1200}
+  .topbtn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+  .topbtn.config{background:var(--accent2);color:#fff}
+  .topbtn.pricemom{background:#222;color:#fff}
+  /* sections */
+  section{max-width:1100px;margin:36px auto;background:rgba(0,0,0,.62);padding:22px;border-radius:12px}
+  h2{margin-top:0}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  select,input{padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.35);color:#fff}
+  .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;border:none;cursor:pointer}
+  .btn.alt{background:#28a745}
+  /* modal */
+  #configModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1500;align-items:center;justify-content:center;padding:20px}
+  #configBox{width:1100px;max-width:100%;background:linear-gradient(180deg,#121212,#0b0b0b);padding:18px;border-radius:12px;color:#fff;display:grid;grid-template-columns:1fr 420px;gap:18px;max-height:90vh;overflow:auto}
+  @media(max-width:1100px){#configBox{grid-template-columns:1fr;}}
+  label.small{display:block;font-size:13px;color:#ccc;margin-top:8px}
+  .component-card{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.02);padding:8px;border-radius:8px;margin-top:8px}
+  .component-card img{width:84px;height:56px;object-fit:cover;border-radius:6px;flex-shrink:0}
+  .component-meta{font-size:14px;text-align:left}
+  .component-meta .price{font-weight:700;margin-top:6px}
+  .result{margin-top:10px;padding:10px;border-radius:8px}
+  .ok{background:rgba(0,128,0,.12);color:#bff0b8}
+  .ko{background:rgba(200,0,0,.12);color:#ffc0c0}
+  .summary{background:rgba(255,255,255,.03);padding:10px;border-radius:8px;margin-top:10px}
+  .price{font-weight:700;font-size:1.1rem}
+  /* pumpkins */
+  .pumpkin{position:fixed;top:-100px;pointer-events:none;z-index:1400;user-select:none;transform-origin:center}
+  @keyframes fall{to{transform:translateY(120vh) rotate(360deg);opacity:0}}
+  /* small helpers */
+  .muted{color:#bbb;font-size:13px}
+  .small{font-size:13px;color:#ddd}
+  footer{color:#ccc;text-align:center;margin:28px 0}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Montage PC par Lorenzo</h1>
-    <nav>
-      <button id="configurateurBtn">⚙️ Configurateur</button>
-      <button id="contactBtn" onclick="window.location.href='mailto:tonmail@gmail.com'">📩 Contact</button>
-    </nav>
-  </header>
 
-  <main>
-    <section class="about">
-      <h2>À propos</h2>
-      <p>Je m’appelle <b>Lorenzo</b>, j’ai <b>15 ans</b>.
-      J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, j’ai appris à monter des ordinateurs.
-      J’ai déjà aidé des amis et monté mon propre PC. Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.</p>
-    </section>
+<header>
+  <h1>Montage PC par Lorenzo</h1>
+  <p>Numéro : 07 63 12 26 70</p>
+</header>
 
-    <section class="zone">
-      <h2>Zone d’intervention</h2>
-      <p>Gamaches + 20 km autour.</p>
-      <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone d’intervention">
-    </section>
+<!-- top buttons: Configurator + Prix du moment -->
+<div id="btns-top">
+  <button id="priceMomentBtn" class="topbtn pricemom">🛒 Prix du moment (Amazon)</button>
+  <button id="configBtn" class="topbtn config">⚙️ Configurateur</button>
+</div>
 
-    <section class="tarifs">
-      <h2>💰 Calculateur de prix</h2>
-      <label>Nombre de composants :</label>
-      <input type="number" id="composants" value="5">
-      <label>Heures de travail :</label>
-      <input type="number" id="heures" value="2">
-      <button onclick="calculerPrix()">Calculer</button>
-      <p id="resultat"></p>
-    </section>
+<section>
+  <h2>Présentation</h2>
+  <p class="small">Je m'appelle <strong>Lorenzo</strong>, j'ai <strong>15 ans</strong>. J'ai commencé à me passionner pour l'informatique à 13 ans et j'ai appris à monter des ordinateurs en aidant des amis et en construisant mon propre PC. Je propose maintenant mes services de montage et d'assistance.</p>
+</section>
 
-    <section class="brands">
-      <h2>🔥 Top Marques</h2>
-      <button>MSI</button>
-      <button>ASUS</button>
-      <button>Corsair</button>
-      <button>AMD</button>
-      <button>Acer</button>
-    </section>
-  </main>
+<section>
+  <h2>Rapide — Tarifs</h2>
+  <div class="row">
+    <label class="small">Composants (nb)</label>
+    <input id="quick-components" type="number" min="1" style="width:120px" placeholder="6">
+    <label class="small">Heures</label>
+    <input id="quick-hours" type="number" min="0.5" step="0.5" style="width:120px" placeholder="1.5">
+    <button class="btn" onclick="quickCalc()">Calculer</button>
+    <div id="quick-result" style="margin-left:12px;font-weight:700"></div>
+  </div>
+</section>
 
-  <!-- Popup Configurateur -->
-  <div id="configModal" class="modal">
-    <div class="modal-content">
-      <h2>⚙️ Configurateur</h2>
-      <label for="cpu">Processeur :</label>
-      <select id="cpu">
-        <option value="amd">AMD Ryzen 5</option>
-        <option value="intel">Intel i5</option>
+<section>
+  <h2>Zone d'intervention</h2>
+  <p class="small">Je me déplace dans un rayon de 20 km autour de <strong>Gamaches</strong>.</p>
+  <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" style="max-width:360px;border-radius:8px">
+</section>
+
+<!-- CONFIGURATOR MODAL -->
+<div id="configModal" role="dialog" aria-modal="true">
+  <div id="configBox">
+    <!-- LEFT: selectors -->
+    <div id="left">
+      <h3>🔧 Choisis tes composants</h3>
+
+      <label class="small">Processeur</label>
+      <select id="sel-cpu"></select>
+
+      <label class="small">Carte mère</label>
+      <select id="sel-mb"></select>
+
+      <label class="small">RAM</label>
+      <select id="sel-ram"></select>
+
+      <label class="small">Carte graphique</label>
+      <select id="sel-gpu"></select>
+
+      <label class="small">Stockage (optionnel)</label>
+      <select id="sel-storage"></select>
+
+      <label class="small">Alimentation (optionnel)</label>
+      <select id="sel-psu">
+        <option value="">-- Auto-estimation --</option>
+        <option value="550">550 W</option>
+        <option value="650">650 W</option>
+        <option value="750">750 W</option>
+        <option value="850">850 W</option>
       </select>
 
-      <label for="gpu">Carte Graphique :</label>
-      <select id="gpu">
-        <option value="nvidia">Nvidia RTX 3060</option>
-        <option value="amd">AMD RX 6600</option>
-      </select>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn" onclick="verifyAll()">✅ Vérifier compatibilité</button>
+        <button class="btn alt" onclick="addToCart()">➕ Ajouter au panier</button>
+      </div>
 
-      <label for="ram">RAM :</label>
-      <select id="ram">
-        <option value="corsair">Corsair 16 Go</option>
-        <option value="kingston">Kingston 16 Go</option>
-      </select>
+      <div id="messages" style="margin-top:12px"></div>
+    </div>
 
-      <p id="configResult"></p>
-      <button id="fermerConfig">Fermer</button>
+    <!-- RIGHT: preview & summary -->
+    <div id="right">
+      <h3>Récapitulatif</h3>
+      <div id="preview">
+        <p class="small">Sélectionne les composants pour voir l'aperçu (image, prix).</p>
+      </div>
+
+      <div class="summary" id="summaryBox">
+        <div>Prix composants : <span id="priceSum">0 €</span></div>
+        <div>Est. alimentation : <span id="psuEst">— W</span></div>
+        <div id="compatShort" style="margin-top:8px"></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button id="closeConfig" class="btn alt" style="width:100%">Fermer</button>
+      </div>
     </div>
   </div>
+</div>
 
-  <script src="script.js" defer></script>
+<footer>© Lorenzo — Montage PC</footer>
+
+<!-- SCRIPT: data, logic, pumpkins, "prix du moment" simulation -->
+<script>
+/* ===========================
+   DATA (exemples + images placeholders)
+   =========================== */
+const CPUS = [
+  {id:'intel-12400', name:'Intel i5-12400', brand:'Intel', socket:'LGA1700', ram:'DDR4', price:160, img:'https://via.placeholder.com/240x140.png?text=i5-12400', tdp:65},
+  {id:'intel-13600k', name:'Intel i5-13600K', brand:'Intel', socket:'LGA1700', ram:'DDR5', price:340, img:'https://via.placeholder.com/240x140.png?text=i5-13600K', tdp:125},
+  {id:'amd-5600', name:'AMD Ryzen 5 5600', brand:'AMD', socket:'AM4', ram:'DDR4', price:140, img:'https://via.placeholder.com/240x140.png?text=Ryzen+5+5600', tdp:65},
+  {id:'amd-7700x', name:'AMD Ryzen 7 7700X', brand:'AMD', socket:'AM5', ram:'DDR5', price:420, img:'https://via.placeholder.com/240x140.png?text=Ryzen+7+7700X', tdp:105}
+];
+
+const MOTHERBOARDS = [
+  {id:'b660-ddr4', name:'ASUS B660 (LGA1700, DDR4)', socket:'LGA1700', ram:'DDR4', price:120, img:'https://via.placeholder.com/240x140.png?text=B660+DDR4'},
+  {id:'z690-ddr5', name:'MSI Z690 (LGA1700, DDR5)', socket:'LGA1700', ram:'DDR5', price:250, img:'https://via.placeholder.com/240x140.png?text=Z690+DDR5'},
+  {id:'b550-ddr4', name:'Gigabyte B550 (AM4, DDR4)', socket:'AM4', ram:'DDR4', price:130, img:'https://via.placeholder.com/240x140.png?text=B550'},
+  {id:'x570-ddr4', name:'ASRock X570 (AM4, DDR4)', socket:'AM4', ram:'DDR4', price:220, img:'https://via.placeholder.com/240x140.png?text=X570'},
+  {id:'x670-ddr5', name:'MSI X670 (AM5, DDR5)', socket:'AM5', ram:'DDR5', price:280, img:'https://via.placeholder.com/240x140.png?text=X670+DDR5'}
+];
+
+const RAMS = [
+  {id:'kingston-ddr4-16', name:'Kingston 16GB DDR4', type:'DDR4', price:45, img:'https://via.placeholder.com/240x140.png?text=Kingston+16GB'},
+  {id:'corsair-ddr4-32', name:'Corsair 32GB DDR4', type:'DDR4', price:85, img:'https://via.placeholder.com/240x140.png?text=Corsair+32GB'},
+  {id:'corsair-ddr5-32', name:'Corsair 32GB DDR5', type:'DDR5', price:160, img:'https://via.placeholder.com/240x140.png?text=Corsair+DDR5+32GB'},
+  {id:'gskill-ddr5-16', name:'G.Skill 16GB DDR5', type:'DDR5', price:95, img:'https://via.placeholder.com/240x140.png?text=GSkill+16GB'}
+];
+
+const GPUS = [
+  {id:'rtx3060', name:'NVIDIA RTX 3060', brand:'NVIDIA', price:330, img:'https://via.placeholder.com/240x140.png?text=RTX+3060', tdp:170},
+  {id:'rtx4070', name:'NVIDIA RTX 4070', brand:'NVIDIA', price:650, img:'https://via.placeholder.com/240x140.png?text=RTX+4070', tdp:200},
+  {id:'rx6600', name:'AMD RX 6600', brand:'AMD', price:220, img:'https://via.placeholder.com/240x140.png?text=RX+6600', tdp:132},
+  {id:'rx6800', name:'AMD RX 6800', brand:'AMD', price:580, img:'https://via.placeholder.com/240x140.png?text=RX+6800', tdp:250}
+];
+
+const STORAGES = [
+  {id:'samsung-1tb', name:'Samsung 1TB NVMe', price:95, img:'https://via.placeholder.com/240x140.png?text=SSD+1TB'},
+  {id:'wd-2tb', name:'WD 2TB HDD', price:65, img:'https://via.placeholder.com/240x140.png?text=HDD+2TB'}
+];
+
+/* ============= helpers ============= */
+function populate(selectEl, arr, placeholder){
+  selectEl.innerHTML = `<option value="">${placeholder}</option>`;
+  arr.forEach(it=>{
+    const opt = document.createElement('option');
+    opt.value = it.id;
+    opt.textContent = `${it.name} — ${it.price} €`;
+    selectEl.appendChild(opt);
+  });
+}
+function find(list,id){ return list.find(x=>x.id===id) }
+
+/* ====== DOM refs ====== */
+const selCpu = document.getElementById('sel-cpu');
+const selMb = document.getElementById('sel-mb');
+const selRam = document.getElementById('sel-ram');
+const selGpu = document.getElementById('sel-gpu');
+const selStorage = document.getElementById('sel-storage');
+const selPsu = document.getElementById('sel-psu');
+const configModal = document.getElementById('configModal');
+const configBtn = document.getElementById('configBtn');
+const closeConfig = document.getElementById('closeConfig');
+const messages = document.getElementById('messages');
+const preview = document.getElementById('preview');
+const priceSum = document.getElementById('priceSum');
+const psuEst = document.getElementById('psuEst');
+const compatShort = document.getElementById('compatShort');
+const priceMomentBtn = document.getElementById('priceMomentBtn');
+
+/* populate selects */
+populate(selCpu, CPUS, '-- Choisir un CPU --');
+populate(selMb, MOTHERBOARDS, '-- Choisir une carte mère --');
+populate(selRam, RAMS, '-- Choisir une RAM --');
+populate(selGpu, GPUS, '-- Choisir une carte graphique --');
+populate(selStorage, STORAGES, '-- Choisir stockage (opt.) --');
+
+/* update preview on changes */
+[selCpu,selMb,selRam,selGpu,selStorage,selPsu].forEach(el => el.addEventListener('change', updatePreview));
+
+function updatePreview(){
+  const c = find(CPUS, selCpu.value);
+  const m = find(MOTHERBOARDS, selMb.value);
+  const r = find(RAMS, selRam.value);
+  const g = find(GPUS, selGpu.value);
+  const s = find(STORAGES, selStorage.value);
+
+  let html = '';
+  [c,m,r,g,s].forEach(it => { if(!it) return; html += `<div class="component-card"><img src="${it.img}" alt="${it.name}"><div class="component-meta"><div>${it.name}</div><div class="small">${it.brand || ''} ${it.socket || it.type || ''}</div><div class="price">${it.price} €</div></div></div>`});
+  if(!html) html = '<p class="small">Sélectionne des composants pour voir l\'aperçu.</p>';
+  preview.innerHTML = html;
+
+  const total = (c?.price||0)+(m?.price||0)+(r?.price||0)+(g?.price||0)+(s?.price||0);
+  priceSum.textContent = total + ' €';
+
+  const tdpCpu = c?.tdp || 35;
+  const tdpGpu = g?.tdp || 50;
+  const est = Math.ceil((tdpCpu + tdpGpu + 150)/50) * 50;
+  psuEst.textContent = est + ' W';
+}
+
+/* compatibility check */
+function verifyAll(){
+  messages.innerHTML = '';
+  const c = find(CPUS, selCpu.value);
+  const m = find(MOTHERBOARDS, selMb.value);
+  const r = find(RAMS, selRam.value);
+  const g = find(GPUS, selGpu.value);
+
+  if(!c || !m || !r || !g){
+    messages.innerHTML = `<div class="result ko">⚠️ Choisis CPU, carte mère, RAM et GPU.</div>`;
+    return;
+  }
+  let ok = true;
+  let html = '';
+  if(c.socket !== m.socket){
+    html += `<div class="result ko">❌ CPU (${c.socket}) incompatible avec la carte mère (${m.socket}).</div>`; ok=false;
+  } else html += `<div class="result ok">✅ CPU compatible (${c.socket}).</div>`;
+
+  if(r.type !== m.ram){
+    html += `<div class="result ko">❌ RAM (${r.type}) non supportée par la carte mère (${m.ram}).</div>`; ok=false;
+  } else html += `<div class="result ok">✅ RAM compatible (${r.type}).</div>`;
+
+  const chosenPsu = parseInt(selPsu.value) || 0;
+  const estPsu = parseInt(psuEst.textContent) || 0;
+  if(chosenPsu && chosenPsu < estPsu){ html += `<div class="result ko">❌ Alim (${chosenPsu} W) < est. recommandée (${estPsu} W).</div>`; ok=false; }
+  else if(chosenPsu) html += `<div class="result ok">✅ Alim OK (${chosenPsu} W).</div>`;
+
+  messages.innerHTML = html;
+  compatShort.innerHTML = ok ? `<div class="small ok">✅ Configuration valide</div>` : `<div class="small ko">❌ Incompatibilités détectées</div>`;
+}
+
+/* add to cart demo */
+function addToCart(){
+  verifyAll();
+  const ok = compatShort.textContent.includes('Configuration valide');
+  if(!ok){ alert('Impossible : incompatibilités. Corrige avant.'); return; }
+  alert('Configuration ajoutée (démo). Prix total : ' + priceSum.textContent);
+}
+
+/* open/close modal */
+configBtn.addEventListener('click', ()=>{ configModal.style.display='flex'; updatePreview(); messages.innerHTML=''; compatShort.innerHTML=''; });
+closeConfig.addEventListener('click', ()=>{ configModal.style.display='none'; });
+
+/* quick calc */
+function quickCalc(){
+  const comps = Math.max(0, Number(document.getElementById('quick-components').value)||0);
+  const hours = Math.max(0, Number(document.getElementById('quick-hours').value)||0);
+  const price = comps*10 + hours*15;
+  document.getElementById('quick-result').textContent = price + ' €';
+}
+
+/* pumpkins improved */
+function createPumpkin(){
+  const el = document.createElement('div');
+  el.className='pumpkin';
+  el.textContent='🎃';
+  el.style.left = (Math.random()*95) + 'vw';
+  el.style.fontSize = (20 + Math.random()*36) + 'px';
+  const dur = (3 + Math.random()*4);
+  el.style.animation = `fall ${dur}s linear forwards`;
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), (dur+0.6)*1000);
+}
+setInterval(createPumpkin, 1000);
+
+/* ==========================
+   PRIX DU MOMENT (SIMULATION + instructions)
+   ==========================
+   - Par défaut le bouton fait une simulation (valeurs fictives).
+   - Pour récupérer de vrais prix Amazon en direct il faut utiliser l'API
+     Amazon Product Advertising (clé + secret + Associate Tag).
+   - Dans la partie "INTEGRATION AMAZON" plus bas je t'explique comment
+     remplacer la simulation par un appel réel côté serveur (important).
+*/
+
+/* sample "amazon prices" map (fictif) */
+const AMAZON_SAMPLE = {
+  'rtx3060': 329,
+  'rtx4070': 619,
+  'rx6600': 199,
+  'rx6800': 549,
+  'intel-12400': 149,
+  'intel-13600k': 329,
+  'amd-5600': 129,
+  'amd-7700x': 409,
+  'corsair-ddr5-32': 155,
+  'gskill-ddr5-16': 89,
+  'kingston-ddr4-16': 42,
+  'b660-ddr4': 110,
+  'z690-ddr5': 245
+};
+
+/* When user clicks "Prix du moment" we simulate fetching Amazon prices,
+   update the price fields for matching components and refresh preview. */
+priceMomentBtn.addEventListener('click', async ()=>{
+  priceMomentBtn.textContent = '🛒 Récupération...';
+  priceMomentBtn.disabled = true;
+  try {
+    // Simulate network delay
+    await new Promise(r=>setTimeout(r, 900));
+
+    // Update matching items' .price (this is demo: we only update known ids in AMAZON_SAMPLE)
+    const allLists = [CPUS, MOTHERBOARDS, RAMS, GPUS, STORAGES];
+    let updatedCount = 0;
+    allLists.forEach(list=>{
+      list.forEach(item=>{
+        if(AMAZON_SAMPLE[item.id]){
+          item.price = AMAZON_SAMPLE[item.id]; // override price with "Amazon" sample
+          updatedCount++;
+        }
+      });
+    });
+
+    // Feedback
+    alert(`Prix du moment appliqués (simulation) — ${updatedCount} composants mis à jour d'après Amazon (exemple).`);
+    updatePreview();
+  } catch(e){
+    alert('Erreur lors de la récupération des prix.');
+  } finally {
+    priceMomentBtn.textContent = '🛒 Prix du moment (Amazon)';
+    priceMomentBtn.disabled = false;
+  }
+});
+
+/* ============= INTEGRATION AMAZON (guide) =============
+
+Si tu veux brancher de VRAIS prix Amazon :
+1) Inscris-toi au programme Amazon Product Advertising (il faut un compte Amazon + Associate).
+2) Tu dois appeler l'API côté serveur (pas direct depuis le navigateur) pour éviter d'exposer tes clés.
+3) Endpoint : Product Advertising API (PA-API). Tu envoies un appel signé avec les ASINs / mots-clés des composants.
+4) Le serveur récupère les prix et renvoie un JSON à ton site (ex: { "rtx3060": 329.0, ... }).
+5) Remplace la simulation ci-dessus par :
+   fetch('/amazon-prices?ids=rtx3060,intel-12400').then(r=>r.json()).then(map=>{
+     // map contient prix par id -> item.price = map[id]
+   });
+
+Je peux t'aider à écrire un petit script Node.js (ou un cloud function) pour interroger l'API Amazon et renvoyer les prix au front. Dis-moi si tu veux que je te génère le code serveur & où héberger (Replit, Railway, Vercel, etc.).
+*/
+
+</script>
 </body>
 </html>
