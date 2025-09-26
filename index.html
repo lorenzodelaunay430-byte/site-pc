@@ -1,213 +1,319 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Montage PC par Lorenzo</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-    }
-    header {
-      text-align: center;
-      padding: 50px 20px;
-      background: rgba(0,0,0,0.6);
-    }
-    header h1 { font-size: 2.5em; }
-    header p { font-size: 1.2em; }
-
-    section {
-      margin: 30px auto;
-      max-width: 800px;
-      background: rgba(0,0,0,0.7);
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    button {
-      padding: 10px 20px;
-      background: #007bff;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: 1em;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover { background: #0056b3; }
-
-    /* Citrouilles */
-    .pumpkin {
-      position: fixed;
-      top: -50px;
-      font-size: 30px;
-      animation: fall linear infinite;
-    }
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
-
-    /* Modal Configurateur */
-    #configModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-    #configBox {
-      background: rgba(30,30,30,0.95);
-      padding: 30px;
-      border-radius: 10px;
-      width: 400px;
-      text-align: center;
-    }
-    select, #result {
-      margin: 10px 0;
-      padding: 8px;
-      width: 90%;
-      border-radius: 5px;
-      border: none;
-    }
-    #closeConfig {
-      background: red;
-      margin-top: 15px;
-    }
-
-    /* Bouton Configurateur */
-    #configBtn {
-      position: fixed;
-      top: 20px; right: 20px;
-      background: orange;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Montage PC — Lorenzo (configurateur)</title>
+<style>
+  :root{--accent:#0b5ed7}
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:#fff;
+    background:url("https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg") center/cover no-repeat fixed;
+    overflow-x:hidden;
+  }
+  header{padding:30px 20px;text-align:center;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.25));position:relative}
+  header h1{margin:0;font-size:28px}
+  header p{margin:6px 0 0;color:rgba(255,255,255,.9)}
+  section{max-width:980px;margin:40px auto;background:rgba(0,0,0,.65);padding:22px;border-radius:12px}
+  .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;border:none;cursor:pointer}
+  .btn.alt{background:#ff9800}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  input,select{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.4);color:#fff}
+  .small{font-size:0.9rem;color:#ddd}
+  /* configurator button */
+  #configBtn{position:fixed;top:18px;right:18px;z-index:1200;padding:10px 14px;border-radius:8px;background:#ff6b00;border:none;color:white;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+  /* modal */
+  #configModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1500;align-items:center;justify-content:center;padding:20px}
+  #configBox{width:980px;max-width:100%;background:linear-gradient(180deg,#1a1a1a,#121212);padding:18px;border-radius:12px;color:#fff;display:grid;grid-template-columns:1fr 360px;gap:18px}
+  #left,#right{padding:6px}
+  h3{margin:6px 0 10px}
+  .component-card{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.02);padding:8px;border-radius:8px}
+  .component-card img{width:72px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0}
+  .component-meta{font-size:14px;text-align:left}
+  .result{margin-top:10px;padding:10px;border-radius:8px}
+  .ok{background:rgba(0,128,0,.12);color:#bff0b8}
+  .ko{background:rgba(200,0,0,.12);color:#ffc0c0}
+  .summary{background:rgba(255,255,255,.03);padding:10px;border-radius:8px;margin-top:10px}
+  .price{font-weight:700;font-size:1.1rem}
+  /* pumpkins */
+  .pumpkin{position:fixed;top:-100px;pointer-events:none;z-index:1400;user-select:none;transform-origin:center}
+  @keyframes fall{to{transform:translateY(120vh) rotate(360deg);opacity:0}}
+  /* responsive */
+  @media(max-width:980px){
+    #configBox{grid-template-columns:1fr;max-height:90vh;overflow:auto}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Montage PC par Lorenzo</h1>
-    <p>Numéro : 07 63 12 26 70</p>
-  </header>
 
-  <button id="configBtn">⚙️ Configurateur</button>
+<header>
+  <h1>Montage PC par Lorenzo</h1>
+  <p>Numéro : 07 63 12 26 70</p>
+</header>
 
-  <section>
-    <h2>Tarifs</h2>
-    <p>En fonction des composants et du temps de montage.</p>
-  </section>
+<button id="configBtn" title="Ouvrir le configurateur">⚙️ Configurateur</button>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Envie d’un montage ? Cliquez ci-dessous :</p>
-    <a href="mailto:lorenzo@gmail.com"><button>Me contacter</button></a>
-  </section>
+<section>
+  <h2>Présentation</h2>
+  <p class="small">Je m'appelle <strong>Lorenzo</strong>, j'ai <strong>15 ans</strong>. J'ai commencé à me passionner pour l'informatique à 13 ans et j'ai appris à monter des ordinateurs en aidant des amis et en construisant mon propre PC. Je propose maintenant mes services de montage et d'assistance.</p>
+</section>
 
-  <section>
-    <h2>Présentation</h2>
-    <p>
-      Je m’appelle <b>Lorenzo</b>, j’ai <b>15 ans</b>. J’ai commencé à me passionner pour l’informatique à 13 ans et depuis,
-      j’ai appris à monter des ordinateurs. J’ai déjà aidé des amis et monté mon propre PC.
-      Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.
-    </p>
-  </section>
+<section>
+  <h2>Tarifs rapide</h2>
+  <div class="row">
+    <label class="small">Composants (nb)</label>
+    <input id="quick-components" type="number" min="1" placeholder="Ex: 6" style="width:120px">
+    <label class="small">Heures</label>
+    <input id="quick-hours" type="number" min="0.5" step="0.5" placeholder="Ex: 1.5" style="width:120px">
+    <button class="btn" onclick="quickCalc()">Calculer</button>
+    <div id="quick-result" style="margin-left:12px;font-weight:700"></div>
+  </div>
+</section>
 
-  <section>
-    <h2>Zone d’intervention</h2>
-    <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <b>Gamaches</b>.</p>
-    <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" width="60%">
-  </section>
+<section>
+  <h2>Zone d'intervention</h2>
+  <p class="small">Je peux me déplacer jusqu'à 20 km autour de <strong>Gamaches</strong>.</p>
+  <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone" style="max-width:360px">
+</section>
 
-  <!-- Modal Configurateur -->
-  <div id="configModal">
-    <div id="configBox">
-      <h2>⚙️ Configurateur PC</h2>
+<!-- CONFIGURATOR MODAL -->
+<div id="configModal">
+  <div id="configBox" role="dialog" aria-modal="true">
+    <div id="left">
+      <h3>🔧 Choisis tes composants</h3>
 
-      <label>Processeur :</label><br>
-      <select id="cpu">
-        <option value="">-- Choisir --</option>
-        <option value="intel">Intel</option>
-        <option value="amd">AMD</option>
-      </select><br>
+      <label class="small">Processeur</label><br>
+      <select id="sel-cpu"></select>
 
-      <label>Carte mère :</label><br>
-      <select id="motherboard">
-        <option value="">-- Choisir --</option>
-        <option value="intel">Carte mère Intel</option>
-        <option value="amd">Carte mère AMD</option>
-      </select><br>
+      <label class="small" style="margin-top:8px">Carte mère</label><br>
+      <select id="sel-mb"></select>
 
-      <label>RAM :</label><br>
-      <select id="ram">
-        <option value="">-- Choisir --</option>
-        <option value="ddr3">DDR3</option>
-        <option value="ddr4">DDR4</option>
-        <option value="ddr5">DDR5</option>
-      </select><br>
+      <label class="small" style="margin-top:8px">RAM</label><br>
+      <select id="sel-ram"></select>
 
-      <label>Carte Graphique :</label><br>
-      <select id="gpu">
-        <option value="">-- Choisir --</option>
-        <option value="nvidia">Nvidia</option>
-        <option value="amd">AMD Radeon</option>
-      </select><br>
+      <label class="small" style="margin-top:8px">Carte graphique</label><br>
+      <select id="sel-gpu"></select>
 
-      <button onclick="checkCompatibility()">Vérifier la compatibilité</button>
-      <p id="result"></p>
+      <label class="small" style="margin-top:8px">Alimentation (optionnel)</label><br>
+      <select id="sel-psu">
+        <option value="">-- Auto-estimation --</option>
+        <option value="550">550 W (entrée)</option>
+        <option value="650">650 W (standard)</option>
+        <option value="850">850 W (haut)</option>
+      </select>
 
-      <button id="closeConfig">Fermer</button>
+      <div style="margin-top:12px">
+        <button class="btn" onclick="verifyAll()">✅ Vérifier compatibilité</button>
+        <button class="btn" style="background:#28a745;margin-left:8px" onclick="addToCart()">➕ Ajouter au panier</button>
+      </div>
+
+      <div id="messages" style="margin-top:12px"></div>
+    </div>
+
+    <div id="right">
+      <h3>Récapitulatif</h3>
+      <div id="preview">
+        <p class="small">Sélectionne des composants pour voir le récapitulatif (image, infos, prix).</p>
+      </div>
+
+      <div class="summary" id="summaryBox">
+        <div>Prix composants : <span id="priceSum">0 €</span></div>
+        <div>Est. alimentation recommandée : <span id="psuEst">— W</span></div>
+        <div style="margin-top:8px" id="compatShort"></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button id="closeConfig" class="btn alt" style="width:100%">Fermer</button>
+      </div>
     </div>
   </div>
+</div>
 
-  <script>
-    // Bouton Configurateur
-    const configBtn = document.getElementById("configBtn");
-    const configModal = document.getElementById("configModal");
-    const closeConfig = document.getElementById("closeConfig");
+<!-- pumpkins -->
+<script>
+  // --- Data (petite base d'exemple) ---
+  // Chaque item : id,name,brand,price,image (placeholder),socket/ramType,tdp
+  const CPUS = [
+    {id:'intel-12400', name:'Intel Core i5-12400', brand:'Intel', socket:'LGA1700', ram:'DDR4', price:160, img:'https://via.placeholder.com/160x90.png?text=i5-12400', tdp:65},
+    {id:'intel-13600k', name:'Intel Core i5-13600K', brand:'Intel', socket:'LGA1700', ram:'DDR5', price:340, img:'https://via.placeholder.com/160x90.png?text=i5-13600K', tdp:125},
+    {id:'amd-5600', name:'AMD Ryzen 5 5600', brand:'AMD', socket:'AM4', ram:'DDR4', price:140, img:'https://via.placeholder.com/160x90.png?text=Ryzen+5+5600', tdp:65},
+    {id:'amd-7700x', name:'AMD Ryzen 7 7700X', brand:'AMD', socket:'AM5', ram:'DDR5', price:420, img:'https://via.placeholder.com/160x90.png?text=Ryzen+7+7700X', tdp:105}
+  ];
 
-    configBtn.onclick = () => configModal.style.display = "flex";
-    closeConfig.onclick = () => configModal.style.display = "none";
+  const MOTHERBOARDS = [
+    {id:'b660-ddr4', name:'ASUS B660 (LGA1700, DDR4)', brand:'ASUS', socket:'LGA1700', ram:'DDR4', price:120, img:'https://via.placeholder.com/160x90.png?text=B660+DDR4'},
+    {id:'z690-ddr5', name:'MSI Z690 (LGA1700, DDR5)', brand:'MSI', socket:'LGA1700', ram:'DDR5', price:250, img:'https://via.placeholder.com/160x90.png?text=Z690+DDR5'},
+    {id:'b550-ddr4', name:'Gigabyte B550 (AM4, DDR4)', brand:'Gigabyte', socket:'AM4', ram:'DDR4', price:130, img:'https://via.placeholder.com/160x90.png?text=B550'},
+    {id:'x570-ddr4', name:'ASRock X570 (AM4, DDR4)', brand:'ASRock', socket:'AM4', ram:'DDR4', price:220, img:'https://via.placeholder.com/160x90.png?text=X570'},
+    {id:'x670-ddr5', name:'MSI X670 (AM5, DDR5)', brand:'MSI', socket:'AM5', ram:'DDR5', price:280, img:'https://via.placeholder.com/160x90.png?text=X670'}
+  ];
 
-    // Vérif compatibilité
-    function checkCompatibility() {
-      const cpu = document.getElementById("cpu").value;
-      const mb = document.getElementById("motherboard").value;
-      const ram = document.getElementById("ram").value;
-      const gpu = document.getElementById("gpu").value;
-      const result = document.getElementById("result");
+  const RAMS = [
+    {id:'kingston-ddr4-16', name:'Kingston 16GB DDR4', brand:'Kingston', type:'DDR4', price:45, img:'https://via.placeholder.com/160x90.png?text=Kingston+16GB'},
+    {id:'corsair-ddr4-32', name:'Corsair 32GB DDR4', brand:'Corsair', type:'DDR4', price:85, img:'https://via.placeholder.com/160x90.png?text=Corsair+32GB'},
+    {id:'corsair-ddr5-32', name:'Corsair 32GB DDR5', brand:'Corsair', type:'DDR5', price:160, img:'https://via.placeholder.com/160x90.png?text=Corsair+DDR5+32GB'},
+    {id:'gskill-ddr5-16', name:'G.Skill 16GB DDR5', brand:'G.Skill', type:'DDR5', price:95, img:'https://via.placeholder.com/160x90.png?text=GSkill+16GB'}
+  ];
 
-      if (!cpu || !mb || !ram || !gpu) {
-        result.textContent = "⚠️ Choisis tous les composants !";
-        result.style.color = "orange";
-        return;
-      }
+  const GPUS = [
+    {id:'rtx3060', name:'NVIDIA RTX 3060', brand:'NVIDIA', price:330, img:'https://via.placeholder.com/160x90.png?text=RTX+3060', tdp:170},
+    {id:'rtx4070', name:'NVIDIA RTX 4070', brand:'NVIDIA', price:650, img:'https://via.placeholder.com/160x90.png?text=RTX+4070', tdp:200},
+    {id:'rx6600', name:'AMD RX 6600', brand:'AMD', price:220, img:'https://via.placeholder.com/160x90.png?text=RX+6600', tdp:132},
+    {id:'rx6800', name:'AMD RX 6800', brand:'AMD', price:580, img:'https://via.placeholder.com/160x90.png?text=RX+6800', tdp:250}
+  ];
 
-      if (cpu !== mb) {
-        result.textContent = "❌ Incompatible : CPU et Carte mère doivent être de la même marque.";
-        result.style.color = "red";
-      } else {
-        result.textContent = "✅ Configuration compatible !";
-        result.style.color = "lightgreen";
-      }
+  // --- Helpers pour remplir selects ---
+  function populateSelect(selectEl, items, placeholderText){
+    selectEl.innerHTML = `<option value="">${placeholderText}</option>`;
+    items.forEach(it=>{
+      const opt = document.createElement('option');
+      opt.value = it.id;
+      opt.textContent = `${it.name} — ${it.price} €`;
+      selectEl.appendChild(opt);
+    });
+  }
+
+  // mapping id -> object
+  function findById(list,id){ return list.find(x=>x.id===id) }
+
+  // DOM refs
+  const selCpu = document.getElementById('sel-cpu');
+  const selMb = document.getElementById('sel-mb');
+  const selRam = document.getElementById('sel-ram');
+  const selGpu = document.getElementById('sel-gpu');
+  const selPsu = document.getElementById('sel-psu');
+  const configModal = document.getElementById('configModal');
+  const configBtn = document.getElementById('configBtn');
+  const closeConfig = document.getElementById('closeConfig');
+  const messages = document.getElementById('messages');
+  const preview = document.getElementById('preview');
+  const priceSum = document.getElementById('priceSum');
+  const psuEst = document.getElementById('psuEst');
+  const compatShort = document.getElementById('compatShort');
+
+  // init
+  populateSelect(selCpu, CPUS, '-- Choisir un CPU --');
+  populateSelect(selMb, MOTHERBOARDS, '-- Choisir une carte mère --');
+  populateSelect(selRam, RAMS, '-- Choisir une RAM --');
+  populateSelect(selGpu, GPUS, '-- Choisir une carte graphique --');
+
+  // update preview when a select changes
+  [selCpu, selMb, selRam, selGpu].forEach(el=>{
+    el.addEventListener('change', updatePreview);
+  });
+
+  function updatePreview(){
+    const c = findById(CPUS, selCpu.value);
+    const m = findById(MOTHERBOARDS, selMb.value);
+    const r = findById(RAMS, selRam.value);
+    const g = findById(GPUS, selGpu.value);
+
+    // build HTML preview
+    let html = '';
+    [c,m,r,g].forEach(it=>{
+      if(!it) return;
+      html += `<div class="component-card"><img src="${it.img}" alt="${it.name}"><div class="component-meta"><div>${it.name}</div><div class="small">${it.brand || ''} • ${it.socket || it.type || ''}</div><div class="price">${it.price} €</div></div></div>`;
+    });
+    if(!html) html = '<p class="small">Sélectionne les composants à gauche pour voir un aperçu.</p>';
+    preview.innerHTML = html;
+
+    // update summary
+    const totalPrice = (c?.price || 0) + (m?.price || 0) + (r?.price || 0) + (g?.price || 0);
+    priceSum.textContent = totalPrice + ' €';
+
+    // estimate PSU: CPU+GPU tdp + 150W for rest
+    const tdpCpu = c?.tdp || 35;
+    const tdpGpu = g?.tdp || 50;
+    const est = Math.ceil((tdpCpu + tdpGpu + 150)/50) * 50; // round to 50W
+    psuEst.textContent = est + ' W';
+  }
+
+  // Compatibility check
+  function verifyAll(){
+    messages.innerHTML = '';
+    const c = findById(CPUS, selCpu.value);
+    const m = findById(MOTHERBOARDS, selMb.value);
+    const r = findById(RAMS, selRam.value);
+    const g = findById(GPUS, selGpu.value);
+
+    if(!c || !m || !r || !g){
+      messages.innerHTML = `<div class="result ko">⚠️ Veuillez choisir CPU, carte mère, RAM et GPU.</div>`;
+      return;
     }
 
-    // Citrouilles 🎃
-    function createPumpkin() {
-      const pumpkin = document.createElement("div");
-      pumpkin.classList.add("pumpkin");
-      pumpkin.textContent = "🎃";
-      pumpkin.style.left = Math.random() * 100 + "vw";
-      pumpkin.style.animationDuration = (Math.random() * 3 + 2) + "s";
-      document.body.appendChild(pumpkin);
-      setTimeout(() => pumpkin.remove(), 5000);
+    let ok = true;
+    let html = '';
+
+    // CPU vs MB
+    if(c.socket !== m.socket){
+      html += `<div class="result ko">❌ Incompatibilité : le CPU (${c.socket}) n'est pas compatible avec la carte mère (${m.socket}).</div>`;
+      ok = false;
+    } else {
+      html += `<div class="result ok">✅ CPU (${c.brand}) compatible avec la carte mère (${m.brand}).</div>`;
     }
-    setInterval(createPumpkin, 600);
-  </script>
+
+    // RAM vs MB
+    if(r.type !== m.ram){
+      html += `<div class="result ko">❌ Incompatibilité RAM : la RAM (${r.type}) n'est pas supportée par la carte mère (${m.ram}).</div>`;
+      ok = false;
+    } else {
+      html += `<div class="result ok">✅ RAM compatible (${r.type}).</div>`;
+    }
+
+    // Optional: warn if high TDP GPU with small PSU selected
+    const chosenPsu = parseInt(selPsu.value) || 0;
+    const estPsu = parseInt(psuEst.textContent) || 0;
+    if(chosenPsu && chosenPsu < estPsu){
+      html += `<div class="result ko">❌ L'alimentation choisie (${chosenPsu} W) est inférieure à l'estimation recommandée (${estPsu} W).</div>`;
+      ok = false;
+    } else {
+      if(chosenPsu) html += `<div class="result ok">✅ Alimentation suffisante (${chosenPsu} W).</div>`;
+    }
+
+    messages.innerHTML = html;
+    compatShort.innerHTML = ok ? `<div class="small ok">✅ Configuration valide</div>` : `<div class="small ko">❌ Incompatibilités détectées</div>`;
+  }
+
+  // Add to "cart" (demo)
+  function addToCart(){
+    verifyAll();
+    // If compat short shows OK (light check)
+    if(compatShort.textContent.includes('Configuration valide') || compatShort.innerText.includes('Configuration valide')){
+      alert('Configuration ajoutée au panier (démo). Prix total : ' + priceSum.textContent);
+    } else {
+      alert('Impossible d\'ajouter : incompatibilités détectées. Vérifie la configuration.');
+    }
+  }
+
+  // Open/close modal
+  configBtn.addEventListener('click', ()=>{ configModal.style.display='flex'; updatePreview(); messages.innerHTML=''; compatShort.innerHTML=''; });
+  closeConfig.addEventListener('click', ()=>{ configModal.style.display='none'; });
+
+  // quick calc
+  function quickCalc(){
+    const comps = Math.max(0, Number(document.getElementById('quick-components').value)||0);
+    const hours = Math.max(0, Number(document.getElementById('quick-hours').value)||0);
+    const price = comps*10 + hours*15;
+    document.getElementById('quick-result').textContent = price + ' €';
+  }
+
+  // pumpkins (improved)
+  function createPumpkin(){
+    const el = document.createElement('div');
+    el.className='pumpkin';
+    el.textContent='🎃';
+    el.style.left = (Math.random()*95) + 'vw';
+    el.style.fontSize = (22 + Math.random()*36) + 'px';
+    const dur = (3 + Math.random()*4);
+    el.style.animation = `fall ${dur}s linear forwards`;
+    document.body.appendChild(el);
+    setTimeout(()=> el.remove(), (dur+0.5)*1000);
+  }
+  setInterval(createPumpkin, 900);
+
+  // ensure preview updated if modal opened with preselected (edge case)
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && configModal.style.display==='flex') updatePreview(); });
+</script>
 </body>
 </html>
