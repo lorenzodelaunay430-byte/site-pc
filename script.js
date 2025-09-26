@@ -1,4 +1,4 @@
-// Calculateur de prix
+// --- Calculateur de prix ---
 function calculerPrix() {
   const composants = document.getElementById("composants").value;
   const heures = document.getElementById("heures").value;
@@ -6,7 +6,31 @@ function calculerPrix() {
   document.getElementById("resultat").innerText = "Prix estimé : " + prix + " €";
 }
 
-// Animation Halloween (citrouilles qui tombent)
+// --- Configurateur (popup) ---
+const configBtn = document.getElementById("configurateurBtn");
+const configModal = document.getElementById("configModal");
+const fermerBtn = document.getElementById("fermerConfig");
+const configResult = document.getElementById("configResult");
+
+configBtn.onclick = () => {
+  configModal.style.display = "flex";
+};
+
+fermerBtn.onclick = () => {
+  configModal.style.display = "none";
+};
+
+document.getElementById("cpu").onchange =
+document.getElementById("gpu").onchange =
+document.getElementById("ram").onchange = function() {
+  const cpu = document.getElementById("cpu").value;
+  const gpu = document.getElementById("gpu").value;
+  const ram = document.getElementById("ram").value;
+
+  configResult.innerText = "Ta config : " + cpu + " + " + gpu + " + " + ram;
+};
+
+// --- Animation Halloween (citrouilles) ---
 document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < 10; i++) {
     let citrouille = document.createElement("img");
