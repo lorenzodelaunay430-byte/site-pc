@@ -3,105 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Montage PC - Lorenzo</title>
+  <title>Montage PC par Lorenzo</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       color: white;
-      background: url("https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
+      text-align: center;
+      background: url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
       background-size: cover;
-      opacity: 0;
-      animation: fadeIn 1.5s ease-in forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      overflow-x: hidden;
     }
 
     header {
-      text-align: center;
-      padding: 50px;
+      padding: 20px;
       background: rgba(0, 0, 0, 0.6);
-      transform: translateY(-50px);
-      opacity: 0;
-      animation: slideDown 1s ease-out forwards;
-      animation-delay: 1s;
+      position: relative;
     }
 
-    @keyframes slideDown {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    h1 {
+      margin: 0;
     }
 
     section {
       margin: 40px auto;
       padding: 20px;
       max-width: 800px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 10px;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s ease-out forwards;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
     }
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    section:nth-of-type(1) { animation-delay: 2s; }
-    section:nth-of-type(2) { animation-delay: 2.3s; }
-    section:nth-of-type(3) { animation-delay: 2.6s; }
-    section:nth-of-type(4) { animation-delay: 2.9s; }
-
-    h1, h2 {
-      text-align: center;
-    }
     button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #007bff;
+      background: #007BFF;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
-      transition: 0.3s;
+      border-radius: 8px;
+      transition: background 0.3s;
     }
+
     button:hover {
       background: #0056b3;
     }
-    input {
-      padding: 8px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
+
+    /* Bouton Configurateur */
+    #config-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 18px;
+      padding: 12px 25px;
+      background: #ff6600;
     }
-    #resultat {
-      margin-top: 15px;
-      font-weight: bold;
-      text-align: center;
+
+    /* Citrouilles */
+    .pumpkin {
+      position: fixed;
+      top: -60px;
+      pointer-events: none;
+      animation: fall linear forwards;
+      z-index: 999;
     }
-    img {
-      display: block;
-      max-width: 100%;
-      margin: 10px auto;
-      border-radius: 10px;
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Pop-up configurateur */
+    #configurator {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.9);
+      padding: 30px;
+      border-radius: 15px;
+      z-index: 1000;
+      width: 400px;
+      color: white;
+    }
+
+    #close-config {
+      margin-top: 20px;
+      background: red;
     }
   </style>
 </head>
@@ -109,15 +99,14 @@
   <header>
     <h1>Montage PC par Lorenzo</h1>
     <p>Numéro : 07 63 12 26 70</p>
+    <button id="config-btn">⚙️ Configurateur</button>
   </header>
 
   <section>
     <h2>Tarifs</h2>
     <p>En fonction des composants et du temps de montage.</p>
-    <label for="composants">Nombre de composants :</label>
-    <input type="number" id="composants" min="1" placeholder="Ex: 5">
-    <label for="heures">Heures de travail :</label>
-    <input type="number" id="heures" min="1" placeholder="Ex: 2">
+    <input type="number" id="composants" placeholder="Ex: 5"> 
+    <input type="number" id="heures" placeholder="Ex: 2"> 
     <button onclick="calculerPrix()">Calculer</button>
     <p id="resultat"></p>
   </section>
@@ -125,37 +114,65 @@
   <section>
     <h2>Contact</h2>
     <p>Envie d'un montage ? Cliquez ci-dessous :</p>
-    <button onclick="window.location.href='mailto:lorenzo@example.com'">Me contacter</button>
+    <a href="mailto:tonmail@gmail.com"><button>Me contacter</button></a>
   </section>
 
   <section>
     <h2>Présentation</h2>
-    <p>
-      Je m'appelle <strong>Lorenzo</strong>, j'ai <strong>15 ans</strong>.  
-      J'ai commencé à me passionner pour l'informatique à 13 ans et depuis, j'ai appris à monter des ordinateurs.  
-      J'ai déjà aidé des amis et monté mon propre PC.  
-      Aujourd'hui, je souhaite agrandir ma passion en proposant mes services.
-    </p>
+    <p>Je m'appelle <b>Lorenzo</b>, j'ai <b>15 ans</b>. J'ai commencé à me passionner pour l'informatique à 13 ans et depuis, j'ai appris à monter des ordinateurs. J'ai déjà aidé des amis et monté mon propre PC. Aujourd'hui, je souhaite agrandir ma passion en proposant mes services.</p>
   </section>
 
   <section>
     <h2>Zone d’intervention</h2>
-    <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <strong>Gamaches</strong>.</p>
+    <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <b>Gamaches</b>.</p>
     <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone d'intervention">
   </section>
 
-  <script>
-    function calculerPrix() {
-      let composants = document.getElementById("composants").value;
-      let heures = document.getElementById("heures").value;
+  <!-- Pop-up configurateur -->
+  <div id="configurator">
+    <h2>⚙️ Configurateur</h2>
+    <p>Ici tu pourras bientôt vérifier la compatibilité des composants (CPU, GPU, RAM, Carte Mère...).</p>
+    <button id="close-config">Fermer</button>
+  </div>
 
+  <script>
+    // 🎃 Citrouilles qui tombent
+    function createPumpkin() {
+      const pumpkin = document.createElement("div");
+      pumpkin.classList.add("pumpkin");
+      pumpkin.innerText = "🎃";
+      pumpkin.style.left = Math.random() * window.innerWidth + "px";
+      pumpkin.style.fontSize = (30 + Math.random() * 25) + "px";
+      pumpkin.style.animationDuration = (3 + Math.random() * 4) + "s";
+      document.body.appendChild(pumpkin);
+      setTimeout(() => { pumpkin.remove(); }, 7000);
+    }
+    setInterval(createPumpkin, 1200);
+
+    // 🧮 Calculateur
+    function calculerPrix() {
+      const composants = document.getElementById("composants").value;
+      const heures = document.getElementById("heures").value;
       if (composants && heures) {
-        let prix = (composants * 10) + (heures * 15);
+        const prix = (composants * 10) + (heures * 15);
         document.getElementById("resultat").innerText = "Prix estimé : " + prix + " €";
       } else {
-        document.getElementById("resultat").innerText = "Veuillez remplir tous les champs.";
+        document.getElementById("resultat").innerText = "Veuillez remplir les deux champs.";
       }
     }
+
+    // ⚙️ Configurateur pop-up
+    const configBtn = document.getElementById("config-btn");
+    const configurator = document.getElementById("configurator");
+    const closeConfig = document.getElementById("close-config");
+
+    configBtn.addEventListener("click", () => {
+      configurator.style.display = "block";
+    });
+
+    closeConfig.addEventListener("click", () => {
+      configurator.style.display = "none";
+    });
   </script>
 </body>
 </html>
