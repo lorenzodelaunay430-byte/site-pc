@@ -1,94 +1,84 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lorenzo PC Builder</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- 🎃 Animation citrouilles -->
-  <div id="pumpkin-container"></div>
-
-  <!-- Navigation -->
-  <header>
-    <h1>Lorenzo - Montage PC</h1>
-    <nav>
-      <button onclick="openConfigurator()">⚙️ Configurateur</button>
-      <button onclick="openContact()">📩 Contact</button>
-    </nav>
-  </header>
-
-  <!-- Présentation -->
-  <section id="about">
-    <h2>À propos</h2>
-    <p>Je m'appelle <strong>Lorenzo</strong>, j’ai 15 ans. 
-      J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, 
-      j’ai appris à monter des ordinateurs. J’ai déjà aidé des amis et monté mon propre PC. 
-      Aujourd’hui je souhaite agrandir ma passion en proposant mes services.</p>
-    <p><strong>Zone :</strong> Gamaches + 20 km autour.</p>
-    <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone Gamaches">
-  </section>
-
-  <!-- Calculateur -->
-  <section id="calculator">
-    <h2>💰 Calculateur de prix</h2>
-    <label>Nombre de composants :</label>
-    <input type="number" id="components" value="5"><br>
-    <label>Heures de travail :</label>
-    <input type="number" id="hours" value="2"><br>
-    <button onclick="calculatePrice()">Calculer</button>
-    <p id="result"></p>
-  </section>
-
-  <!-- Top marques -->
-  <section id="brands">
-    <h2>🏷️ Top Marques</h2>
-    <div class="brand-list">
-      <button class="brand-btn" data-brand="msi">MSI</button>
-      <button class="brand-btn" data-brand="asus">ASUS</button>
-      <button class="brand-btn" data-brand="corsair">Corsair</button>
-      <button class="brand-btn" data-brand="amd">AMD</button>
-      <button class="brand-btn" data-brand="acer">Acer</button>
-    </div>
-    <div id="brand-products"></div>
-  </section>
-
-  <!-- Modale Configurateur -->
-  <div id="configurator-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeConfigurator()">&times;</span>
-      <h2>⚙️ Configurateur PC</h2>
-
-      <label>Processeur :</label>
-      <select id="cpu">
-        <option value="intel">Intel i5-13600K</option>
-        <option value="amd">AMD Ryzen 5 7600</option>
-      </select><br>
-
-      <label>Carte Mère :</label>
-      <select id="motherboard">
-        <option value="intel">MSI Z690 (Intel)</option>
-        <option value="amd">ASUS B650 (AMD)</option>
-      </select><br>
-
-      <label>RAM :</label>
-      <select id="ram">
-        <option value="corsair">Corsair Vengeance 16 Go</option>
-        <option value="kingston">Kingston Fury 16 Go</option>
-      </select><br>
-
-      <label>Carte Graphique :</label>
-      <select id="gpu">
-        <option value="nvidia">NVIDIA RTX 3060</option>
-        <option value="amd">AMD RX 6700</option>
-      </select><br>
-
-      <button onclick="checkCompatibility()">Vérifier compatibilité</button>
-      <p id="compatibility-result"></p>
-    </div>
+<section id="brands">
+  <h2>Top marques</h2>
+  <div class="brand-list">
+    <button class="brand-btn" data-brand="msi">MSI</button>
+    <button class="brand-btn" data-brand="asus">ASUS</button>
+    <button class="brand-btn" data-brand="corsair">Corsair</button>
+    <button class="brand-btn" data-brand="amd">AMD</button>
+    <button class="brand-btn" data-brand="acer">Acer</button>
   </div>
+  <div id="brand-products">
+    <!-- les produits apparaîtront ici quand on clique -->
+  </div>
+</section>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<style>
+  .brand-list { display: flex; gap: 14px; justify-content: center; margin-bottom:16px; }
+  .brand-btn { padding: 10px 16px; border: none; border-radius:8px; background:#444; color:#fff; cursor:pointer; }
+  .brand-btn.active { background: var(--accent); }
+  #brand-products .product-card { display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin-bottom:10px; }
+  #brand-products .product-card img { width:100px; height:60px; object-fit:cover; border-radius:4px; }
+  #brand-products .product-meta { color:#fff; }
+</style>
+
+<script>
+  // Exemple de données initiales (quelques produits)
+  const brandProducts = {
+    msi: [
+      { name: "MSI Thin 15", img: "https://via.placeholder.com/160x90?text=MSI+Thin+15", url: "", price: "699 €" },
+      { name: "MSI Titan 18 HX", img: "https://via.placeholder.com/160x90?text=MSI+Titan+18", url: "", price: "6 499 €" }
+    ],
+    asus: [
+      { name: "ASUS ROG Strix", img: "https://via.placeholder.com/160x90?text=ASUS+ROG", url: "", price: "1 500 €" },
+      { name: "ASUS TUF Gaming", img: "https://via.placeholder.com/160x90?text=ASUS+TUF", url: "", price: "1 100 €" }
+    ],
+    corsair: [
+      { name: "Corsair Vengeance DDR5 32 Go", img: "https://via.placeholder.com/160x90?text=Corsair+DDR5", url: "", price: "160 €" }
+    ],
+    amd: [
+      { name: "AMD Ryzen 7 5800X", img: "https://via.placeholder.com/160x90?text=Ryzen+7", url: "", price: "320 €" }
+    ],
+    acer: [
+      { name: "Acer Predator Helios 16", img: "https://via.placeholder.com/160x90?text=Acer+Predator", url: "", price: "2 000 €" }
+    ]
+  };
+
+  const buttons = document.querySelectorAll('.brand-btn');
+  const container = document.getElementById('brand-products');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // désactiver les autres
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const brand = btn.dataset.brand;
+      showBrandProducts(brand);
+    });
+  });
+
+  function showBrandProducts(brand) {
+    const list = brandProducts[brand] || [];
+    container.innerHTML = '';
+    if (list.length === 0) {
+      container.innerHTML = '<p style="color:#fff">Aucun produit pour cette marque.</p>';
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}">
+        <div class="product-meta">
+          <div>${p.name}</div>
+          <div>${p.price}</div>
+        </div>
+      `;
+      if (p.url) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => window.open(p.url, '_blank'));
+      }
+      container.appendChild(card);
+    });
+  }
+</script>
