@@ -1,144 +1,172 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Montage PC — Lorenzo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Montage PC - Lorenzo</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --accent:#0b5ed7;
-      --card-bg:rgba(255,255,255,0.9); /* cartes semi-transparentes */
-      --muted:#444;
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      text-align: center;
+      background: url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
+      background-size: cover;
     }
-    *{box-sizing:border-box}
-    body{
-      font-family:Inter,system-ui,Arial,Helvetica,sans-serif;
-      margin:0;
-      background:url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
-      background-size:cover;
-      color:#111;
+
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px 20px;
     }
-    .container{max-width:1000px;margin:0 auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-    h1{margin:0;font-size:1.6rem;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,0.6)}
-    nav a{margin-left:14px;text-decoration:none;color:#fff;font-weight:500;text-shadow:0 2px 5px rgba(0,0,0,0.6)}
-    .card{
-      background:var(--card-bg);
-      padding:16px;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.25);
-      margin-bottom:18px;
+
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+      animation: fadeIn 1.5s ease;
     }
-    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none}
-    .muted{color:var(--muted);font-size:0.95rem}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    @media(min-width:820px){.grid{grid-template-columns:1fr 340px}}
-    input,textarea,select{
-      width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;margin-top:6px
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      animation: fadeIn 2s ease;
     }
-    .price-box{font-size:1.2rem;font-weight:700;margin-top:10px}
-    footer{font-size:0.85rem;color:#fff;text-align:center;text-shadow:0 2px 5px rgba(0,0,0,0.6);margin-top:18px}
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #0078ff;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #005ad3;
+      transform: scale(1.05);
+    }
+
+    /* Pop-up */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      animation: pop 0.3s ease;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>Montage PC par Lorenzo</h1>
+    <p>Numéro : 07 63 12 26 70</p>
+  </header>
+
   <div class="container">
-    <header>
-      <h1>Montage PC — Lorenzo</h1>
-      <nav>
-        <a href="#services">Services</a>
-        <a href="#estimate">Estimation</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <section class="card">
-      <p class="muted">Je réalise l'assemblage de PC à la carte : vous fournissez les composants, je m'occupe du montage, tests et installation.</p>
-      <div style="margin-top:10px">
-        <a class="btn" href="#estimate">Obtenir une estimation</a>
-        <a style="margin-left:8px;text-decoration:none;color:#111" href="tel:+33763122670">📞 07 63 12 26 70</a>
-      </div>
-    </section>
-
-    <div class="grid">
-      <main>
-        <section id="services" class="card">
-          <h2>Services</h2>
-          <ul>
-            <li>Assemblage physique et vérification des composants</li>
-            <li>Installation système (Windows / Linux) et drivers</li>
-            <li>Tests de démarrage et tests de stabilité de base</li>
-            <li>Conseils cable management et optimisation</li>
-          </ul>
-        </section>
-
-        <section id="estimate" class="card">
-          <h2>Calculateur de tarif</h2>
-          <label>Nombre de composants</label>
-          <input id="components" type="number" min="1" value="6">
-          <label>Temps de montage (heures)</label>
-          <input id="hours" type="number" min="0.5" step="0.5" value="1.5">
-          <label>Complexité</label>
-          <select id="complexity">
-            <option value="1">Normale</option>
-            <option value="1.25">Avancée</option>
-            <option value="1.5">Très avancée</option>
-          </select>
-          <label>Notes</label>
-          <textarea id="notes"></textarea>
-          <div class="price-box" id="priceBox">Estimation : — €</div>
-          <a id="mailtoBtn" class="btn" href="#">Me contacter</a>
-        </section>
-      </main>
-
-      <aside>
-        <div id="contact" class="card">
-          <h3>Contact</h3>
-          <p>Email : <span id="displayEmail">lorenzodelaunay430@gmail.com</span></p>
-          <p>Téléphone : <a href="tel:+33763122670">07 63 12 26 70</a></p>
-        </div>
-      </aside>
+    <div class="card">
+      <h2>Tarifs</h2>
+      <p>En fonction des composants et du temps de montage.</p>
     </div>
 
-    <footer>
-      <p>© Lorenzo — Montage PC</p>
-    </footer>
+    <div class="card">
+      <h2>Contact</h2>
+      <p>Envie d’un montage ? Cliquez ci-dessous :</p>
+      <a href="#" class="btn" id="openModal">Me contacter</a>
+    </div>
+  </div>
+
+  <!-- Pop-up -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Me contacter</h2>
+      <p>Envoyez-moi un mail :</p>
+      <a href="mailto:lorenzo@example.com" class="btn">Ouvrir Gmail</a>
+    </div>
   </div>
 
   <script>
-    const CONTACT_EMAIL = "lorenzodelaunay430@gmail.com"; // remplace par ton mail
-    const PRICE_PER_COMPONENT = 6;
-    const PRICE_PER_HOUR = 25;
+    // Animation des cards au scroll
+    const cards = document.querySelectorAll('.card');
+    window.addEventListener('scroll', () => {
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          card.classList.add('show');
+        }
+      });
+    });
 
-    const compsEl=document.getElementById('components');
-    const hoursEl=document.getElementById('hours');
-    const complexityEl=document.getElementById('complexity');
-    const notesEl=document.getElementById('notes');
-    const priceBox=document.getElementById('priceBox');
-    const mailtoBtn=document.getElementById('mailtoBtn');
-    const displayEmail=document.getElementById('displayEmail');
-    displayEmail.textContent=CONTACT_EMAIL;
-
-    function calcPrice(){
-      const comps=Number(compsEl.value)||0;
-      const hours=Number(hoursEl.value)||0;
-      const factor=Number(complexityEl.value)||1;
-      return Math.round(((comps*PRICE_PER_COMPONENT)+(hours*PRICE_PER_HOUR))*factor);
-    }
-    function updateUI(){
-      const price=calcPrice();
-      priceBox.textContent=`Estimation : ${price} € (hors pièces)`;
-      const subject=encodeURIComponent("Demande de montage PC - estimation");
-      const body=encodeURIComponent(
-        `Bonjour Lorenzo,\n\nJe souhaite un montage PC.\n`+
-        `Composants: ${compsEl.value}\nTemps: ${hoursEl.value}h\n`+
-        `Complexité: ${complexityEl.options[complexityEl.selectedIndex].text}\n`+
-        `Notes: ${notesEl.value||"-"}\n\nEstimation: ${price} €\n`
-      );
-      mailtoBtn.href=`mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    }
-    [compsEl,hoursEl,complexityEl,notesEl].forEach(el=>el.addEventListener('input',updateUI));
-    updateUI();
+    // Pop-up
+    const modal = document.getElementById("contactModal");
+    document.getElementById("openModal").onclick = () => modal.style.display = "flex";
+    document.getElementById("closeModal").onclick = () => modal.style.display = "none";
+    window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
   </script>
 </body>
 </html>
-
