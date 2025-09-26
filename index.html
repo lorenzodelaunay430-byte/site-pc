@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Montage PC - Lorenzo</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -14,52 +13,33 @@
       font-family: 'Montserrat', sans-serif;
       color: white;
       text-align: center;
-      background: url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
+      background: url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center;
       background-size: cover;
+      min-height: 100vh;
     }
 
     header {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 40px 20px;
+      padding: 80px 20px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
     }
 
-    header h1 {
-      font-size: 2.5em;
-      margin: 0;
-      animation: fadeIn 1.5s ease;
+    header h1, header p {
+      background: rgba(0, 0, 0, 0.4);
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 8px;
     }
 
-    header p {
-      font-size: 1.2em;
-      margin-top: 10px;
-      animation: fadeIn 2s ease;
-    }
-
-    .container {
+    section {
       max-width: 900px;
-      margin: 40px auto;
-      background: rgba(0, 0, 0, 0.7);
+      margin: 60px auto;
+      background: rgba(0,0,0,0.7);
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.6);
     }
 
-    .card {
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.7s ease;
-    }
-
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    h2 {
+    section h2 {
       margin-bottom: 10px;
     }
 
@@ -76,6 +56,13 @@
     .btn:hover {
       background: #005ad3;
       transform: scale(1.05);
+    }
+
+    .region-img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
 
     /* Pop-up */
@@ -99,26 +86,10 @@
       animation: pop 0.3s ease;
     }
 
-    .modal-content h2 {
-      margin-top: 0;
-    }
-
     .close {
       float: right;
       font-size: 24px;
       cursor: pointer;
-    }
-
-    .region-img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-top: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     @keyframes pop {
@@ -134,35 +105,30 @@
     <p>Numéro : 07 63 12 26 70</p>
   </header>
 
-  <div class="container">
-    <div class="card">
-      <h2>Tarifs</h2>
-      <p>En fonction des composants et du temps de montage.</p>
-    </div>
+  <section>
+    <h2>Tarifs</h2>
+    <p>En fonction des composants et du temps de montage.</p>
+  </section>
 
-    <div class="card">
-      <h2>Contact</h2>
-      <p>Envie d’un montage ? Cliquez ci-dessous :</p>
-      <a href="#" class="btn" id="openModal">Me contacter</a>
-    </div>
-  </div>
+  <section>
+    <h2>Contact</h2>
+    <p>Envie d’un montage ? Cliquez ci-dessous :</p>
+    <a href="#" class="btn" id="openModal">Me contacter</a>
+  </section>
 
-  <!-- Nouvelle section Présentation -->
-  <div class="container">
-    <div class="card">
-      <h2>Présentation</h2>
-      <p>Je m'appelle <strong>Lorenzo</strong>, j'ai 15 ans.  
-      J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, j’ai appris à monter des ordinateurs.  
-      J’ai déjà aidé des amis et monté mon propre PC.  
-      Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.</p>
-    </div>
+  <section>
+    <h2>Présentation</h2>
+    <p>Je m'appelle <strong>Lorenzo</strong>, j'ai 15 ans.  
+    J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, j’ai appris à monter des ordinateurs.  
+    J’ai déjà aidé des amis et monté mon propre PC.  
+    Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.</p>
+  </section>
 
-    <div class="card">
-      <h2>Zone d’intervention</h2>
-      <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <strong>Gamaches</strong>.</p>
-      <img class="region-img" src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Région - Somme">
-    </div>
-  </div>
+  <section>
+    <h2>Zone d’intervention</h2>
+    <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <strong>Gamaches</strong>.</p>
+    <img class="region-img" src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Région - Somme">
+  </section>
 
   <!-- Pop-up -->
   <div id="contactModal" class="modal">
@@ -175,17 +141,6 @@
   </div>
 
   <script>
-    // Animation des cards au scroll
-    const cards = document.querySelectorAll('.card');
-    window.addEventListener('scroll', () => {
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          card.classList.add('show');
-        }
-      });
-    });
-
     // Pop-up
     const modal = document.getElementById("contactModal");
     document.getElementById("openModal").onclick = () => modal.style.display = "flex";
