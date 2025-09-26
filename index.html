@@ -25,21 +25,6 @@
       text-align: center;
       padding: 50px;
       background: rgba(0, 0, 0, 0.6);
-      transform: translateY(-50px);
-      opacity: 0;
-      animation: slideDown 1s ease-out forwards;
-      animation-delay: 1s;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
     }
 
     section {
@@ -48,26 +33,7 @@
       max-width: 800px;
       background: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s ease-out forwards;
     }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    section:nth-of-type(1) { animation-delay: 2s; }
-    section:nth-of-type(2) { animation-delay: 2.3s; }
-    section:nth-of-type(3) { animation-delay: 2.6s; }
-    section:nth-of-type(4) { animation-delay: 2.9s; }
 
     h1, h2 {
       text-align: center;
@@ -108,8 +74,8 @@
     /* 🎃 Animation des citrouilles */
     .pumpkin {
       position: fixed;
-      top: -50px;
-      font-size: 30px;
+      top: -60px;
+      font-size: 40px;
       pointer-events: none;
       animation: fall linear forwards;
     }
@@ -174,24 +140,22 @@
       }
     }
 
-    // 🎃 Génération des citrouilles
+    // 🎃 Génération continue des citrouilles
     function createPumpkin() {
       const pumpkin = document.createElement("div");
       pumpkin.classList.add("pumpkin");
       pumpkin.innerText = "🎃";
       pumpkin.style.left = Math.random() * window.innerWidth + "px";
-      pumpkin.style.animationDuration = (3 + Math.random() * 2) + "s";
+      pumpkin.style.animationDuration = (4 + Math.random() * 3) + "s";
       document.body.appendChild(pumpkin);
 
       setTimeout(() => {
         pumpkin.remove();
-      }, 5000);
+      }, 7000);
     }
 
-    // Lancer plusieurs citrouilles à l'ouverture
-    for (let i = 0; i < 15; i++) {
-      setTimeout(createPumpkin, i * 300);
-    }
+    // Citrouilles qui tombent toutes les 500ms
+    setInterval(createPumpkin, 500);
   </script>
 </body>
 </html>
