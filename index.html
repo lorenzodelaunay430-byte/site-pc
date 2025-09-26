@@ -58,6 +58,14 @@
       transform: scale(1.05);
     }
 
+    input {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 6px;
+      border: none;
+      width: 200px;
+    }
+
     .region-img {
       max-width: 100%;
       border-radius: 12px;
@@ -107,7 +115,16 @@
 
   <section>
     <h2>Tarifs</h2>
-    <p>En fonction des composants et du temps de montage.</p>
+    <p>Les tarifs sont calculés en fonction du nombre de composants et du temps de montage.</p>
+
+    <!-- Calculateur -->
+    <div>
+      <input type="number" id="composants" placeholder="Nombre de composants">
+      <input type="number" id="heures" placeholder="Heures de travail">
+      <br>
+      <a href="#" class="btn" onclick="calculerPrix()">Calculer</a>
+      <p id="resultat" style="margin-top:15px; font-size:18px; font-weight:bold;"></p>
+    </div>
   </section>
 
   <section>
@@ -146,6 +163,17 @@
     document.getElementById("openModal").onclick = () => modal.style.display = "flex";
     document.getElementById("closeModal").onclick = () => modal.style.display = "none";
     window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
+
+    // Calculateur
+    function calculerPrix() {
+      const composants = parseInt(document.getElementById("composants").value) || 0;
+      const heures = parseInt(document.getElementById("heures").value) || 0;
+
+      const prix = (composants * 20) + (heures * 15);
+
+      document.getElementById("resultat").innerText =
+        "Prix estimé : " + prix + " €";
+    }
   </script>
 </body>
 </html>
