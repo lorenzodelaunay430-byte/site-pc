@@ -4,110 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Montage PC - Lorenzo</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
     body {
       margin: 0;
-      font-family: 'Montserrat', sans-serif;
+      font-family: Arial, sans-serif;
       color: white;
-      text-align: center;
-      background: url("https://www.météris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center;
+      background: url("https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg") no-repeat center center fixed;
       background-size: cover;
-      min-height: 100vh;
     }
-
     header {
-      padding: 80px 20px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-    }
-
-    header h1, header p {
-      background: rgba(0, 0, 0, 0.4);
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 8px;
-    }
-
-    section {
-      max-width: 900px;
-      margin: 60px auto;
-      background: rgba(0,0,0,0.7);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    }
-
-    section h2 {
-      margin-bottom: 10px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #0078ff;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #005ad3;
-      transform: scale(1.05);
-    }
-
-    input {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 6px;
-      border: none;
-      width: 200px;
-    }
-
-    .region-img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-top: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
-
-    /* Pop-up */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: white;
-      color: black;
-      padding: 20px;
-      border-radius: 12px;
       text-align: center;
-      max-width: 400px;
-      animation: pop 0.3s ease;
+      padding: 50px;
+      background: rgba(0, 0, 0, 0.6);
     }
-
-    .close {
-      float: right;
-      font-size: 24px;
+    section {
+      margin: 40px auto;
+      padding: 20px;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
     }
-
-    @keyframes pop {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    button:hover {
+      background: #0056b3;
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+    #resultat {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 10px auto;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>Montage PC par Lorenzo</h1>
     <p>Numéro : 07 63 12 26 70</p>
@@ -115,64 +69,48 @@
 
   <section>
     <h2>Tarifs</h2>
-    <p>Les tarifs sont calculés en fonction du nombre de composants et du temps de montage.</p>
-
-    <!-- Calculateur -->
-    <div>
-      <input type="number" id="composants" placeholder="Nombre de composants">
-      <input type="number" id="heures" placeholder="Heures de travail">
-      <br>
-      <a href="#" class="btn" onclick="calculerPrix()">Calculer</a>
-      <p id="resultat" style="margin-top:15px; font-size:18px; font-weight:bold;"></p>
-    </div>
+    <p>En fonction des composants et du temps de montage.</p>
+    <label for="composants">Nombre de composants :</label>
+    <input type="number" id="composants" min="1" placeholder="Ex: 5">
+    <label for="heures">Heures de travail :</label>
+    <input type="number" id="heures" min="1" placeholder="Ex: 2">
+    <button onclick="calculerPrix()">Calculer</button>
+    <p id="resultat"></p>
   </section>
 
   <section>
     <h2>Contact</h2>
-    <p>Envie d’un montage ? Cliquez ci-dessous :</p>
-    <a href="#" class="btn" id="openModal">Me contacter</a>
+    <p>Envie d'un montage ? Cliquez ci-dessous :</p>
+    <button onclick="window.location.href='mailto:lorenzo@example.com'">Me contacter</button>
   </section>
 
   <section>
     <h2>Présentation</h2>
-    <p>Je m'appelle <strong>Lorenzo</strong>, j'ai 15 ans.  
-    J’ai commencé à me passionner pour l’informatique à 13 ans et depuis, j’ai appris à monter des ordinateurs.  
-    J’ai déjà aidé des amis et monté mon propre PC.  
-    Aujourd’hui, je souhaite agrandir ma passion en proposant mes services.</p>
+    <p>
+      Je m'appelle <strong>Lorenzo</strong>, j'ai <strong>15 ans</strong>.  
+      J'ai commencé à me passionner pour l'informatique à 13 ans et depuis, j'ai appris à monter des ordinateurs.  
+      J'ai déjà aidé des amis et monté mon propre PC.  
+      Aujourd'hui, je souhaite agrandir ma passion en proposant mes services.
+    </p>
   </section>
 
   <section>
     <h2>Zone d’intervention</h2>
     <p>Je peux me déplacer, mais uniquement dans un rayon de 20 km autour de <strong>Gamaches</strong>.</p>
-    <img class="region-img" src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Région - Somme">
+    <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone d'intervention">
   </section>
 
-  <!-- Pop-up -->
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <h2>Me contacter</h2>
-      <p>Envoyez-moi un mail :</p>
-      <a href="mailto:lorenzo@example.com" class="btn">Ouvrir Gmail</a>
-    </div>
-  </div>
-
   <script>
-    // Pop-up
-    const modal = document.getElementById("contactModal");
-    document.getElementById("openModal").onclick = () => modal.style.display = "flex";
-    document.getElementById("closeModal").onclick = () => modal.style.display = "none";
-    window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
-
-    // Calculateur
     function calculerPrix() {
-      const composants = parseInt(document.getElementById("composants").value) || 0;
-      const heures = parseInt(document.getElementById("heures").value) || 0;
+      let composants = document.getElementById("composants").value;
+      let heures = document.getElementById("heures").value;
 
-      const prix = (composants * 20) + (heures * 15);
-
-      document.getElementById("resultat").innerText =
-        "Prix estimé : " + prix + " €";
+      if (composants && heures) {
+        let prix = (composants * 10) + (heures * 15);
+        document.getElementById("resultat").innerText = "Prix estimé : " + prix + " €";
+      } else {
+        document.getElementById("resultat").innerText = "Veuillez remplir tous les champs.";
+      }
     }
   </script>
 </body>
