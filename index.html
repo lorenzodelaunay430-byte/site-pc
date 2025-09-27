@@ -1,54 +1,115 @@
-<!-- Message promo popup -->
-<div id="promo-popup" style="
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.9);
-  color: orange;
-  padding: 20px 40px;
-  border-radius: 10px;
-  font-size: 1.5em;
-  z-index: 9999;
-  text-align: center;
-  display: none;
-">
-  🎃 -15% sur le build<br>
-  <small>du 27/09/2025 au 31/10/2025</small>
-</div>
-
-<script>
-// === POPUP PROMO ===
-window.addEventListener("load", () => {
-  const popup = document.getElementById("promo-popup");
-  popup.style.display = "block";
-  setTimeout(() => { popup.style.display = "none"; }, 5000); // disparaît après 5s
-});
-
-<script>
-// === CITROUILLES QUI TOMBENT ===
-function spawnPumpkin() {
-  const pumpkin = document.createElement("div");
-  pumpkin.innerHTML = "🎃";
-  pumpkin.style.position = "fixed";
-  pumpkin.style.top = "-50px";
-  pumpkin.style.left = Math.random() * window.innerWidth + "px";
-  pumpkin.style.fontSize = Math.random() * 30 + 20 + "px";
-  pumpkin.style.zIndex = 9998;
-  pumpkin.style.pointerEvents = "none"; // <-- pour que ça bloque pas ton site
-  pumpkin.style.background = "transparent"; // <-- pas de fond blanc
-  document.body.appendChild(pumpkin);
-
-  let speed = Math.random() * 2 + 1;
-  let pos = -50;
-  const fall = setInterval(() => {
-    pos += speed;
-    pumpkin.style.top = pos + "px";
-    if (pos > window.innerHeight) {
-      clearInterval(fall);
-      pumpkin.remove();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorenzo - Montage PC</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
     }
-  }, 20);
-}
-setInterval(spawnPumpkin, 500);
-</script>
+    header {
+      background: #222;
+      padding: 15px;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      background: orange;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    /* === POPUP PROMO === */
+    .promo-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.9);
+      padding: 30px;
+      border-radius: 10px;
+      font-size: 20px;
+      display: none;
+      z-index: 9999;
+      border: 2px solid orange;
+    }
+    .promo-popup button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      background: red;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💻 Lorenzo - Montage PC</h1>
+    <button class="btn" onclick="openConfigurator()">⚙️ Configurateur</button>
+    <button class="btn">📩 Contact</button>
+  </header>
+
+  <main>
+    <h2>À propos</h2>
+    <p>Je m'appelle <b>Lorenzo</b>, j'ai <b>15 ans</b>. Je me passionne pour l’informatique et je propose mes services de montage PC.</p>
+  </main>
+
+  <!-- === POPUP PROMO === -->
+  <div id="promo" class="promo-popup">
+    🎃 -15% sur le build du <b>27/09/2025</b> au <b>31/10/2025</b> 🎃
+    <br>
+    <button onclick="closePromo()">Fermer</button>
+  </div>
+
+  <!-- === SCRIPTS === -->
+  <script>
+  // === POPUP PROMO ===
+  window.onload = function() {
+    const promo = document.getElementById("promo");
+    promo.style.display = "block";
+  };
+  function closePromo() {
+    document.getElementById("promo").style.display = "none";
+  }
+
+  // === CITROUILLES QUI TOMBENT ===
+  function spawnPumpkin() {
+    const pumpkin = document.createElement("div");
+    pumpkin.textContent = "🎃"; 
+    pumpkin.style.position = "fixed";
+    pumpkin.style.top = "-50px";
+    pumpkin.style.left = Math.random() * window.innerWidth + "px";
+    pumpkin.style.fontSize = Math.random() * 30 + 20 + "px";
+    pumpkin.style.zIndex = "9998";
+    pumpkin.style.pointerEvents = "none";
+    document.body.appendChild(pumpkin);
+
+    let speed = Math.random() * 3 + 2;
+    let pos = -50;
+    const fall = setInterval(() => {
+      pos += speed;
+      pumpkin.style.top = pos + "px";
+      if (pos > window.innerHeight) {
+        clearInterval(fall);
+        pumpkin.remove();
+      }
+    }, 20);
+  }
+  setInterval(spawnPumpkin, 400);
+  </script>
+
+</body>
+</html>
