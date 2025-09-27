@@ -1,105 +1,51 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Configurateur PC</title>
-  <style>
-    body { font-family: Arial, sans-serif; display: flex; }
-    #categories { width: 20%; padding: 10px; border-right: 2px solid #ddd; }
-    #categories button { display: block; margin: 5px 0; padding: 10px; width: 100%; cursor: pointer; }
-    #products { width: 50%; padding: 10px; display: flex; flex-wrap: wrap; gap: 15px; }
-    .product { border: 1px solid #ddd; padding: 10px; width: 180px; text-align: center; cursor: pointer; }
-    .product img { width: 150px; height: auto; }
-    #recap { width: 30%; padding: 10px; border-left: 2px solid #ddd; }
-    #recap-list { list-style: none; padding: 0; }
-  </style>
-</head>
-<body>
-
-  <div id="categories">
-    <h3>Catégories</h3>
-    <button onclick="showCategory('cpu')">Processeurs</button>
-    <button onclick="showCategory('gpu')">Cartes Graphiques</button>
-    <button onclick="showCategory('ram')">Mémoire</button>
-    <button onclick="showCategory('ssd')">SSD</button>
-    <button onclick="showCategory('hdd')">HDD</button>
-    <button onclick="showCategory('psu')">Alimentation</button>
-    <button onclick="showCategory('case')">Boîtiers</button>
-  </div>
-
-  <div id="products"></div>
-
-  <div id="recap">
-    <h3>Récapitulatif</h3>
-    <ul id="recap-list"></ul>
-    <p><strong>Total :</strong> <span id="total">0</span> €</p>
-  </div>
+<!-- Message promo popup -->
+<div id="promo-popup" style="
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.9);
+  color: orange;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.5em;
+  z-index: 9999;
+  text-align: center;
+  display: none;
+">
+  🎃 -15% sur le build<br>
+  <small>du 27/09/2025 au 31/10/2025</small>
+</div>
 
 <script>
-const produits = {
-  cpu: [
-    { nom: "AMD Ryzen 9 9900X", prix: 479.99, image: "https://via.placeholder.com/150" },
-    { nom: "Intel Core i9-14900K", prix: 689.99, image: "https://via.placeholder.com/150" },
-    { nom: "AMD Ryzen 5 7600", prix: 239.99, image: "https://via.placeholder.com/150" }
-  ],
-  gpu: [
-    { nom: "NVIDIA RTX 3060 12Go", prix: 299.99, image: "https://via.placeholder.com/150" },
-    { nom: "NVIDIA RTX 4070 Ti", prix: 799.99, image: "https://via.placeholder.com/150" },
-    { nom: "AMD RX 7800 XT", prix: 599.99, image: "https://via.placeholder.com/150" }
-  ],
-  ram: [
-    { nom: "Corsair Vengeance 16Go", prix: 89.99, image: "https://via.placeholder.com/150" },
-    { nom: "G.Skill Trident Z 32Go", prix: 169.99, image: "https://via.placeholder.com/150" }
-  ],
-  ssd: [
-    { nom: "Samsung 980 Pro 1To", prix: 119.99, image: "https://via.placeholder.com/150" },
-    { nom: "Crucial P5 Plus 2To", prix: 189.99, image: "https://via.placeholder.com/150" }
-  ],
-  hdd: [
-    { nom: "Seagate Barracuda 2To", prix: 69.99, image: "https://via.placeholder.com/150" },
-    { nom: "WD Black 4To", prix: 129.99, image: "https://via.placeholder.com/150" }
-  ],
-  psu: [
-    { nom: "Corsair RM750x 750W", prix: 129.99, image: "https://via.placeholder.com/150" },
-    { nom: "Seasonic Focus GX 850W", prix: 149.99, image: "https://via.placeholder.com/150" }
-  ],
-  case: [
-    { nom: "NZXT H510", prix: 89.99, image: "https://via.placeholder.com/150" },
-    { nom: "Fractal Meshify 2", prix: 139.99, image: "https://via.placeholder.com/150" }
-  ]
-};
+// === POPUP PROMO ===
+window.addEventListener("load", () => {
+  const popup = document.getElementById("promo-popup");
+  popup.style.display = "block";
+  setTimeout(() => { popup.style.display = "none"; }, 5000); // disparaît après 5s
+});
 
-let recap = {};
-function showCategory(cat) {
-  const container = document.getElementById("products");
-  container.innerHTML = "";
-  produits[cat].forEach((p, i) => {
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `<img src="${p.image}" alt="${p.nom}">
-                     <h4>${p.nom}</h4>
-                     <p>${p.prix.toFixed(2)} €</p>
-                     <button onclick="addToRecap('${cat}', ${i})">Choisir</button>`;
-    container.appendChild(div);
-  });
-}
+// === CITROUILLES QUI TOMBENT ===
+function spawnPumpkin() {
+  const pumpkin = document.createElement("div");
+  pumpkin.innerHTML = "🎃";
+  pumpkin.style.position = "fixed";
+  pumpkin.style.top = "-50px";
+  pumpkin.style.left = Math.random() * window.innerWidth + "px";
+  pumpkin.style.fontSize = Math.random() * 30 + 20 + "px";
+  pumpkin.style.zIndex = 9998;
+  document.body.appendChild(pumpkin);
 
-function addToRecap(cat, index) {
-  recap[cat] = produits[cat][index];
-  updateRecap();
+  let speed = Math.random() * 2 + 1;
+  let pos = -50;
+  const fall = setInterval(() => {
+    pos += speed;
+    pumpkin.style.top = pos + "px";
+    if (pos > window.innerHeight) {
+      clearInterval(fall);
+      pumpkin.remove();
+    }
+  }, 20);
 }
-
-function updateRecap() {
-  const recapList = document.getElementById("recap-list");
-  recapList.innerHTML = "";
-  let total = 0;
-  for (const cat in recap) {
-    const item = recap[cat];
-    total += item.prix;
-    recapList.innerHTML += `<li>${item.nom} - ${item.prix.toFixed(2)} €</li>`;
-  }
-  document.getElementById("total").textContent = total.toFixed(2);
-}
+setInterval(spawnPumpkin, 500); // une citrouille toutes les 0,5s
 </script>
-</body>
-</html>
