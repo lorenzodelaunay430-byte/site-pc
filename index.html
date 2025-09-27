@@ -25,6 +25,7 @@ window.addEventListener("load", () => {
   setTimeout(() => { popup.style.display = "none"; }, 5000); // disparaît après 5s
 });
 
+<script>
 // === CITROUILLES QUI TOMBENT ===
 function spawnPumpkin() {
   const pumpkin = document.createElement("div");
@@ -34,6 +35,8 @@ function spawnPumpkin() {
   pumpkin.style.left = Math.random() * window.innerWidth + "px";
   pumpkin.style.fontSize = Math.random() * 30 + 20 + "px";
   pumpkin.style.zIndex = 9998;
+  pumpkin.style.pointerEvents = "none"; // <-- pour que ça bloque pas ton site
+  pumpkin.style.background = "transparent"; // <-- pas de fond blanc
   document.body.appendChild(pumpkin);
 
   let speed = Math.random() * 2 + 1;
@@ -47,5 +50,5 @@ function spawnPumpkin() {
     }
   }, 20);
 }
-setInterval(spawnPumpkin, 500); // une citrouille toutes les 0,5s
+setInterval(spawnPumpkin, 500);
 </script>
