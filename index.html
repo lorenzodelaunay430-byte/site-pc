@@ -2,245 +2,104 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Montage PC - Lorenzo</title>
+  <title>Configurateur PC</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      text-align: center;
-    }
-    header {
-      background: rgba(0,0,0,0.7);
-      padding: 15px;
-      position: sticky;
-      top: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav button {
-      margin: 0 5px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      background: #007BFF;
-      color: white;
-      cursor: pointer;
-    }
-    nav button:hover {
-      background: #0056b3;
-    }
-    section {
-      margin: 40px auto;
-      padding: 20px;
-      max-width: 900px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 10px;
-    }
-    h1,h2 { margin: 10px 0; }
-    button { cursor: pointer; }
-    .citrouille {
-      position: fixed;
-      top: -50px;
-      width: 40px;
-      height: 40px;
-      animation: fall linear infinite;
-      z-index: 999;
-    }
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
-    .configurator select {
-      margin: 10px;
-      padding: 5px;
-    }
-    .brands button {
-      margin: 5px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      background: #ff6600;
-      color: white;
-      cursor: pointer;
-    }
-    .brands button:hover {
-      background: #cc5200;
-    }
+    body { font-family: Arial, sans-serif; display: flex; }
+    #categories { width: 20%; padding: 10px; border-right: 2px solid #ddd; }
+    #categories button { display: block; margin: 5px 0; padding: 10px; width: 100%; cursor: pointer; }
+    #products { width: 50%; padding: 10px; display: flex; flex-wrap: wrap; gap: 15px; }
+    .product { border: 1px solid #ddd; padding: 10px; width: 180px; text-align: center; cursor: pointer; }
+    .product img { width: 150px; height: auto; }
+    #recap { width: 30%; padding: 10px; border-left: 2px solid #ddd; }
+    #recap-list { list-style: none; padding: 0; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Montage PC par Lorenzo</h1>
-    <nav>
-      <button onclick="ouvrirConfig()">⚙️ Configurateur</button>
-      <button onclick="window.location.href='mailto:lorenzo@example.com'">📩 Contact</button>
-    </nav>
-  </header>
 
-  <main>
-    <section class="about">
-      <h2>À propos</h2>
-      <p>Je m’appelle <b>Lorenzo</b>, j’ai <b>15 ans</b>. 
-      Je me passionne pour l’informatique depuis mes 13 ans : j’ai appris à monter des PC et aidé des amis.
-      Aujourd’hui, je propose mes services pour partager ma passion.</p>
-    </section>
+  <div id="categories">
+    <h3>Catégories</h3>
+    <button onclick="showCategory('cpu')">Processeurs</button>
+    <button onclick="showCategory('gpu')">Cartes Graphiques</button>
+    <button onclick="showCategory('ram')">Mémoire</button>
+    <button onclick="showCategory('ssd')">SSD</button>
+    <button onclick="showCategory('hdd')">HDD</button>
+    <button onclick="showCategory('psu')">Alimentation</button>
+    <button onclick="showCategory('case')">Boîtiers</button>
+  </div>
 
-    <section class="zone">
-      <h2>Zone d’intervention</h2>
-      <p>Je me déplace jusqu’à 20 km autour de Gamaches.</p>
-      <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone d’intervention">
-    </section>
+  <div id="products"></div>
 
-    <section class="tarifs">
-      <h2>💰 Calculateur de prix</h2>
-      <label>Nombre de composants :</label>
-      <input type="number" id="composants" value="5">
-      <label>Heures de travail :</label>
-      <input type="number" id="heures" value="2">
-      <button onclick="calculerPrix()">Calculer</button>
-      <p id="resultat"></p>
-    </section>
+  <div id="recap">
+    <h3>Récapitulatif</h3>
+    <ul id="recap-list"></ul>
+    <p><strong>Total :</strong> <span id="total">0</span> €</p>
+  </div>
 
-    <section class="brands">
-      <h2>🔥 Top Marques</h2>
-      <button>MSI</button>
-      <button>ASUS</button>
-      <button>Corsair</button>
-      <button>AMD</button>
-      <button>Acer</button>
-    </section>
-  </main>
+<script>
+const produits = {
+  cpu: [
+    { nom: "AMD Ryzen 9 9900X", prix: 479.99, image: "https://via.placeholder.com/150" },
+    { nom: "Intel Core i9-14900K", prix: 689.99, image: "https://via.placeholder.com/150" },
+    { nom: "AMD Ryzen 5 7600", prix: 239.99, image: "https://via.placeholder.com/150" }
+  ],
+  gpu: [
+    { nom: "NVIDIA RTX 3060 12Go", prix: 299.99, image: "https://via.placeholder.com/150" },
+    { nom: "NVIDIA RTX 4070 Ti", prix: 799.99, image: "https://via.placeholder.com/150" },
+    { nom: "AMD RX 7800 XT", prix: 599.99, image: "https://via.placeholder.com/150" }
+  ],
+  ram: [
+    { nom: "Corsair Vengeance 16Go", prix: 89.99, image: "https://via.placeholder.com/150" },
+    { nom: "G.Skill Trident Z 32Go", prix: 169.99, image: "https://via.placeholder.com/150" }
+  ],
+  ssd: [
+    { nom: "Samsung 980 Pro 1To", prix: 119.99, image: "https://via.placeholder.com/150" },
+    { nom: "Crucial P5 Plus 2To", prix: 189.99, image: "https://via.placeholder.com/150" }
+  ],
+  hdd: [
+    { nom: "Seagate Barracuda 2To", prix: 69.99, image: "https://via.placeholder.com/150" },
+    { nom: "WD Black 4To", prix: 129.99, image: "https://via.placeholder.com/150" }
+  ],
+  psu: [
+    { nom: "Corsair RM750x 750W", prix: 129.99, image: "https://via.placeholder.com/150" },
+    { nom: "Seasonic Focus GX 850W", prix: 149.99, image: "https://via.placeholder.com/150" }
+  ],
+  case: [
+    { nom: "NZXT H510", prix: 89.99, image: "https://via.placeholder.com/150" },
+    { nom: "Fractal Meshify 2", prix: 139.99, image: "https://via.placeholder.com/150" }
+  ]
+};
 
-  <!-- Fenêtre du configurateur -->
-  <section id="configurator" class="configurator" style="display:none;">
-    <h2>⚙️ Configurateur PC</h2>
-    <label>Processeur :</label>
-    <select id="cpuSelect" onchange="updateCartesMeres()"></select>
-    <label>Carte mère :</label>
-    <select id="mbSelect" onchange="updateRAM()"></select>
-    <label>Mémoire RAM :</label>
-    <select id="ramSelect"></select>
-    <label>Carte graphique :</label>
-    <select id="gpuSelect"></select>
-    <p id="prixTotal"></p>
-  </section>
+let recap = {};
+function showCategory(cat) {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+  produits[cat].forEach((p, i) => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `<img src="${p.image}" alt="${p.nom}">
+                     <h4>${p.nom}</h4>
+                     <p>${p.prix.toFixed(2)} €</p>
+                     <button onclick="addToRecap('${cat}', ${i})">Choisir</button>`;
+    container.appendChild(div);
+  });
+}
 
-  <script>
-    // 🎃 Animation citrouilles
-    document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 10; i++) {
-        let citrouille = document.createElement("img");
-        citrouille.src = "https://cdn-icons-png.flaticon.com/512/4151/4151405.png";
-        citrouille.classList.add("citrouille");
-        citrouille.style.left = Math.random() * 100 + "vw";
-        citrouille.style.animationDuration = (Math.random() * 3 + 2) + "s";
-        document.body.appendChild(citrouille);
-      }
-      initConfigurator();
-    });
+function addToRecap(cat, index) {
+  recap[cat] = produits[cat][index];
+  updateRecap();
+}
 
-    // 💰 Calculateur
-    function calculerPrix() {
-      const composants = document.getElementById("composants").value;
-      const heures = document.getElementById("heures").value;
-      const prix = composants * 10 + heures * 15;
-      document.getElementById("resultat").innerText = "Prix estimé : " + prix + " €";
-    }
-
-    // ⚙️ Données JSON intégrées
-    const data = {
-      "cpu": [
-        {"id":"intel-12400f","marque":"Intel","modele":"i5-12400F","socket":"LGA1700","prix":180},
-        {"id":"intel-13400f","marque":"Intel","modele":"i5-13400F","socket":"LGA1700","prix":230},
-        {"id":"amd-5600","marque":"AMD","modele":"Ryzen 5 5600","socket":"AM4","prix":120},
-        {"id":"amd-5800x3d","marque":"AMD","modele":"Ryzen 7 5800X3D","socket":"AM4","prix":320}
-      ],
-      "cartes_meres": [
-        {"id":"msi-b660","marque":"MSI","modele":"B660 DDR4","socket":"LGA1700","ram_support":"DDR4","prix":130},
-        {"id":"asus-b550","marque":"ASUS","modele":"B550","socket":"AM4","ram_support":"DDR4","prix":140},
-        {"id":"gigabyte-x670","marque":"Gigabyte","modele":"X670 AORUS","socket":"AM5","ram_support":"DDR5","prix":280}
-      ],
-      "ram": [
-        {"id":"corsair-16-ddr4","marque":"Corsair","modele":"Vengeance 16 Go","type":"DDR4","prix":60},
-        {"id":"corsair-32-ddr5","marque":"Corsair","modele":"Vengeance 32 Go","type":"DDR5","prix":160},
-        {"id":"kingston-16-ddr4","marque":"Kingston","modele":"Fury 16 Go","type":"DDR4","prix":55}
-      ],
-      "gpu": [
-        {"id":"rtx3060","marque":"NVIDIA","modele":"RTX 3060 12 Go","prix":280},
-        {"id":"rtx4070","marque":"NVIDIA","modele":"RTX 4070","prix":650},
-        {"id":"rx6600","marque":"AMD","modele":"RX 6600","prix":230},
-        {"id":"rx7800xt","marque":"AMD","modele":"RX 7800 XT","prix":580}
-      ]
-    };
-
-    // ⚙️ Configurateur
-    function initConfigurator() {
-      let cpuSelect = document.getElementById("cpuSelect");
-      data.cpu.forEach(cpu => {
-        let opt = document.createElement("option");
-        opt.value = cpu.id;
-        opt.text = `${cpu.marque} ${cpu.modele} (${cpu.prix} €)`;
-        cpuSelect.add(opt);
-      });
-      updateCartesMeres();
-    }
-
-    function updateCartesMeres() {
-      let cpuId = document.getElementById("cpuSelect").value;
-      let cpu = data.cpu.find(c => c.id === cpuId);
-      let mbSelect = document.getElementById("mbSelect");
-      mbSelect.innerHTML = "";
-      data.cartes_meres.filter(mb => mb.socket === cpu.socket).forEach(mb => {
-        let opt = document.createElement("option");
-        opt.value = mb.id;
-        opt.text = `${mb.marque} ${mb.modele} (${mb.prix} €)`;
-        mbSelect.add(opt);
-      });
-      updateRAM();
-    }
-
-    function updateRAM() {
-      let mbId = document.getElementById("mbSelect").value;
-      let mb = data.cartes_meres.find(m => m.id === mbId);
-      let ramSelect = document.getElementById("ramSelect");
-      ramSelect.innerHTML = "";
-      data.ram.filter(r => r.type === mb.ram_support).forEach(r => {
-        let opt = document.createElement("option");
-        opt.value = r.id;
-        opt.text = `${r.marque} ${r.modele} (${r.prix} €)`;
-        ramSelect.add(opt);
-      });
-      updateGPU();
-    }
-
-    function updateGPU() {
-      let gpuSelect = document.getElementById("gpuSelect");
-      gpuSelect.innerHTML = "";
-      data.gpu.forEach(gpu => {
-        let opt = document.createElement("option");
-        opt.value = gpu.id;
-        opt.text = `${gpu.marque} ${gpu.modele} (${gpu.prix} €)`;
-        gpuSelect.add(opt);
-      });
-      calculerTotal();
-    }
-
-    function calculerTotal() {
-      let cpu = data.cpu.find(c => c.id === document.getElementById("cpuSelect").value);
-      let mb = data.cartes_meres.find(m => m.id === document.getElementById("mbSelect").value);
-      let ram = data.ram.find(r => r.id === document.getElementById("ramSelect").value);
-      let gpu = data.gpu.find(g => g.id === document.getElementById("gpuSelect").value);
-      let total = cpu.prix + mb.prix + ram.prix + gpu.prix;
-      document.getElementById("prixTotal").innerText = "Prix total estimé : " + total + " €";
-    }
-
-    function ouvrirConfig() {
-      document.getElementById("configurator").style.display = "block";
-    }
-  </script>
+function updateRecap() {
+  const recapList = document.getElementById("recap-list");
+  recapList.innerHTML = "";
+  let total = 0;
+  for (const cat in recap) {
+    const item = recap[cat];
+    total += item.prix;
+    recapList.innerHTML += `<li>${item.nom} - ${item.prix.toFixed(2)} €</li>`;
+  }
+  document.getElementById("total").textContent = total.toFixed(2);
+}
+</script>
 </body>
 </html>
