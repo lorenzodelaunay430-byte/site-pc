@@ -1,563 +1,144 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Montage PC — Lorenzo</title>
-<style>
-  :root{
-    --bg-url: url('https://www.meteris.fr/wp-content/uploads/2015/08/montage-pc.jpg');
-    --accent:#ff7a00;
-    --card-bg: rgba(0,0,0,0.6);
-    --glass: rgba(255,255,255,0.03);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: Inter, system-ui, Arial, sans-serif;
-    color:#fff;
-    background: var(--bg-url) center/cover no-repeat fixed;
-    -webkit-font-smoothing:antialiased;
-  }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Présentation - Serveur Minecraft : Nations</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#0ea5a3;--glass:rgba(255,255,255,0.04);--text:#e6eef6}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#071029 0%, #0f1724 100%);color:var(--text);-webkit-font-smoothing:antialiased}
+    header{padding:28px 20px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#0ea5a3,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:#042029}
+    h1{margin:0;font-size:20px}
+    .subtitle{opacity:.8;font-size:13px}
 
-  header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 24px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2));
-    position:sticky; top:0; z-index:50;
-  }
-  header .left { display:flex; gap:16px; align-items:center;}
-  header h1{margin:0;font-size:20px}
-  header .contact { font-size:14px; color:#ddd}
+    .container{max-width:1100px;margin:20px auto;padding:18px}
+    .hero{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:20px;display:flex;gap:20px;align-items:center}
+    .hero-left{flex:1}
+    .hero-right{width:260px}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#042029;text-decoration:none;font-weight:600}
 
-  /* Layout */
-  .container{max-width:1200px;margin:26px auto;padding:0 16px;}
-  .intro, .zone, .quick { background:var(--card-bg); padding:18px;border-radius:12px;margin-bottom:18px; }
-  .two-col{display:grid;grid-template-columns: 1fr 380px; gap:18px; align-items:start}
-  @media(max-width:1000px){ .two-col{grid-template-columns:1fr; } .right-panel{position:static} }
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
+    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.6);display:flex;gap:12px;align-items:center}
+    .flag{width:88px;height:56px;border-radius:8px;flex-shrink:0;display:grid;place-items:center}
+    .info{flex:1}
+    .nation{font-weight:700;margin:0}
+    .leaders{margin:6px 0 0 0;color:#9fb6c9;font-size:14px}
+    footer{margin-top:28px;padding:18px;border-radius:10px;background:var(--glass);text-align:center;color:#9fb6c9}
 
-  /* Configurator area */
-  .config-card{background:var(--card-bg); padding:12px;border-radius:10px}
-  .categories{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-  .cat-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;cursor:pointer;color:#fff}
-  .cat-btn.active{background:linear-gradient(90deg,var(--accent),#ffb06f);color:#000;font-weight:700}
-  .products{display:flex;flex-wrap:wrap;gap:12px;max-height:520px;overflow:auto;padding:6px}
-  .product {
-    width:220px;background:rgba(255,255,255,0.03);border-radius:10px;padding:10px;text-align:left;
-    display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,0.04);
-  }
-  .product img{width:84px;height:56px;object-fit:cover;border-radius:6px;flex-shrink:0}
-  .product .meta{flex:1}
-  .product .meta h4{margin:2px 0;font-size:14px}
-  .product .meta .price{font-weight:700;margin-top:6px}
-  .product button{margin-top:8px;padding:6px 8px;border-radius:6px;border:none;background:var(--accent);color:#000;cursor:pointer}
-
-  /* Right panel / recap */
-  .right-panel{background:var(--card-bg);padding:14px;border-radius:12px;position:sticky;top:90px; height:fit-content}
-  .recap-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-  .recap-item{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,0.02);padding:8px;border-radius:8px}
-  .recap-item img{width:56px;height:40px;object-fit:cover;border-radius:6px}
-  .summary{margin-top:12px;padding:10px;border-radius:8px;background:rgba(0,0,0,0.45)}
-  .summary .total{font-size:18px;font-weight:800;margin-top:8px}
-  .compat {margin-top:10px;padding:8px;border-radius:8px}
-  .compat.ok{background:rgba(0,128,0,0.12);color:#bdf3b0}
-  .compat.ko{background:rgba(200,0,0,0.12);color:#ffc0c0}
-
-  /* Promo popup */
-  #promo{
-    position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);
-    background:rgba(0,0,0,0.92);padding:20px 26px;border-radius:12px;border:2px solid var(--accent);
-    z-index:9999;text-align:center;display:none;
-  }
-  #promo .emoji{font-size:32px;margin-right:8px;vertical-align:middle}
-  #promo button{margin-top:10px;padding:8px 12px;border-radius:8px;border:none;background:red;color:#fff;cursor:pointer}
-
-  /* pumpkins */
-  .pumpkin {
-    position:fixed; top:-80px; pointer-events:none; z-index:998; user-select:none;
-    transform-origin:center;
-  }
-
-  /* footer brands */
-  footer{margin:30px 0; text-align:center; color:#ddd}
-  .brands{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-  .brand-card{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:8px}
-
-  /* small helpers */
-  .muted{color:#cfcfcf;font-size:14px}
-  .small{font-size:13px;color:#ddd}
-  a.link { color:var(--accent) }
-</style>
+    /* responsive small tweaks */
+    @media (max-width:520px){.hero{flex-direction:column;align-items:flex-start}.hero-right{width:100%}}
+  </style>
 </head>
 <body>
-
-<header>
-  <div class="left">
-    <h1>Montage PC — Lorenzo</h1>
-    <div class="muted"></div>
-  </div>
-  <div class="right contact">
-    <button class="cat-btn" onclick="openConfigurator()" title="Ouvrir configurateur">⚙️ Configurateur</button>
-    <button class="cat-btn" onclick="location.href='mailto:lorenzo@gmail.com'">📩 Me contacter</button>
-  </div>
-</header>
-
-<div class="container">
-  <!-- Intro / presentation -->
-  <section class="intro">
-    <h2>À propos — Lorenzo</h2>
-    <p>Je m'appelle <strong>Lorenzo</strong>, j'ai <strong>15 ans</strong>. J'ai commencé à me passionner pour l'informatique à 13 ans et j'ai appris à monter des ordinateurs en aidant des amis et en montant mon propre PC. Aujourd'hui je souhaite agrandir ma passion en proposant mes services de montage, conseil et optimisation.</p>
-  </section>
-
-  <!-- Zone & quick -->
-  <div class="two-col">
-    <div>
-      <section class="zone">
-        <h2>Zone d'intervention</h2>
-        <p class="small">Je me déplace dans un rayon de <strong>20 km</strong> autour de <strong>Gamaches</strong>.</p>
-        <img src="https://woody.cloudly.space/app/uploads/crt-hautsdefrance/2021/01/thumbs/departement-somme-640x480.png" alt="Zone" style="max-width:320px;border-radius:8px">
-      </section>
-
-      <section class="quick">
-        <h2>Calculateur rapide</h2>
-        <div class="small">Estime vite le coût du montage</div>
-        <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
-          <input id="quick-components" type="number" min="0" value="5" style="width:90px;padding:8px;border-radius:8px;border:none">
-          <input id="quick-hours" type="number" min="0" value="2" step="0.5" style="width:110px;padding:8px;border-radius:8px;border:none">
-          <button class="cat-btn" onclick="quickCalc()">Calculer</button>
-        </div>
-        <div id="quick-result" style="margin-top:10px;font-weight:800"></div>
-      </section>
-
-      <!-- Configurator big area -->
-      <section class="config-card" id="configuratorArea">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <h2 style="margin:0">Configurateur</h2>
-          <div class="small">Choisis ta config — compatible automatiquement</div>
-        </div>
-
-        <div class="categories" id="categoriesBar"></div>
-
-        <div class="products" id="productsGrid"></div>
-
-        <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
-          <button class="cat-btn" onclick="checkCompat()">Vérifier compatibilité</button>
-          <button class="cat-btn" onclick="clearBuild()">Réinitialiser</button>
-          <div style="flex:1"></div>
-          <div class="small">Astuce : clique sur un produit pour l'ajouter au récap.</div>
-        </div>
-      </section>
-
+  <header>
+    <div class="brand">
+      <div class="logo">MC</div>
+      <div>
+        <h1>Serveur NationsMC</h1>
+        <div class="subtitle">Royaumes, diplomatie et aventures — rejoins la carte !</div>
+      </div>
     </div>
+    <nav>
+      <a class="btn" href="#nations">Voir les nations</a>
+    </nav>
+  </header>
 
-    <!-- RIGHT PANEL: recap -->
-    <aside class="right-panel">
-      <h3>Récapitulatif</h3>
-      <ul class="recap-list" id="recapList"></ul>
-
-      <div class="summary">
-        <div>Prix composants : <span id="priceComponents">0 €</span></div>
-        <div>Est. alimentation recommandée : <span id="psuEst">— W</span></div>
-        <div>Prix montage (optionnel) : <span id="priceLabor">0 €</span></div>
-        <div class="total">Total estimé : <span id="grandTotal">0 €</span></div>
-        <div id="compatMsg" class="compat" style="display:none"></div>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h2 style="margin:0 0 8px 0">Bienvenue sur le serveur NationsMC</h2>
+        <p style="margin:0 0 12px 0;color:#a9c5d6">Un serveur roleplay basé sur des nations, la diplomatie et la construction. Chaque nation a ses leaders, ses règles internes et son style de jeu.</p>
+        <a class="btn" href="#join">Rejoindre le serveur</a>
       </div>
-
-      <div style="margin-top:12px; display:flex; gap:8px">
-        <button class="cat-btn" onclick="exportBuild()">📄 Exporter résumé</button>
-        <button class="cat-btn" onclick="checkoutDemo()">Valider (demo)</button>
+      <div class="hero-right">
+        <!-- petite carte stylisée / info serveur -->
+        <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:10px">
+          <h3 style="margin:0 0 6px 0">Info serveur</h3>
+          <p style="margin:0;font-size:14px;color:#9fb6c9">IP : <strong>nationsmc.example</strong><br>Version : <strong>1.20+</strong><br>Mode : Roleplay / PvP</p>
+        </div>
       </div>
+    </section>
 
-      <div style="margin-top:14px" class="small">Remarque : ce configurateur est une démo. Les prix sont estimés — pour prix réels, connecter une API marchande.</div>
-    </aside>
-  </div>
+    <section id="nations">
+      <h2 style="margin:18px 0 8px 0">Nations actuelles</h2>
+      <div class="grid">
 
-  <!-- Top marques / PC portables -->
-  <section class="config-card" style="margin-top:18px">
-    <h2>PC portables & Top marques</h2>
-    <div class="brands">
-      <div class="brand-card"><strong>MSI</strong><br><a class="link" href="#" onclick="showBrand('msi');return false">Voir</a></div>
-      <div class="brand-card"><strong>ASUS</strong><br><a class="link" href="#" onclick="showBrand('asus');return false">Voir</a></div>
-      <div class="brand-card"><strong>Corsair</strong><br><a class="link" href="#" onclick="showBrand('corsair');return false">Voir</a></div>
-      <div class="brand-card"><strong>AMD</strong><br><a class="link" href="#" onclick="showBrand('amd');return false">Voir</a></div>
-      <div class="brand-card"><strong>Acer</strong><br><a class="link" href="#" onclick="showBrand('acer');return false">Voir</a></div>
-    </div>
+        <!-- France -->
+        <article class="card">
+          <div class="flag" aria-hidden>
+            <!-- Drapeau de la France en SVG -->
+            <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden">
+              <rect width="1" height="2" x="0" fill="#0055A4"/>
+              <rect width="1" height="2" x="1" fill="#FFFFFF"/>
+              <rect width="1" height="2" x="2" fill="#EF4135"/>
+            </svg>
+          </div>
+          <div class="info">
+            <p class="nation">France</p>
+            <p class="leaders">Dirigée par : <strong>elio</strong></p>
+            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale (in-game) : <em>Parisia</em>. Orientation : commerce & culture.</p>
+          </div>
+        </article>
 
-    <div id="brandList" style="margin-top:14px"></div>
-  </section>
+        <!-- Russie -->
+        <article class="card">
+          <div class="flag" aria-hidden>
+            <!-- Drapeau de la Russie en SVG -->
+            <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden">
+              <rect width="3" height="0.666" y="0" fill="#ffffff"/>
+              <rect width="3" height="0.666" y="0.666" fill="#0039A6"/>
+              <rect width="3" height="0.666" y="1.333" fill="#D52B1E"/>
+            </svg>
+          </div>
+          <div class="info">
+            <p class="nation">Russie</p>
+            <p class="leaders">Dirigée par : <strong>axolot</strong> &amp; <strong>little_star</strong></p>
+            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale : <em>Moscava</em>. Orientation : expansions territoriales & défense.</p>
+          </div>
+        </article>
 
-</div>
+        <!-- Japon -->
+        <article class="card">
+          <div class="flag" aria-hidden>
+            <!-- Drapeau du Japon en SVG -->
+            <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden;background:#fff">
+              <rect width="3" height="2" fill="#ffffff"/>
+              <circle cx="1.5" cy="1" r="0.5" fill="#BC002D"/>
+            </svg>
+          </div>
+          <div class="info">
+            <p class="nation">Japon</p>
+            <p class="leaders">Dirigée par : <strong>mr_rat</strong></p>
+            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale : <em>EdoCraft</em>. Orientation : techniques & artisanat.</p>
+          </div>
+        </article>
 
-<!-- PROMO popup -->
-<div id="promo">
-  <span class="emoji">🎃</span>
-  <strong>-15% sur le build</strong><br>
-  <small>du 27/09/2025 au 31/10/2025</small><br>
-  <button onclick="closePromo()">Fermer</button>
-</div>
-
-<footer>
-  © Lorenzo — Montage PC • 
-</footer>
-
-<!-- ========== SCRIPT ========== -->
-<script>
-/* =======================
-   DATA (~40 composants réels / estimés)
-   ======================= */
-const DB = {
-  cpu:[
-    {id:'intel-12400f',name:'Intel Core i5-12400F',brand:'Intel',socket:'LGA1700',tdp:65,price:150,img:'https://via.placeholder.com/240x140.png?text=i5-12400F'},
-    {id:'intel-13400f',name:'Intel Core i5-13400F',brand:'Intel',socket:'LGA1700',tdp:125,price:240,img:'https://via.placeholder.com/240x140.png?text=i5-13400F'},
-    {id:'intel-13600k',name:'Intel Core i5-13600K',brand:'Intel',socket:'LGA1700',tdp:125,price:340,img:'https://via.placeholder.com/240x140.png?text=i5-13600K'},
-    {id:'amd-5600',name:'AMD Ryzen 5 5600',brand:'AMD',socket:'AM4',tdp:65,price:120,img:'https://via.placeholder.com/240x140.png?text=Ryzen+5+5600'},
-    {id:'amd-7600x',name:'AMD Ryzen 5 7600X',brand:'AMD',socket:'AM5',tdp:105,price:230,img:'https://via.placeholder.com/240x140.png?text=Ryzen+5+7600X'},
-    {id:'amd-5800x3d',name:'AMD Ryzen 7 5800X3D',brand:'AMD',socket:'AM4',tdp:105,price:320,img:'https://via.placeholder.com/240x140.png?text=5800X3D'}
-  ],
-  motherboard:[
-    {id:'msi-b660-ddr4',name:'MSI B660 DDR4 (LGA1700)',socket:'LGA1700',ram:'DDR4',form:'ATX',price:130,img:'https://via.placeholder.com/240x140.png?text=B660+DDR4'},
-    {id:'msi-z690-ddr5',name:'MSI Z690 DDR5 (LGA1700)',socket:'LGA1700',ram:'DDR5',form:'ATX',price:260,img:'https://via.placeholder.com/240x140.png?text=Z690+DDR5'},
-    {id:'asus-b550',name:'ASUS B550 (AM4)',socket:'AM4',ram:'DDR4',form:'ATX',price:140,img:'https://via.placeholder.com/240x140.png?text=B550'},
-    {id:'gig-x670',name:'Gigabyte X670 (AM5)',socket:'AM5',ram:'DDR5',form:'ATX',price:280,img:'https://via.placeholder.com/240x140.png?text=X670'},
-    {id:'asrock-x570',name:'ASRock X570 (AM4)',socket:'AM4',ram:'DDR4',form:'ATX',price:220,img:'https://via.placeholder.com/240x140.png?text=X570'},
-    {id:'asus-b660m',name:'ASUS B660M (LGA1700, mATX)',socket:'LGA1700',ram:'DDR4',form:'mATX',price:120,img:'https://via.placeholder.com/240x140.png?text=B660M'}
-  ],
-  ram:[
-    {id:'corsair-ddr4-16',name:'Corsair Vengeance 16GB (DDR4)',type:'DDR4',price:60,img:'https://via.placeholder.com/240x140.png?text=Corsair+16GB'},
-    {id:'corsair-ddr4-32',name:'Corsair Vengeance 32GB (DDR4)',type:'DDR4',price:110,img:'https://via.placeholder.com/240x140.png?text=Corsair+32GB'},
-    {id:'gskill-ddr5-32',name:'G.Skill 32GB (DDR5)',type:'DDR5',price:160,img:'https://via.placeholder.com/240x140.png?text=GSkill+DDR5+32GB'},
-    {id:'kingston-ddr4-16',name:'Kingston Fury 16GB (DDR4)',type:'DDR4',price:55,img:'https://via.placeholder.com/240x140.png?text=Kingston+16GB'},
-    {id:'corsair-ddr5-16',name:'Corsair 16GB (DDR5)',type:'DDR5',price:95,img:'https://via.placeholder.com/240x140.png?text=Corsair+DDR5+16GB'}
-  ],
-  gpu:[
-    {id:'rtx3060',name:'NVIDIA RTX 3060 12GB',brand:'NVIDIA',tdp:170,price:300,img:'https://via.placeholder.com/240x140.png?text=RTX+3060'},
-    {id:'rtx4060',name:'NVIDIA RTX 4060 8GB',brand:'NVIDIA',tdp:150,price:350,img:'https://via.placeholder.com/240x140.png?text=RTX+4060'},
-    {id:'rtx4070',name:'NVIDIA RTX 4070',brand:'NVIDIA',tdp:200,price:650,img:'https://via.placeholder.com/240x140.png?text=RTX+4070'},
-    {id:'rx6600',name:'AMD RX 6600',brand:'AMD',tdp:132,price:230,img:'https://via.placeholder.com/240x140.png?text=RX+6600'},
-    {id:'rx7800xt',name:'AMD RX 7800 XT',brand:'AMD',tdp:300,price:580,img:'https://via.placeholder.com/240x140.png?text=RX+7800XT'},
-    {id:'gtx1650',name:'NVIDIA GTX 1650 (entrée)',brand:'NVIDIA',tdp:75,price:150,img:'https://via.placeholder.com/240x140.png?text=GTX+1650'}
-  ],
-  storage:[
-    {id:'samsung-980-1tb',name:'Samsung 980 Pro 1TB NVMe',type:'NVMe',price:95,img:'https://via.placeholder.com/240x140.png?text=980+1TB'},
-    {id:'wd-blue-1tb',name:'WD Blue 1TB SATA',type:'SATA',price:45,img:'https://via.placeholder.com/240x140.png?text=WD+Blue+1TB'},
-    {id:'samsung-2tb',name:'Samsung 2TB NVMe',type:'NVMe',price:180,img:'https://via.placeholder.com/240x140.png?text=SSD+2TB'},
-    {id:'seagate-2tb',name:'Seagate Barracuda 2TB HDD',type:'HDD',price:60,img:'https://via.placeholder.com/240x140.png?text=HDD+2TB'}
-  ],
-  psu:[
-    {id:'corsair-rm650',name:'Corsair RM650x 650W',w:650,price:95,img:'https://via.placeholder.com/240x140.png?text=RM650x'},
-    {id:'corsair-rm750',name:'Corsair RM750x 750W',w:750,price:115,img:'https://via.placeholder.com/240x140.png?text=RM750x'},
-    {id:'seasonic-850',name:'Seasonic Focus 850W',w:850,price:140,img:'https://via.placeholder.com/240x140.png?text=Seasonic+850W'},
-    {id:'bequiet-550',name:'BeQuiet 550W',w:550,price:75,img:'https://via.placeholder.com/240x140.png?text=BeQuiet+550W'}
-  ],
-  case:[
-    {id:'nzxt-h510',name:'NZXT H510 (ATX)',form:'ATX',price:90,img:'https://via.placeholder.com/240x140.png?text=NZXT+H510'},
-    {id:'fractal-meshify',name:'Fractal Meshify 2',form:'ATX',price:140,img:'https://via.placeholder.com/240x140.png?text=Meshify+2'},
-    {id:'coolermaster-n300',name:'CoolerMaster N300 (mATX)',form:'mATX',price:60,img:'https://via.placeholder.com/240x140.png?text=N300'},
-    {id:'lian-li-205',name:'Lian Li 205 (small)',form:'ITX',price:80,img:'https://via.placeholder.com/240x140.png?text=Lian+Li+205'}
-  ],
-  cooler:[
-    {id:'bequiet-dark-rock',name:'BeQuiet Dark Rock 4',type:'air',price:55,img:'https://via.placeholder.com/240x140.png?text=Dark+Rock'},
-    {id:'nzxt-kraken',name:'NZXT Kraken X53',type:'liquid',price:140,img:'https://via.placeholder.com/240x140.png?text=Kraken+X53'},
-    {id:'stock-cooler',name:'Ventirad stock',type:'air',price:0,img:'https://via.placeholder.com/240x140.png?text=Stock+Cooler'}
-  ]
-};
-
-/* ======= app state ======= */
-const categories = ['cpu','motherboard','ram','gpu','storage','psu','case','cooler'];
-let activeCategory = 'cpu';
-let build = {}; // store selected item per category by id
-
-/* ======= UI init ======= */
-const categoriesBar = document.getElementById('categoriesBar');
-const productsGrid = document.getElementById('productsGrid');
-const recapList = document.getElementById('recapList');
-const priceComponents = document.getElementById('priceComponents');
-const psuEstElem = document.getElementById('psuEst');
-const grandTotalElem = document.getElementById('grandTotal');
-const compatMsg = document.getElementById('compatMsg');
-
-/* render category buttons */
-function initUI(){
-  categoriesBar.innerHTML = '';
-  categories.forEach(cat=>{
-    const btn = document.createElement('button');
-    btn.className='cat-btn'+(cat===activeCategory?' active':'');
-    btn.textContent = toLabel(cat);
-    btn.onclick = ()=> { activeCategory = cat; renderProducts(); updateActiveCat(); };
-    categoriesBar.appendChild(btn);
-  });
-  renderProducts();
-  renderRecap();
-}
-function updateActiveCat(){
-  Array.from(categoriesBar.children).forEach((b,i)=> b.classList.toggle('active', categories[i]===activeCategory));
-}
-
-/* create product card */
-function createProductCard(item,cat){
-  const el = document.createElement('div');
-  el.className = 'product';
-  const incompatible = isIncompatiblePreview(item,cat);
-  if(incompatible) el.style.opacity = '0.45';
-  el.innerHTML = `
-    <img src="${item.img}" alt="${escapeHtml(item.name)}">
-    <div class="meta">
-      <h4>${escapeHtml(item.name)}</h4>
-      <div class="small">${item.brand?item.brand:''} ${item.socket?item.socket:''} ${item.type?item.type:''}</div>
-      <div class="price">${item.price} €</div>
-      <div><button ${incompatible ? 'disabled' : ''} onclick="addToBuild('${cat}','${item.id}')">Ajouter</button></div>
-    </div>`;
-  return el;
-}
-
-/* render products of activeCategory with compatibility hints */
-function renderProducts(){
-  productsGrid.innerHTML='';
-  const list = DB[activeCategory] || [];
-  list.forEach(it=>{
-    productsGrid.appendChild(createProductCard(it,activeCategory));
-  });
-}
-
-/* compatibility preview logic:
-   - if choosing motherboard while cpu already selected -> show only matching socket
-   - if choosing ram while motherboard selected -> show only matching ram type
-*/
-function isIncompatiblePreview(item,cat){
-  try{
-    if(cat==='motherboard' && build['cpu']){
-      const cpuObj = findById('cpu',build['cpu']);
-      if(!cpuObj) return false;
-      return cpuObj.socket !== item.socket;
-    }
-    if(cat==='ram' && build['motherboard']){
-      const mb = findById('motherboard',build['motherboard']);
-      if(!mb) return false;
-      return mb.ram !== item.type && mb.ram !== item.type; // compare mb.ram vs ram.type
-    }
-    // other previews optional
-    return false;
-  }catch(e){ return false; }
-}
-
-/* add item to build */
-function addToBuild(cat,id){
-  build[cat]=id;
-  renderRecap();
-  renderProducts();
-}
-
-/* remove from build */
-function removeFromBuild(cat){
-  delete build[cat];
-  renderRecap();
-  renderProducts();
-}
-
-/* render recap list */
-function renderRecap(){
-  recapList.innerHTML='';
-  let total = 0;
-  categories.forEach(cat=>{
-    const id = build[cat];
-    if(!id) return;
-    const obj = findById(cat,id);
-    const li = document.createElement('li');
-    li.className='recap-item';
-    li.innerHTML = `<img src="${obj.img}" alt="${escapeHtml(obj.name)}">
-      <div style="flex:1">
-        <div style="font-weight:700">${obj.name}</div>
-        <div class="small">${toLabel(cat)}</div>
       </div>
-      <div style="text-align:right">
-        <div style="font-weight:800">${obj.price} €</div>
-        <div style="margin-top:6px"><button class="cat-btn" onclick="removeFromBuild('${cat}')">Supprimer</button></div>
-      </div>`;
-    recapList.appendChild(li);
-    total += Number(obj.price||0);
-  });
+    </section>
 
-  // labor price (option): default 30€ fix + hourly? we keep quick calc for now
-  document.getElementById('priceComponents').textContent = Math.round(total) + ' €';
-  // PSU estimate
-  const est = estimatePSU();
-  psuEstElem.textContent = (est? est + ' W' : '— W');
-  // grand total = components + labor default 15€/hr *2? show components only for now
-  const labor = Number(document.getElementById('quick-hours')?.value || 0) * 15;
-  document.getElementById('priceLabor').textContent = labor + ' €';
-  grandTotalElem.textContent = (Math.round(total) + labor) + ' €';
-  compatMsg.style.display = 'none';
-}
-
-/* estimate PSU from CPU+GPU TDP + 150W margin */
-function estimatePSU(){
-  let cpuTdp = 0, gpuTdp = 0;
-  if(build['cpu']) cpuTdp = Number(findById('cpu',build['cpu']).tdp || 35);
-  if(build['gpu']) gpuTdp = Number(findById('gpu',build['gpu']).tdp || 60);
-  if(cpuTdp+gpuTdp===0) return null;
-  const need = cpuTdp + gpuTdp + 150;
-  // round to next 50
-  return Math.ceil(need/50)*50;
-}
-
-/* compatibility full check */
-function checkCompat(){
-  const errors = [];
-  const warnings = [];
-  const cpuId = build['cpu'], mbId = build['motherboard'], ramId = build['ram'];
-  if(cpuId && mbId){
-    const cpu = findById('cpu',cpuId), mb = findById('motherboard',mbId);
-    if(cpu.socket !== mb.socket) errors.push(`CPU (${cpu.socket}) incompatible avec carte mère (${mb.socket})`);
-  }
-  if(mbId && ramId){
-    const mb = findById('motherboard',mbId), ram = findById('ram',ramId);
-    if(mb.ram !== ram.type) errors.push(`RAM (${ram.type}) non supportée par la carte mère (${mb.ram})`);
-  }
-  // PSU check
-  const est = estimatePSU();
-  if(build['psu']){
-    const psu = findById('psu',build['psu']);
-    if(psu && est && psu.w < est) errors.push(`L'alimentation choisie (${psu.w} W) est inférieure à l'estimation recommandée (${est} W).`);
-  }
-  // basic result
-  if(errors.length>0){
-    compatMsg.style.display='block';
-    compatMsg.className='compat ko';
-    compatMsg.innerHTML = '❌ Incompatibilités :<br>' + errors.map(e=>'- '+e).join('<br>');
-  } else {
-    compatMsg.style.display='block';
-    compatMsg.className='compat ok';
-    compatMsg.innerHTML = '✅ Configuration OK';
-  }
-}
-
-/* helpers */
-function findById(cat,id){
-  const list = DB[cat] || [];
-  return list.find(i=>i.id===id) || null;
-}
-function toLabel(cat){
-  return cat.charAt(0).toUpperCase() + cat.slice(1).replace('_',' ');
-}
-function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* quick calc */
-function quickCalc(){
-  const comps = Number(document.getElementById('quick-components').value || 0);
-  const hours = Number(document.getElementById('quick-hours').value || 0);
-  const price = comps*10 + hours*15;
-  document.getElementById('quick-result').textContent = price + ' €';
-}
-
-/* export summary (simple) */
-function exportBuild(){
-  let text = 'Configuration — Lorenzo\\n\\n';
-  let total=0;
-  categories.forEach(cat=>{
-    if(build[cat]){
-      const it=findById(cat,build[cat]);
-      text += `${toLabel(cat)}: ${it.name} — ${it.price} €\\n`;
-      total += Number(it.price||0);
-    }
-  });
-  text += `\\nTotal composants: ${total} €\\n`;
-  // create file
-  const blob = new Blob([text],{type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'config-lorenzo.txt'; a.click();
-  URL.revokeObjectURL(url);
-}
-
-/* demo checkout */
-function checkoutDemo(){
-  checkCompat();
-  alert('Demo : demande de validation envoyée (factice). Voir récapitulatif et exporter si besoin.');
-}
-
-/* show brand products */
-function showBrand(brand){
-  const box = document.getElementById('brandList');
-  const examples = {
-    msi:[
-      {name:'MSI GF63 Thin',specs:'i5 + RTX 3050 + 16GB',price:'899€',img:'https://asset.msi.com/resize/image/global/product/product_1638345030c0c1f87b14a0106e4e04f8c2f2d20ef8.png?w=800'},
-      {name:'MSI Titan 18 HX',specs:'i9 + RTX 4090 + 32GB',price:'6499€',img:'https://via.placeholder.com/300x160.png?text=MSI+Titan'}
-    ],
-    asus:[
-      {name:'ASUS TUF Gaming F15',specs:'i7 + RTX 3060 + 16GB',price:'1199€',img:'https://dlcdnwebimgs.asus.com/gain/7f1ed12b-21dd-4044-8b3a-134e5b1e49f4/'}
-    ],
-    corsair:[
-      {name:'Corsair Vengeance (RAM)',specs:'DDR5 32GB',price:'159€',img:'https://www.corsair.com/corsairmedia/sys_master/productcontent/vengeance_rgb_pro_ddr4_configurator_01.png'}
-    ],
-    amd:[
-      {name:'Laptop AMD Ryzen 7',specs:'Ryzen 7 + Radeon',price:'999€',img:'https://www.amd.com/system/files/2022-11/1562851-amd-ryzen-7000-1260x709.jpg'}
-    ],
-    acer:[
-      {name:'Acer Nitro 5',specs:'i5 + RTX 3050 Ti',price:'799€',img:'https://static.acer.com/up/Resource/Acer/Laptops/Nitro_5/Image/20210923/Acer-Nitro-5-AN515-45-bl-01.png'}
-    ]
-  };
-  const list = examples[brand] || [];
-  let html = '';
-  list.forEach(p=>{
-    html += `<div style="display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-bottom:10px">
-      <img src="${p.img}" style="width:140px;height:80px;object-fit:cover;border-radius:6px">
-      <div style="text-align:left">
-        <div style="font-weight:700">${p.name}</div>
-        <div class="small">${p.specs}</div>
-        <div style="font-weight:800;margin-top:6px">${p.price}</div>
+    <section id="join" style="margin-top:22px">
+      <h2 style="margin:0 0 8px 0">Rejoindre / Règles rapides</h2>
+      <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;color:#bcd3df">
+        <ul style="margin:0 0 0 18px;padding:6px 0">
+          <li>Respect entre joueurs — pas de griefing hors zones autorisées.</li>
+          <li>Roleplay encouragé : parlez comme vos nations pour plus d'immersion.</li>
+          <li>Politique de guerre/diplomatie disponible en /rules ou sur le forum.</li>
+        </ul>
+        <p style="margin:8px 0 0 0">Contact : <strong>discord.gg/nationsmc</strong></p>
       </div>
-    </div>`;
-  });
-  const boxHtml = list.length? html : '<div class="small">Aucun produit pour cette marque.</div>';
-  box.innerHTML = boxHtml;
-}
+    </section>
 
-/* open configurator button */
-function openConfigurator(){ window.scrollTo({top:document.querySelector('.config-card').offsetTop - 20, behavior:'smooth'}); }
+    <footer>
+      © <span id="year"></span> NationsMC — Site de présentation. Construit pour la communauté.
+    </footer>
+  </main>
 
-/* =========================
-   PROMO popup & pumpkins
-   ========================= */
-function showPromo(){
-  const promo = document.getElementById('promo');
-  promo.style.display='block';
-  setTimeout(()=>{ try { promo.style.display='none'; } catch(e){} },6000);
-}
-function closePromo(){ document.getElementById('promo').style.display='none'; }
-
-/* pumpkins (emoji) */
-function spawnPumpkinElement(){
-  const el = document.createElement('div');
-  el.className='pumpkin';
-  el.textContent='🎃';
-  el.style.left = Math.random()*100 + 'vw';
-  el.style.fontSize = (20 + Math.random()*40) + 'px';
-  el.style.opacity = 0.95;
-  el.style.transition = 'transform linear';
-  el.style.zIndex = 998;
-  el.style.pointerEvents = 'none';
-  document.body.appendChild(el);
-  let top = -80;
-  const speed = 1.5 + Math.random()*2.5;
-  const rot = (Math.random()>0.5?1:-1)*(20 + Math.random()*200);
-  const id = setInterval(()=>{
-    top += speed;
-    el.style.top = top + 'px';
-    el.style.transform = `rotate(${rot * (top/500)}deg)`;
-    if(top > window.innerHeight + 50){ clearInterval(id); el.remove(); }
-  },20);
-}
-setInterval(spawnPumpkinElement, 700);
-
-/* init app on load */
-window.addEventListener('load',()=>{
-  initUI();
-  showPromo();
-});
-</script>
+  <script>
+    // Petite touche interactive
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
-
