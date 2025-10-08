@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Présentation - Serveur Minecraft : Nations</title>
+  <title>BloxFront - Serveur Minecraft Nations</title>
   <style>
     :root{--bg:#0f1724;--card:#0b1220;--accent:#0ea5a3;--glass:rgba(255,255,255,0.04);--text:#e6eef6}
     *{box-sizing:border-box}
@@ -18,7 +18,8 @@
     .hero{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:20px;display:flex;gap:20px;align-items:center}
     .hero-left{flex:1}
     .hero-right{width:260px}
-    .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#042029;text-decoration:none;font-weight:600}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#042029;text-decoration:none;font-weight:600;transition:background 0.2s ease}
+    .btn:hover{background:#14b8a6}
 
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
     .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.6);display:flex;gap:12px;align-items:center}
@@ -34,28 +35,28 @@
 <body>
   <header>
     <div class="brand">
-      <div class="logo">MC</div>
+      <div class="logo">BF</div>
       <div>
-        <h1>Serveur NationsMC</h1>
-        <div class="subtitle">Royaumes, diplomatie et aventures — rejoins la carte !</div>
+        <h1>BloxFront</h1>
+        <div class="subtitle">Royaumes, diplomatie et batailles épiques — rejoins la guerre des nations !</div>
       </div>
     </div>
     <nav>
-      <a class="btn" href="#nations">Voir les nations</a>
+      <a class="btn" href="https://discord.gg/G8Tk8A4ZYq" target="_blank" rel="noopener noreferrer">Rejoindre le serveur</a>
     </nav>
   </header>
 
   <main class="container">
     <section class="hero">
       <div class="hero-left">
-        <h2 style="margin:0 0 8px 0">Bienvenue sur le serveur NationsMC</h2>
-        <p style="margin:0 0 12px 0;color:#a9c5d6">Un serveur roleplay basé sur des nations, la diplomatie et la construction. Chaque nation a ses leaders, ses règles internes et son style de jeu.</p>
-        <a class="btn" href="#join">Rejoindre le serveur</a>
+        <h2 style="margin:0 0 8px 0">Bienvenue sur BloxFront</h2>
+        <p style="margin:0 0 12px 0;color:#a9c5d6">Un serveur roleplay et PvP basé sur des nations. Développe ton pays, forge des alliances, ou mène ton armée à la victoire !</p>
+        <a class="btn" href="https://discord.gg/G8Tk8A4ZYq" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
       </div>
       <div class="hero-right">
         <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:10px">
           <h3 style="margin:0 0 6px 0">Info serveur</h3>
-          <p style="margin:0;font-size:14px;color:#9fb6c9">IP : <strong>nationsmc.example</strong><br>Version : <strong>1.20+</strong><br>Mode : Roleplay / PvP</p>
+          <p style="margin:0;font-size:14px;color:#9fb6c9">Nom : <strong>BloxFront</strong><br>IP : <strong>bloxfront.mc</strong><br>Version : <strong>1.20+</strong><br>Mode : Roleplay / PvP</p>
         </div>
       </div>
     </section>
@@ -119,12 +120,12 @@
           <li>Roleplay encouragé : parlez comme vos nations pour plus d’immersion.</li>
           <li>Politique de guerre/diplomatie disponible en /rules ou sur le forum.</li>
         </ul>
-        <p style="margin:8px 0 0 0">Contact : <strong><a href="https://discord.gg/G8Tk8A4ZYq" style="color:var(--accent); text-decoration:underline;">discord.gg/G8Tk8A4ZYq</a></strong></p>
+        <p style="margin:8px 0 0 0">Rejoins la communauté sur Discord : <strong><a href="https://discord.gg/G8Tk8A4ZYq" style="color:var(--accent); text-decoration:underline;" target="_blank" rel="noopener noreferrer">discord.gg/G8Tk8A4ZYq</a></strong></p>
       </div>
     </section>
 
     <footer>
-      © <span id="year"></span> NationsMC — Site de présentation. Construit pour la communauté.
+      © <span id="year"></span> BloxFront — Serveur Minecraft Nations.
     </footer>
   </main>
 
