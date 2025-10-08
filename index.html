@@ -28,7 +28,6 @@
     .leaders{margin:6px 0 0 0;color:#9fb6c9;font-size:14px}
     footer{margin-top:28px;padding:18px;border-radius:10px;background:var(--glass);text-align:center;color:#9fb6c9}
 
-    /* responsive small tweaks */
     @media (max-width:520px){.hero{flex-direction:column;align-items:flex-start}.hero-right{width:100%}}
   </style>
 </head>
@@ -54,7 +53,6 @@
         <a class="btn" href="#join">Rejoindre le serveur</a>
       </div>
       <div class="hero-right">
-        <!-- petite carte stylisée / info serveur -->
         <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:10px">
           <h3 style="margin:0 0 6px 0">Info serveur</h3>
           <p style="margin:0;font-size:14px;color:#9fb6c9">IP : <strong>nationsmc.example</strong><br>Version : <strong>1.20+</strong><br>Mode : Roleplay / PvP</p>
@@ -66,10 +64,8 @@
       <h2 style="margin:18px 0 8px 0">Nations actuelles</h2>
       <div class="grid">
 
-        <!-- France -->
         <article class="card">
           <div class="flag" aria-hidden>
-            <!-- Drapeau de la France en SVG -->
             <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden">
               <rect width="1" height="2" x="0" fill="#0055A4"/>
               <rect width="1" height="2" x="1" fill="#FFFFFF"/>
@@ -83,10 +79,8 @@
           </div>
         </article>
 
-        <!-- Russie -->
         <article class="card">
           <div class="flag" aria-hidden>
-            <!-- Drapeau de la Russie en SVG -->
             <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden">
               <rect width="3" height="0.666" y="0" fill="#ffffff"/>
               <rect width="3" height="0.666" y="0.666" fill="#0039A6"/>
@@ -95,15 +89,13 @@
           </div>
           <div class="info">
             <p class="nation">Russie</p>
-            <p class="leaders">Dirigée par : <strong>axolot</strong> &amp; <strong>little_star</strong></p>
+            <p class="leaders">Dirigée par : <strong>axolot</strong> & <strong>little_star</strong></p>
             <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale : <em>Moscava</em>. Orientation : expansions territoriales & défense.</p>
           </div>
         </article>
 
-        <!-- Japon -->
         <article class="card">
           <div class="flag" aria-hidden>
-            <!-- Drapeau du Japon en SVG -->
             <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden;background:#fff">
               <rect width="3" height="2" fill="#ffffff"/>
               <circle cx="1.5" cy="1" r="0.5" fill="#BC002D"/>
@@ -124,10 +116,10 @@
       <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;color:#bcd3df">
         <ul style="margin:0 0 0 18px;padding:6px 0">
           <li>Respect entre joueurs — pas de griefing hors zones autorisées.</li>
-          <li>Roleplay encouragé : parlez comme vos nations pour plus d'immersion.</li>
+          <li>Roleplay encouragé : parlez comme vos nations pour plus d’immersion.</li>
           <li>Politique de guerre/diplomatie disponible en /rules ou sur le forum.</li>
         </ul>
-        <p style="margin:8px 0 0 0">Contact : <strong>discord.gg/nationsmc</strong></p>
+        <p style="margin:8px 0 0 0">Contact : <strong><a href="https://discord.gg/G8Tk8A4ZYq" style="color:var(--accent); text-decoration:underline;">discord.gg/G8Tk8A4ZYq</a></strong></p>
       </div>
     </section>
 
@@ -137,7 +129,6 @@
   </main>
 
   <script>
-    // Petite touche interactive
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
