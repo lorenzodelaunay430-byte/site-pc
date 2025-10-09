@@ -1,137 +1,579 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BloxFront - Serveur Minecraft Nations</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tournois privés Fortnite — Événements</title>
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#0ea5a3;--glass:rgba(255,255,255,0.04);--text:#e6eef6}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,#071029 0%, #0f1724 100%);color:var(--text);-webkit-font-smoothing:antialiased}
-    header{padding:28px 20px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:14px;align-items:center}
-    .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#0ea5a3,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:#042029}
-    h1{margin:0;font-size:20px}
-    .subtitle{opacity:.8;font-size:13px}
-
-    .container{max-width:1100px;margin:20px auto;padding:18px}
-    .hero{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:20px;display:flex;gap:20px;align-items:center}
-    .hero-left{flex:1}
-    .hero-right{width:260px}
-    .btn{display:inline-block;padding:10px 16px;border-radius:8px;background:var(--accent);color:#042029;text-decoration:none;font-weight:600;transition:background 0.2s ease}
-    .btn:hover{background:#14b8a6}
-
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
-    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.6);display:flex;gap:12px;align-items:center}
-    .flag{width:88px;height:56px;border-radius:8px;flex-shrink:0;overflow:hidden;display:grid;place-items:center;background:#000}
-    .info{flex:1}
-    .nation{font-weight:700;margin:0}
-    .leaders{margin:6px 0 0 0;color:#9fb6c9;font-size:14px}
-    footer{margin-top:28px;padding:18px;border-radius:10px;background:var(--glass);text-align:center;color:#9fb6c9}
-
-    @media (max-width:520px){.hero{flex-direction:column;align-items:flex-start}.hero-right{width:100%}}
+    :root {
+      --bg: #0f1722;
+      --card: #1a202e;
+      --accent: #7c3aed;
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.03);
+      --text-light: #e6eef6;
+    }
+    * { box-sizing: border-box; margin:0; padding:0 }
+    body {
+      font-family: Inter, system-ui, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+    header {
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .events-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding-bottom: 16px;
+    }
+    .event-card {
+      background: var(--card);
+      border-radius: 12px;
+      min-width: 260px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .event-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+    .event-content {
+      padding: 12px;
+    }
+    .event-content .date {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .event-content .title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .event-content .mode {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--accent);
+    }
+    .upcoming-label {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    /* Section tournoi privé (comme avant) */
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .card h2 {
+      margin-bottom: 12px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--text-light);
+    }
+    .full {
+      grid-column: 1 / -1;
+    }
+    .players {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .player {
+      background: var(--glass);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .bracket {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .round {
+      background: rgba(255,255,255,0.02);
+      padding: 8px;
+      border-radius: 8px;
+    }
+    .match {
+      background: rgba(255,255,255,0.03);
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+    }
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+    /* Masquer scrollbar visuellement (optionnel) */
+    .events-carousel::-webkit-scrollbar {
+      height: 6px;
+    }
+    .events-carousel::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+    .events-carousel::-webkit-scrollbar-track {
+      background: transparent;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo">BF</div>
-      <div>
-        <h1>BloxFront</h1>
-        <div class="subtitle">Royaumes, diplomatie et batailles épiques — rejoins la guerre des nations !</div>
-      </div>
-    </div>
-    <nav>
-      <a class="btn" href="https://discord.gg/G8Tk8A4ZYq" target="_blank" rel="noopener noreferrer">Rejoindre le serveur</a>
-    </nav>
-  </header>
+  <div class="container">
+    <header>
+      <h1>Événements Fortnite à venir</h1>
+      <div class="muted">Participez à nos tournois privés — prochains matchs affichés ici</div>
+    </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-left">
-        <h2 style="margin:0 0 8px 0">Bienvenue sur BloxFront</h2>
-        <p style="margin:0 0 12px 0;color:#a9c5d6">Un serveur roleplay et PvP basé sur des nations. Développe ton pays, forge des alliances, ou mène ton armée à la victoire !</p>
-        <a class="btn" href="https://discord.gg/G8Tk8A4ZYq" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
-      </div>
-      <div class="hero-right">
-        <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:10px">
-          <h3 style="margin:0 0 6px 0">Info serveur</h3>
-          <p style="margin:0;font-size:14px;color:#9fb6c9">Nom : <strong>BloxFront</strong><br>IP : <strong>bloxfront.mc</strong><br>Version : <strong>1.20.1</strong><br>Mode : Roleplay / PvP</p>
+    <section class="events-carousel" id="eventsCarousel">
+      <!-- Cartes d’événements injectées en JS -->
+    </section>
+
+    <section class="card">
+      <h2>Gérer un tournoi privé</h2>
+      <!-- (Formulaire + gestion comme dans le script précédent) -->
+      <form id="tournamentForm">
+        <div>
+          <label>Nom du tournoi</label>
+          <input id="tName" required placeholder="Ex : Tournoi Week-end" />
+        </div>
+        <div>
+          <label>Date & heure</label>
+          <input id="tDate" type="datetime-local" />
+        </div>
+        <div>
+          <label>Mode (Solo / Duo / Squad)</label>
+          <select id="tType"><option>Solo</option><option>Duo</option><option>Squad</option></select>
+        </div>
+        <div>
+          <label>Max joueurs</label>
+          <input id="tMax" type="number" min="2" value="8" />
+        </div>
+        <div class="full">
+          <label>Règles ou description (facultatif)</label>
+          <input id="tRules" placeholder="Pas d’aim-bot / fair-play etc." />
+        </div>
+        <div class="full controls">
+          <button type="button" id="createBtn">Créer le tournoi</button>
+          <button type="button" id="clearBtn">Réinitialiser</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Inscription joueurs</h2>
+      <div style="display:grid;grid-template-columns:2fr 1fr; gap:12px;">
+        <div>
+          <label>Pseudo joueur</label>
+          <input id="playerName" placeholder="Pseudo Fortnite" />
+        </div>
+        <div>
+          <label class="small">Tag d’équipe (optionnel)</label>
+          <input id="playerTag" />
         </div>
       </div>
-    </section>
-
-    <section id="nations">
-      <h2 style="margin:18px 0 8px 0">Nations actuelles</h2>
-      <div class="grid">
-
-        <article class="card">
-          <div class="flag" aria-hidden>
-            <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden">
-              <rect width="1" height="2" x="0" fill="#0055A4"/>
-              <rect width="1" height="2" x="1" fill="#FFFFFF"/>
-              <rect width="1" height="2" x="2" fill="#EF4135"/>
-            </svg>
-          </div>
-          <div class="info">
-            <p class="nation">France</p>
-            <p class="leaders">Dirigée par : <strong>elio</strong></p>
-            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale (in-game) : <em>Parisia</em>. Orientation : commerce & culture.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="flag" aria-hidden>
-            <svg width="88" height="56" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="border-radius:6px;overflow:hidden">
-              <rect width="3" height="1" y="0" fill="#ffffff"/>
-              <rect width="3" height="1" y="1" fill="#0039A6"/>
-              <rect width="3" height="1" y="1" fill="#D52B1E" transform="translate(0,1)"/>
-            </svg>
-          </div>
-          <div class="info">
-            <p class="nation">Russie</p>
-            <p class="leaders">Dirigée par : <strong>axololt</strong> & <strong>little_star</strong></p>
-            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale : <em>Moscava</em>. Orientation : expansions territoriales & défense.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="flag" aria-hidden>
-            <svg width="88" height="56" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;overflow:hidden;background:#fff">
-              <rect width="3" height="2" fill="#ffffff"/>
-              <circle cx="1.5" cy="1" r="0.5" fill="#BC002D"/>
-            </svg>
-          </div>
-          <div class="info">
-            <p class="nation">Japon</p>
-            <p class="leaders">Dirigée par : <strong>mr_rat</strong></p>
-            <p style="margin:6px 0 0 0;color:#9fb6c9;font-size:13px">Capitale : <em>EdoCraft</em>. Orientation : techniques & artisanat.</p>
-          </div>
-        </article>
-
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+        <button id="addPlayer">Ajouter</button>
+        <button id="randomSeed">Seed aléatoire</button>
+        <div class="muted">Joueurs inscrits : <span id="count">0</span></div>
+      </div>
+      <div>
+        <div class="players" id="playersList"></div>
       </div>
     </section>
 
-    <section id="join" style="margin-top:22px">
-      <h2 style="margin:0 0 8px 0">Rejoindre / Règles rapides</h2>
-      <div style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;color:#bcd3df">
-        <ul style="margin:0 0 0 18px;padding:6px 0">
-          <li>Respect entre joueurs — pas de griefing hors zones autorisées.</li>
-          <li>Roleplay encouragé : parlez comme vos nations pour plus d’immersion.</li>
-          <li>Politique de guerre/diplomatie disponible en /rules ou sur le forum.</li>
-        </ul>
-        <p style="margin:8px 0 0 0">Rejoins la communauté sur Discord : <strong><a href="https://discord.gg/G8Tk8A4ZYq" style="color:var(--accent); text-decoration:underline;" target="_blank" rel="noopener noreferrer">discord.gg/G8Tk8A4ZYq</a></strong></p>
-        <p style="margin-top:10px">Modpack : <a href="https://drive.google.com/file/d/1DqfndDf7eS9UoOxeMRjZzLVuKFGLJ_hs/view" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:underline;">Télécharger le modpack</a></p>
+    <section class="card">
+      <h2>Bracket & gestion</h2>
+      <div style="display:flex; gap:8px; margin-bottom:8px;">
+        <button id="generate">Générer bracket</button>
+        <button id="shuffle">Mélanger joueurs</button>
+        <button id="export">Exporter JSON</button>
+        <button id="importBtn">Importer JSON</button>
+        <input type="file" id="fileInput" style="display:none" accept="application/json" />
       </div>
+      <div id="bracketContainer" class="bracket"></div>
     </section>
 
     <footer>
-      © <span id="year"></span> BloxFront — Serveur Minecraft Nations.
+      Astuce : la page utilise `localStorage`. Pour partager un tournoi, exporte-le en JSON puis importe-le ailleurs.
     </footer>
-  </main>
+  </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Exemple d’images publiques de Fortnite (URLs d’illustration)
+    const sampleImages = [
+      'https://cdn2.unrealengine.com/fortnite-hero-image-1920x1080-1920x1080-2d1330c13f.jpg',
+      'https://cdn2.unrealengine.com/Fortnite-Banner-08-1920x1080-1920x1080-0c4c6a0e509e.png',
+      'https://cdn2.unrealengine.com/Fortnite-Banner-01-1920x1080-1920x1080-1a0b9f3e650d.png'
+    ];
+
+    // Événements fictifs
+    const events = [
+      {
+        title: 'Tournoi privé — 11 octobre 21h30',
+        date: '2025-10-11T21:30:00',
+        mode: 'Solo / Duo',
+        img: sampleImages[0],
+      },
+      {
+        title: 'Coupe express Ragnarök',
+        date: '2025-10-15T19:00:00',
+        mode: 'Duo',
+        img: sampleImages[1],
+      },
+      {
+        title: 'Battle Royale Showdown',
+        date: '2025-10-20T20:00:00',
+        mode: 'Squad',
+        img: sampleImages[2],
+      }
+    ];
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      const options = { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' };
+      return d.toLocaleDateString('fr-FR', options);
+    }
+
+    function renderEvents() {
+      const container = document.getElementById('eventsCarousel');
+      container.innerHTML = '';
+      events.forEach((ev, i) => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        const img = document.createElement('img');
+        img.src = ev.img;
+        card.appendChild(img);
+        const label = document.createElement('div');
+        label.className = 'upcoming-label';
+        label.innerText = 'À venir';
+        card.appendChild(label);
+        const content = document.createElement('div');
+        content.className = 'event-content';
+        const date = document.createElement('div');
+        date.className = 'date';
+        date.innerText = formatDate(ev.date);
+        const title = document.createElement('div');
+        title.className = 'title';
+        title.innerText = ev.title;
+        const mode = document.createElement('div');
+        mode.className = 'mode';
+        mode.innerText = ev.mode;
+        content.appendChild(date);
+        content.appendChild(title);
+        content.appendChild(mode);
+        card.appendChild(content);
+        container.appendChild(card);
+      });
+    }
+
+    // Le reste du script (génération tournoi, inscription, bracket) vient ici :
+    const state = { tournament: null, players: [] };
+
+    function load() {
+      const raw = localStorage.getItem('fn_tournament_v2');
+      if (raw) {
+        try {
+          const j = JSON.parse(raw);
+          state.tournament = j.tournament;
+          state.players = j.players || [];
+        } catch (e) {}
+      }
+    }
+    function save() {
+      localStorage.setItem('fn_tournament_v2', JSON.stringify(state));
+    }
+
+    // Références UI
+    const tName = document.getElementById('tName');
+    const tDate = document.getElementById('tDate');
+    const tType = document.getElementById('tType');
+    const tMax = document.getElementById('tMax');
+    const tRules = document.getElementById('tRules');
+    const createBtn = document.getElementById('createBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const playerName = document.getElementById('playerName');
+    const playerTag = document.getElementById('playerTag');
+    const addPlayer = document.getElementById('addPlayer');
+    const randomSeed = document.getElementById('randomSeed');
+    const playersList = document.getElementById('playersList');
+    const countEl = document.getElementById('count');
+    const generateBtn = document.getElementById('generate');
+    const shuffleBtn = document.getElementById('shuffle');
+    const bracketContainer = document.getElementById('bracketContainer');
+    const exportBtn = document.getElementById('export');
+    const importBtn = document.getElementById('importBtn');
+    const fileInput = document.getElementById('fileInput');
+
+    createBtn.onclick = () => {
+      const t = {
+        name: tName.value || 'Tournoi',
+        date: tDate.value || '',
+        type: tType.value,
+        max: parseInt(tMax.value) || 8,
+        rules: tRules.value || ''
+      };
+      state.tournament = t;
+      save();
+      renderAll();
+      alert('Tournoi créé !');
+    };
+    clearBtn.onclick = () => {
+      if (!confirm('Supprimer le tournoi et toutes les inscriptions ?')) return;
+      state.tournament = null;
+      state.players = [];
+      save();
+      renderAll();
+    };
+    addPlayer.onclick = () => {
+      const name = playerName.value.trim();
+      if (!name) return alert('Entrez un pseudo');
+      if (state.tournament && state.players.length >= state.tournament.max) {
+        return alert('Nombre maximum atteint');
+      }
+      state.players.push({
+        id: Date.now() + Math.random(),
+        name,
+        tag: playerTag.value.trim()
+      });
+      playerName.value = '';
+      playerTag.value = '';
+      save();
+      renderAll();
+    };
+    randomSeed.onclick = () => {
+      shuffle(state.players);
+      save();
+      renderAll();
+    };
+    shuffleBtn.onclick = () => {
+      shuffle(state.players);
+      save();
+      renderAll();
+    };
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    function renderAll() {
+      renderEvents();
+
+      if (state.tournament) {
+        tName.value = state.tournament.name;
+        tDate.value = state.tournament.date;
+        tType.value = state.tournament.type;
+        tMax.value = state.tournament.max;
+        tRules.value = state.tournament.rules;
+      } else {
+        tName.value = '';
+        tDate.value = '';
+        tType.value = 'Solo';
+        tMax.value = 8;
+        tRules.value = '';
+      }
+
+      // Liste joueurs
+      playersList.innerHTML = '';
+      state.players.forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'player';
+        el.textContent = p.name + (p.tag ? ' (' + p.tag + ')' : '');
+        const del = document.createElement('button');
+        del.textContent = '✖';
+        del.style.marginLeft = '6px';
+        del.onclick = () => {
+          state.players = state.players.filter(x => x.id !== p.id);
+          save();
+          renderAll();
+        };
+        el.appendChild(del);
+        playersList.appendChild(el);
+      });
+      countEl.textContent = state.players.length;
+
+      // Bracket
+      bracketContainer.innerHTML = '';
+      if (state.players.length > 1) {
+        const rounds = buildBracket(state.players.slice());
+        rounds.forEach((r, i) => {
+          const col = document.createElement('div');
+          col.className = 'round';
+          const title = document.createElement('div');
+          title.textContent = 'Round ' + (i + 1);
+          title.style.fontWeight = '700';
+          title.style.marginBottom = '6px';
+          col.appendChild(title);
+          r.forEach(m => {
+            const mdiv = document.createElement('div');
+            mdiv.className = 'match';
+            const p1 = document.createElement('div');
+            p1.textContent = m[0] ? m[0].name : '(bye)';
+            p1.className = 'small';
+            const p2 = document.createElement('div');
+            p2.textContent = m[1] ? m[1].name : '(bye)';
+            p2.className = 'small';
+            const win = document.createElement('select');
+            win.innerHTML = '<option value=\"\">--Gagnant--</option>'
+              + ((m[0] && m[1])
+                  ? `<option value=\"0\">${m[0].name}</option><option value=\"1\">${m[1].name}</option>`
+                  : (m[0] ? `<option value=\"0\">${m[0].name}</option>` : ''));
+            win.onchange = ev => {
+              const chosen = ev.target.value;
+              if (chosen === '') return;
+              const winner = chosen == '0' ? m[0] : m[1];
+              advanceWinner(m, winner);
+              save();
+              renderAll();
+            };
+            mdiv.appendChild(p1);
+            mdiv.appendChild(p2);
+            mdiv.appendChild(win);
+            col.appendChild(mdiv);
+          });
+          bracketContainer.appendChild(col);
+        });
+      }
+    }
+
+    function buildBracket(players) {
+      const nextPow2 = Math.pow(2, Math.ceil(Math.log2(Math.max(2, players.length))));
+      const byes = nextPow2 - players.length;
+      const seeded = players.slice();
+      for (let i = 0; i < byes; i++) seeded.push(null);
+      const rounds = [];
+      let current = [];
+      for (let i = 0; i < seeded.length; i += 2) {
+        current.push([seeded[i], seeded[i + 1]]);
+      }
+      rounds.push(current);
+      while (current.length > 1) {
+        const next = new Array(Math.ceil(current.length / 2)).fill(null).map(() => [null, null]);
+        rounds.push(next);
+        current = next;
+      }
+      window.__bracket = rounds;
+      return rounds;
+    }
+
+    function advanceWinner(match, winner) {
+      const rounds = window.__bracket;
+      for (let r = 0; r < rounds.length; r++) {
+        const round = rounds[r];
+        const idx = round.indexOf(match);
+        if (idx !== -1) {
+          if (r + 1 < rounds.length) {
+            const targetIdx = Math.floor(idx / 2);
+            if (!rounds[r + 1][targetIdx][0]) rounds[r + 1][targetIdx][0] = winner;
+            else if (!rounds[r + 1][targetIdx][1]) rounds[r + 1][targetIdx][1] = winner;
+            else rounds[r + 1][targetIdx][1] = winner;
+          } else {
+            alert('Champion : ' + winner.name);
+          }
+          return;
+        }
+      }
+    }
+
+    document.getElementById('generate').onclick = () => {
+      if (!state.tournament) return alert('Créez d’abord un tournoi');
+      if (state.players.length < 2) return alert('Pas assez de joueurs');
+      if (state.players.length > state.tournament.max) {
+        state.players = state.players.slice(0, state.tournament.max);
+      }
+      buildBracket(state.players.slice());
+      save();
+      renderAll();
+    };
+
+    exportBtn.onclick = () => {
+      const blob = new Blob([JSON.stringify({ tournament: state.tournament, players: state.players }, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tournoi_export.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+    importBtn.onclick = () => fileInput.click();
+    fileInput.onchange = e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const j = JSON.parse(ev.target.result);
+          state.tournament = j.tournament;
+          state.players = j.players || [];
+          save();
+          renderAll();
+          alert('Import OK');
+        } catch (err) {
+          alert('Fichier invalide');
+        }
+      };
+      reader.readAsText(f);
+    };
+
+    // Au chargement
+    load();
+    renderAll();
   </script>
 </body>
 </html>
