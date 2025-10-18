@@ -5,7 +5,6 @@
   <title>MisterRealm - Factions Lumière & Ténèbres</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Import de police stylée */
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
     * {
@@ -20,14 +19,12 @@
       scroll-behavior: smooth;
     }
 
-    /* Fond animé */
     body {
       background: url("ezgif-429320cb4399fc.gif") no-repeat center center fixed;
       background-size: cover;
       position: relative;
     }
 
-    /* Overlay sombre */
     body::before {
       content: "";
       position: fixed;
@@ -211,6 +208,9 @@
     &copy; 2025 MisterRealm - Tous droits réservés.
   </footer>
 
+  <!-- 🔊 Son magique -->
+  <audio id="magicSound" src="Magic-poof-sound-effect.mp3" preload="auto"></audio>
+
   <script>
     function copyIP() {
       const ip = "realm.servehttp.com:25593";
@@ -218,6 +218,17 @@
         alert("IP copiée dans le presse-papiers !");
       });
     }
+
+    // Jouer le son magique au clic sur le bouton Discord
+    document.addEventListener("DOMContentLoaded", function () {
+      const discordButton = document.querySelector(".discord-button");
+      const magicSound = document.getElementById("magicSound");
+
+      discordButton.addEventListener("click", () => {
+        magicSound.currentTime = 0; // Redémarre le son si rejoué
+        magicSound.play();
+      });
+    });
   </script>
 </body>
 </html>
