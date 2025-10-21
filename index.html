@@ -1,234 +1,158 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>MisterRealm - Factions Lumière & Ténèbres</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+import React from "react";
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+export default function LdLaserSite() {
+  const services = [
+    { title: "Portraits gravés sur bois", desc: "Transformez vos photos préférées en œuvres gravées uniques sur bois massif." },
+    { title: "Gravure photo sur métal", desc: "Portraits durables sur aluminium ou acier, effet haut de gamme garanti." },
+    { title: "Objets personnalisés", desc: "Cadeaux, décorations ou souvenirs gravés selon vos envies." },
+  ];
 
-    body, html {
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      scroll-behavior: smooth;
-    }
+  const gallery = [
+    "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&q=80",
+    "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=1200&q=80",
+    "https://images.unsplash.com/photo-1567016432779-9f2b63b8a3b7?w=1200&q=80",
+    "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80",
+    "https://images.unsplash.com/photo-1519659528534-57a42c3a1b28?w=1200&q=80",
+  ];
 
-    body {
-      background: url("ezgif-429320cb4399fc.gif") no-repeat center center fixed;
-      background-size: cover;
-      position: relative;
-    }
+  function handleSubmit(e) {
+    e.preventDefault();
+    alert("Merci — le formulaire est prêt. Configurez un backend pour envoyer le message en vrai.");
+  }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: -1;
-    }
+  const glassButton =
+    "backdrop-blur-xl bg-white/20 border border-white/30 text-white hover:bg-white/30 transition-all";
 
-    header {
-      padding: 50px 20px;
-      text-align: center;
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-gray-100">
+      <header className="backdrop-blur-lg bg-white/10 border-b border-white/20 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-100 to-gray-400 flex items-center justify-center text-gray-900 font-bold shadow-md">LD</div>
+            <div>
+              <h1 className="text-xl font-bold text-white">LD Laser</h1>
+              <p className="text-sm text-gray-300">Portraits & gravures laser haut de gamme</p>
+            </div>
+          </div>
+          <nav className="hidden md:flex gap-6 text-sm">
+            <a href="#services" className="hover:text-white/80">Services</a>
+            <a href="#galerie" className="hover:text-white/80">Galerie</a>
+            <a href="#a-propos" className="hover:text-white/80">À propos</a>
+            <a href="#contact" className={`px-4 py-2 rounded-lg font-medium ${glassButton}`}>Contact</a>
+          </nav>
+          <button className="md:hidden text-white">☰</button>
+        </div>
+      </header>
 
-    header h1 {
-      font-size: 3em;
-      color: #ffd700;
-      margin-bottom: 10px;
-    }
+      <main className="max-w-6xl mx-auto px-6 py-12">
+        <section className="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-5xl font-extrabold leading-tight text-white drop-shadow-md">LD Laser — Portraits & gravures laser sur-mesure</h2>
+            <p className="mt-4 text-gray-300">Spécialisé dans la gravure de portraits et photos sur bois et métal. Offrez un souvenir gravé pour la vie — précis, artistique et intemporel.</p>
+            <div className="mt-6 flex gap-4">
+              <a href="#contact" className={`inline-block px-6 py-3 rounded-xl font-medium ${glassButton}`}>Demander un devis</a>
+              <a href="#galerie" className={`inline-block px-6 py-3 rounded-xl font-medium ${glassButton}`}>Voir la galerie</a>
+            </div>
+          </div>
 
-    header p {
-      font-size: 1.2em;
-      color: #ccc;
-    }
+          <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-lg">
+            <img src="https://images.unsplash.com/photo-1526403224742-7d7f6a3b0aaf?w=1200&q=80" alt="portrait gravé" className="w-full h-80 object-cover" />
+          </div>
+        </section>
 
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
+        <section id="services" className="mt-20">
+          <h3 className="text-3xl font-bold text-white">Nos services</h3>
+          <p className="mt-2 text-gray-400">Des gravures fines et détaillées à partir de vos photos.</p>
 
-    .section h2 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #00ffff;
-    }
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((s) => (
+              <div key={s.title} className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-md">
+                <h4 className="font-semibold text-white">{s.title}</h4>
+                <p className="mt-2 text-sm text-gray-300">{s.desc}</p>
+                <button className={`mt-4 px-4 py-2 rounded-lg text-sm ${glassButton}`}>En savoir +</button>
+              </div>
+            ))}
+          </div>
+        </section>
 
-    .section p {
-      max-width: 800px;
-      margin: auto;
-      font-size: 1.1em;
-      color: #ddd;
-    }
+        <section id="galerie" className="mt-20">
+          <h3 className="text-3xl font-bold text-white">Galerie</h3>
+          <p className="mt-2 text-gray-400">Quelques portraits et gravures réalisés récemment.</p>
 
-    .ip-container {
-      margin-top: 40px;
-    }
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {gallery.map((src, i) => (
+              <div key={i} className="rounded-2xl overflow-hidden backdrop-blur-lg bg-white/10 border border-white/20 shadow-md">
+                <img src={src} alt={`Galerie ${i + 1}`} className="w-full h-56 object-cover" />
+              </div>
+            ))}
+          </div>
+        </section>
 
-    .ip-image {
-      width: 400px;
-      max-width: 90%;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #fff;
-    }
+        <section id="a-propos" className="mt-20 backdrop-blur-xl bg-white/10 p-8 rounded-2xl border border-white/20">
+          <h3 className="text-3xl font-bold text-white">À propos de LD Laser</h3>
+          <p className="mt-2 text-gray-300">LD Laser est une entreprise artisanale spécialisée dans la gravure de portraits photo sur bois et métal. Chaque création est réalisée avec soin et précision pour capturer l’émotion de vos images dans la matière.</p>
 
-    .copy-button {
-      background-color: #00ffff;
-      color: #000;
-      padding: 12px 24px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 25px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+          <div className="mt-6 grid sm:grid-cols-2 gap-4">
+            <div>
+              <h4 className="font-semibold text-white">Pourquoi nous choisir ?</h4>
+              <ul className="mt-2 text-sm text-gray-300 list-disc ml-5">
+                <li>Gravures de haute précision</li>
+                <li>Résultat photo-réaliste</li>
+                <li>Service personnalisé</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white">Horaires</h4>
+              <p className="mt-2 text-sm text-gray-300">Lun - Ven : 9h - 18h<br/>Sam : sur rendez-vous</p>
+            </div>
+          </div>
+        </section>
 
-    .copy-button:hover {
-      background-color: #00dddd;
-    }
+        <section id="contact" className="mt-20">
+          <h3 className="text-3xl font-bold text-white">Contact</h3>
+          <p className="mt-2 text-gray-400">Envoyez votre photo ou demandez un devis personnalisé.</p>
 
-    .discord-button {
-      background-color: #5865F2;
-      color: white;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 30px;
-      font-size: 1em;
-      cursor: pointer;
-      margin-top: 30px;
-      transition: background 0.3s;
-    }
+          <div className="mt-8 grid md:grid-cols-2 gap-8">
+            <form onSubmit={handleSubmit} className="backdrop-blur-xl bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
+              <label className="block">
+                <span className="text-sm font-medium text-white">Nom</span>
+                <input required className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="Votre nom" />
+              </label>
 
-    .discord-button:hover {
-      background-color: #4752c4;
-    }
+              <label className="block mt-4">
+                <span className="text-sm font-medium text-white">Email</span>
+                <input type="email" required className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="email@exemple.com" />
+              </label>
 
-    .factions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 30px;
-    }
+              <label className="block mt-4">
+                <span className="text-sm font-medium text-white">Message</span>
+                <textarea required rows={4} className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="Votre demande..." />
+              </label>
 
-    .faction-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
+              <div className="mt-4 flex items-center justify-between">
+                <button type="submit" className={`px-4 py-2 rounded-lg font-medium ${glassButton}`}>Envoyer</button>
+                <p className="text-sm text-gray-300">ou appelez : <a href="tel:+33761447222" className="underline">07 61 44 72 22</a></p>
+              </div>
+            </form>
 
-    .faction-card h3 {
-      margin-bottom: 10px;
-      font-size: 1.5em;
-      color: #fff;
-    }
+            <div className="backdrop-blur-xl bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
+              <h4 className="font-semibold text-white">Infos pratiques</h4>
+              <p className="mt-2 text-sm text-gray-300">LD Laser<br/>Adresse : 11 rue de Gamaches<br/>Email : <a href="mailto:laurentdelaunay15@gmail.com" className="underline">laurentdelaunay15@gmail.com</a></p>
+            </div>
+          </div>
+        </section>
+      </main>
 
-    .faction-card p {
-      font-size: 1em;
-      color: #ccc;
-    }
-
-    footer {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      text-align: center;
-      color: #aaa;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2em;
-      }
-
-      .section h2 {
-        font-size: 2em;
-      }
-
-      .factions {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>✨ MisterRealm</h1>
-    <p>Factions Lumière & Ténèbres - PvP | Magie | Quêtes | Conquête</p>
-  </header>
-
-  <section class="section" id="presentation">
-    <h2>Bienvenue sur MisterRealm</h2>
-    <p>Un serveur Minecraft unique en son genre où la guerre entre la Lumière et les Ténèbres fait rage. Choisissez votre camp, développez vos pouvoirs, bâtissez votre empire et partez à la conquête du royaume !</p>
-
-    <div class="ip-container">
-      <h3>IP du serveur</h3>
-      <img src="d22693f4-ce2d-47b9-8047-3154adf92a38.png" alt="IP Serveur" class="ip-image">
-      <br>
-      <button class="copy-button" onclick="copyIP()">📋 Copier l'IP : realm.servehttp.com:25593</button>
+      <footer className="backdrop-blur-lg bg-white/10 border-t border-white/20 mt-12 text-gray-300">
+        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm">
+          <p>© {new Date().getFullYear()} LD Laser — Tous droits réservés</p>
+          <div className="flex gap-4 mt-3 md:mt-0">
+            <a href="#a-propos">Mentions légales</a>
+            <a href="#contact">Politique de confidentialité</a>
+          </div>
+        </div>
+      </footer>
     </div>
-
-    <br>
-    <a href="https://discord.gg/C2Y4fAEBPh" target="_blank">
-      <button class="discord-button">💬 Rejoindre le Discord</button>
-    </a>
-  </section>
-
-  <section class="section" id="factions">
-    <h2>Les Factions</h2>
-    <div class="factions">
-      <div class="faction-card">
-        <h3>☀️ Faction Lumière</h3>
-        <p>Les défenseurs de l’ordre, de la paix et de la justice. Accédez à des pouvoirs de soin, de lumière divine et d’invocation céleste.</p>
-      </div>
-      <div class="faction-card">
-        <h3>🌑 Faction Ténèbres</h3>
-        <p>Les maîtres de l’ombre, de la ruse et du chaos. Maîtrisez la magie noire, les illusions et la destruction pure.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 MisterRealm - Tous droits réservés.
-  </footer>
-
-  <!-- 🔊 Son magique -->
-  <audio id="magicSound" src="Magic-poof-sound-effect.mp3" preload="auto"></audio>
-
-  <script>
-    function copyIP() {
-      const ip = "realm.servehttp.com:25593";
-      navigator.clipboard.writeText(ip).then(() => {
-        alert("IP copiée dans le presse-papiers !");
-      });
-    }
-
-    // Jouer le son magique au clic sur le bouton Discord
-    document.addEventListener("DOMContentLoaded", function () {
-      const discordButton = document.querySelector(".discord-button");
-      const magicSound = document.getElementById("magicSound");
-
-      discordButton.addEventListener("click", () => {
-        magicSound.currentTime = 0; // Redémarre le son si rejoué
-        magicSound.play();
-      });
-    });
-  </script>
-</body>
-</html>
+  );
+}
