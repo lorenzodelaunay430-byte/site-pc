@@ -1,158 +1,309 @@
-import React from "react";
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LDA Web — Maquette</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1:#030617;
+      --bg-2:#041026;
+      --glass-bg: rgba(255,255,255,0.03);
+      --card-bg: rgba(255,255,255,0.035);
+      --accent:#00a3ff; /* blue neon */
+      --accent-2:#007bff;
+      --text:#e6eef9;
+      --muted:rgba(230,238,249,0.6);
+      --glass-border: rgba(255,255,255,0.06);
+      --glass-highlight: rgba(0,160,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,123,255,0.06), transparent), linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+    /* container */
+    .wrap{max-width:1100px;margin:48px auto;padding:36px}
 
-export default function LdLaserSite() {
-  const services = [
-    { title: "Portraits gravés sur bois", desc: "Transformez vos photos préférées en œuvres gravées uniques sur bois massif." },
-    { title: "Gravure photo sur métal", desc: "Portraits durables sur aluminium ou acier, effet haut de gamme garanti." },
-    { title: "Objets personnalisés", desc: "Cadeaux, décorations ou souvenirs gravés selon vos envies." },
-  ];
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{
+      width:68px;height:68px;border-radius:16px;display:grid;place-items:center;position:relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 6px 24px rgba(2,8,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px) saturate(120%);
+    }
+    .logo svg{width:44px;height:44px;filter: drop-shadow(0 6px 18px rgba(0,123,255,0.12));}
+    .brand h1{margin:0;font-family:Poppins, Inter;font-weight:600;font-size:18px;letter-spacing:0.6px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
 
-  const gallery = [
-    "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&q=80",
-    "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=1200&q=80",
-    "https://images.unsplash.com/photo-1567016432779-9f2b63b8a3b7?w=1200&q=80",
-    "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80",
-    "https://images.unsplash.com/photo-1519659528534-57a42c3a1b28?w=1200&q=80",
-  ];
+    .nav-actions{display:flex;gap:12px;align-items:center}
+    .lang-btn{background:transparent;border:1px solid var(--glass-border);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--text);backdrop-filter:blur(6px)}
+    .cta{padding:10px 14px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));font-weight:600;color:white;cursor:pointer;box-shadow:0 6px 24px rgba(0,123,255,0.16);}
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    alert("Merci — le formulaire est prêt. Configurez un backend pour envoyer le message en vrai.");
-  }
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:center;margin-top:40px}
+    .hero-left{padding:28px;border-radius:18px;background:var(--card-bg);border:1px solid var(--glass-border);backdrop-filter: blur(12px) saturate(130%);box-shadow: 0 12px 50px rgba(2,8,23,0.6)}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:10px;background:linear-gradient(90deg,rgba(0,123,255,0.12),rgba(0,160,255,0.06));color:var(--accent);font-weight:600;margin-bottom:18px}
+    h2{margin:0 0 12px 0;font-size:34px;line-height:1.02}
+    p.lead{color:var(--muted);margin:0 0 20px}
 
-  const glassButton =
-    "backdrop-blur-xl bg-white/20 border border-white/30 text-white hover:bg-white/30 transition-all";
+    .features{display:flex;gap:14px;margin-top:16px}
+    .feature{flex:1;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.03);}
+    .feature h4{margin:0 0 8px;font-size:14px}
+    .feature p{margin:0;color:var(--muted);font-size:13px}
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-gray-100">
-      <header className="backdrop-blur-lg bg-white/10 border-b border-white/20 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-100 to-gray-400 flex items-center justify-center text-gray-900 font-bold shadow-md">LD</div>
-            <div>
-              <h1 className="text-xl font-bold text-white">LD Laser</h1>
-              <p className="text-sm text-gray-300">Portraits & gravures laser haut de gamme</p>
-            </div>
-          </div>
-          <nav className="hidden md:flex gap-6 text-sm">
-            <a href="#services" className="hover:text-white/80">Services</a>
-            <a href="#galerie" className="hover:text-white/80">Galerie</a>
-            <a href="#a-propos" className="hover:text-white/80">À propos</a>
-            <a href="#contact" className={`px-4 py-2 rounded-lg font-medium ${glassButton}`}>Contact</a>
-          </nav>
-          <button className="md:hidden text-white">☰</button>
+    .hero-right{position:relative;display:flex;flex-direction:column;gap:16px}
+    .card-preview{border-radius:16px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(10px);}
+    .price{font-weight:700;font-size:20px}
+
+    /* OFFERS */
+    .offers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+    .offer{padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(8px)}
+    .offer h3{margin:0 0 6px}
+    .offer p{margin:0 0 12px;color:var(--muted)}
+    .offer .price{font-size:22px}
+
+    /* PORTFOLIO */
+    .portfolio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+    .thumb{height:140px;border-radius:12px;background:linear-gradient(180deg, rgba(0,123,255,0.06), rgba(0,70,130,0.02));border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600}
+
+    /* CONTACT */
+    .contact{margin-top:40px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);}
+    .form-row{display:flex;gap:12px}
+    input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text);outline:none}
+
+    /* FOOTER */
+    footer{margin-top:40px;padding:24px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media (max-width:960px){
+      .hero{grid-template-columns:1fr;}
+      .offers{grid-template-columns:1fr}
+      .portfolio{grid-template-columns:1fr 1fr}
+      .wrap{padding:22px}
+    }
+
+    /* subtle animations */
+    .fade-in{opacity:0;transform:translateY(10px);animation:fadeInUp .72s cubic-bezier(.2,.9,.2,1) forwards}
+    @keyframes fadeInUp{to{opacity:1;transform:none}}
+
+    /* glass glow */
+    .glow{position:relative}
+    .glow::after{content:"";position:absolute;inset:-2px;border-radius:inherit;background:linear-gradient(90deg, rgba(0,160,255,0.06), rgba(0,123,255,0.03));z-index:-1;filter:blur(10px);opacity:0;transition:opacity .3s}
+    .glow:hover::after{opacity:1}
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .center{display:flex;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav fade-in">
+      <div class="brand">
+        <div class="logo glow" title="LDA Web">
+          <!-- SVG logo (glass-ish) -->
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0%" stop-color="#00a3ff" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#007bff" stop-opacity="0.9"/>
+              </linearGradient>
+            </defs>
+            <rect x="6" y="6" width="88" height="88" rx="18" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.04)"/>
+            <path d="M28 70 L28 34 L46 34 L60 54 L74 34 L74 70 Z" fill="url(#g1)" opacity="0.98"/>
+            <path d="M36 62 L54 62 L64 46 L54 38 L36 38 Z" fill="rgba(255,255,255,0.06)" opacity="0.15"/>
+          </svg>
         </div>
-      </header>
-
-      <main className="max-w-6xl mx-auto px-6 py-12">
-        <section className="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 className="text-5xl font-extrabold leading-tight text-white drop-shadow-md">LD Laser — Portraits & gravures laser sur-mesure</h2>
-            <p className="mt-4 text-gray-300">Spécialisé dans la gravure de portraits et photos sur bois et métal. Offrez un souvenir gravé pour la vie — précis, artistique et intemporel.</p>
-            <div className="mt-6 flex gap-4">
-              <a href="#contact" className={`inline-block px-6 py-3 rounded-xl font-medium ${glassButton}`}>Demander un devis</a>
-              <a href="#galerie" className={`inline-block px-6 py-3 rounded-xl font-medium ${glassButton}`}>Voir la galerie</a>
-            </div>
-          </div>
-
-          <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-lg">
-            <img src="https://images.unsplash.com/photo-1526403224742-7d7f6a3b0aaf?w=1200&q=80" alt="portrait gravé" className="w-full h-80 object-cover" />
-          </div>
-        </section>
-
-        <section id="services" className="mt-20">
-          <h3 className="text-3xl font-bold text-white">Nos services</h3>
-          <p className="mt-2 text-gray-400">Des gravures fines et détaillées à partir de vos photos.</p>
-
-          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((s) => (
-              <div key={s.title} className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-md">
-                <h4 className="font-semibold text-white">{s.title}</h4>
-                <p className="mt-2 text-sm text-gray-300">{s.desc}</p>
-                <button className={`mt-4 px-4 py-2 rounded-lg text-sm ${glassButton}`}>En savoir +</button>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="galerie" className="mt-20">
-          <h3 className="text-3xl font-bold text-white">Galerie</h3>
-          <p className="mt-2 text-gray-400">Quelques portraits et gravures réalisés récemment.</p>
-
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {gallery.map((src, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden backdrop-blur-lg bg-white/10 border border-white/20 shadow-md">
-                <img src={src} alt={`Galerie ${i + 1}`} className="w-full h-56 object-cover" />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="a-propos" className="mt-20 backdrop-blur-xl bg-white/10 p-8 rounded-2xl border border-white/20">
-          <h3 className="text-3xl font-bold text-white">À propos de LD Laser</h3>
-          <p className="mt-2 text-gray-300">LD Laser est une entreprise artisanale spécialisée dans la gravure de portraits photo sur bois et métal. Chaque création est réalisée avec soin et précision pour capturer l’émotion de vos images dans la matière.</p>
-
-          <div className="mt-6 grid sm:grid-cols-2 gap-4">
-            <div>
-              <h4 className="font-semibold text-white">Pourquoi nous choisir ?</h4>
-              <ul className="mt-2 text-sm text-gray-300 list-disc ml-5">
-                <li>Gravures de haute précision</li>
-                <li>Résultat photo-réaliste</li>
-                <li>Service personnalisé</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white">Horaires</h4>
-              <p className="mt-2 text-sm text-gray-300">Lun - Ven : 9h - 18h<br/>Sam : sur rendez-vous</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="contact" className="mt-20">
-          <h3 className="text-3xl font-bold text-white">Contact</h3>
-          <p className="mt-2 text-gray-400">Envoyez votre photo ou demandez un devis personnalisé.</p>
-
-          <div className="mt-8 grid md:grid-cols-2 gap-8">
-            <form onSubmit={handleSubmit} className="backdrop-blur-xl bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
-              <label className="block">
-                <span className="text-sm font-medium text-white">Nom</span>
-                <input required className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="Votre nom" />
-              </label>
-
-              <label className="block mt-4">
-                <span className="text-sm font-medium text-white">Email</span>
-                <input type="email" required className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="email@exemple.com" />
-              </label>
-
-              <label className="block mt-4">
-                <span className="text-sm font-medium text-white">Message</span>
-                <textarea required rows={4} className="mt-1 block w-full rounded-lg bg-white/10 border border-white/20 text-white p-2 placeholder-gray-400" placeholder="Votre demande..." />
-              </label>
-
-              <div className="mt-4 flex items-center justify-between">
-                <button type="submit" className={`px-4 py-2 rounded-lg font-medium ${glassButton}`}>Envoyer</button>
-                <p className="text-sm text-gray-300">ou appelez : <a href="tel:+33761447222" className="underline">07 61 44 72 22</a></p>
-              </div>
-            </form>
-
-            <div className="backdrop-blur-xl bg-white/10 p-6 rounded-2xl border border-white/20 shadow-md">
-              <h4 className="font-semibold text-white">Infos pratiques</h4>
-              <p className="mt-2 text-sm text-gray-300">LD Laser<br/>Adresse : 11 rue de Gamaches<br/>Email : <a href="mailto:laurentdelaunay15@gmail.com" className="underline">laurentdelaunay15@gmail.com</a></p>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="backdrop-blur-lg bg-white/10 border-t border-white/20 mt-12 text-gray-300">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-sm">
-          <p>© {new Date().getFullYear()} LD Laser — Tous droits réservés</p>
-          <div className="flex gap-4 mt-3 md:mt-0">
-            <a href="#a-propos">Mentions légales</a>
-            <a href="#contact">Politique de confidentialité</a>
-          </div>
+        <div>
+          <h1>LDA Web</h1>
+          <p class="muted" data-i18n="tagline">Votre présence en ligne, simplifiée.</p>
         </div>
-      </footer>
-    </div>
-  );
-}
+      </div>
+
+      <div class="nav-actions">
+        <button class="lang-btn" id="langToggle">FR / EN</button>
+        <button class="cta" id="ctaCreate" data-i18n="cta">Créer mon site</button>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="hero-left fade-in">
+          <span class="kicker" data-i18n="kicker">Nouveau</span>
+          <h2 data-i18n="headline">Sites modernes et hébergement premium — livrés rapidement.</h2>
+          <p class="lead" data-i18n="lead">LDA Web conçoit des sites performants, élégants et optimisés. Nous gérons l’hébergement, la maintenance et le support — tu te concentres sur ton business.</p>
+
+          <div class="features">
+            <div class="feature">
+              <h4 data-i18n="f1">Design premium</h4>
+              <p data-i18n="f1d">Glassmorphism, animations fluides et typographie soignée.</p>
+            </div>
+            <div class="feature">
+              <h4 data-i18n="f2">Hébergement fiable</h4>
+              <p data-i18n="f2d">Backups, SSL et monitoring inclus.</p>
+            </div>
+            <div class="feature">
+              <h4 data-i18n="f3">Support</h4>
+              <p data-i18n="f3d">Réponses rapides et mises à jour régulières.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="hero-right fade-in">
+          <div class="card-preview">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div class="muted">LDA Pro</div>
+              <div class="price">299€</div>
+            </div>
+            <div class="muted" style="font-size:13px">Site complet • 3–6 pages • Responsive • SEO de base</div>
+          </div>
+
+          <div class="card-preview center">
+            <button class="cta" style="width:100%" id="ctaTop">Démarrer</button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="offers fade-in" aria-label="Offres">
+        <div class="offer">
+          <h3 data-i18n="o1">LDA Start</h3>
+          <p data-i18n="o1d">One-page vitrine — rapide et efficace.</p>
+          <div class="price">99€</div>
+        </div>
+        <div class="offer">
+          <h3 data-i18n="o2">LDA Pro</h3>
+          <p data-i18n="o2d">Site complet + optimisation.</p>
+          <div class="price">299€</div>
+        </div>
+        <div class="offer">
+          <h3 data-i18n="o3">LDA Host</h3>
+          <p data-i18n="o3d">Hébergement, backups & support.</p>
+          <div class="price">19€/mois</div>
+        </div>
+      </section>
+
+      <section class="portfolio fade-in" aria-label="Exemples">
+        <div class="thumb">Restaurant</div>
+        <div class="thumb">Photographe</div>
+        <div class="thumb">Freelance</div>
+      </section>
+
+      <section class="contact fade-in">
+        <h3 data-i18n="contactTitle">Contact</h3>
+        <p class="muted" data-i18n="contactSub">Remplis le formulaire — on te répond en moins de 24h.</p>
+        <div style="height:14px"></div>
+        <form id="contactForm">
+          <div class="form-row">
+            <input type="text" id="name" placeholder="Nom" required>
+            <input type="email" id="email" placeholder="Email" required>
+          </div>
+          <div style="height:12px"></div>
+          <textarea id="message" rows="6" placeholder="Message"></textarea>
+          <div style="height:12px"></div>
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <button class="lang-btn" type="reset">Effacer</button>
+            <button class="cta" type="submit" id="sendBtn">Envoyer</button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+
+    <footer>
+      © <span id="year"></span> LDA Web — Tous droits réservés • <span class="muted">Design glassmorphique • Bleu & Noir</span>
+    </footer>
+  </div>
+
+  <script>
+    // Fill year
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // Simple language dictionary (FR / EN)
+    const i18n = {
+      fr: {
+        tagline: 'Votre présence en ligne, simplifiée.',
+        kicker: 'Nouveau',
+        headline: 'Sites modernes et hébergement premium — livrés rapidement.',
+        lead: 'LDA Web conçoit des sites performants, élégants et optimisés. Nous gérons l\'hébergement, la maintenance et le support — tu te concentres sur ton business.',
+        f1: 'Design premium', f1d: 'Glassmorphism, animations fluides et typographie soignée.',
+        f2: 'Hébergement fiable', f2d: 'Backups, SSL et monitoring inclus.',
+        f3: 'Support', f3d: 'Réponses rapides et mises à jour régulières.',
+        cta: 'Créer mon site',
+        o1: 'LDA Start', o1d: 'One-page vitrine — rapide et efficace.',
+        o2: 'LDA Pro', o2d: 'Site complet + optimisation.',
+        o3: 'LDA Host', o3d: 'Hébergement, backups & support.',
+        contactTitle: 'Contact', contactSub: 'Remplis le formulaire — on te répond en moins de 24h.'
+      },
+      en: {
+        tagline: 'Your online presence, simplified.',
+        kicker: 'New',
+        headline: 'Modern websites and premium hosting — delivered fast.',
+        lead: 'LDA Web crafts fast, elegant and optimized websites. We handle hosting, maintenance and support — you focus on your business.',
+        f1: 'Premium design', f1d: 'Glassmorphism, fluid animations and refined typography.',
+        f2: 'Reliable hosting', f2d: 'Backups, SSL and monitoring included.',
+        f3: 'Support', f3d: 'Fast replies and regular updates.',
+        cta: 'Create my site',
+        o1: 'LDA Start', o1d: 'One-page showcase — fast and simple.',
+        o2: 'LDA Pro', o2d: 'Full site + optimization.',
+        o3: 'LDA Host', o3d: 'Hosting, backups & support.',
+        contactTitle: 'Contact', contactSub: 'Fill the form — we reply within 24h.'
+      }
+    }
+
+    let current = 'fr';
+    const toggle = document.getElementById('langToggle');
+    toggle.addEventListener('click', ()=>{
+      current = (current === 'fr') ? 'en' : 'fr';
+      applyLang(current);
+      toggle.innerText = (current==='fr') ? 'FR / EN' : 'EN / FR';
+    });
+
+    function applyLang(lang){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang] && i18n[lang][key]) el.innerText = i18n[lang][key];
+      });
+      // placeholders
+      document.getElementById('name').placeholder = (lang==='fr')? 'Nom' : 'Name';
+      document.getElementById('email').placeholder = (lang==='fr')? 'Email' : 'Email';
+      document.getElementById('message').placeholder = (lang==='fr')? 'Message' : 'Message';
+      document.getElementById('sendBtn').innerText = (lang==='fr')? 'Envoyer' : 'Send';
+      document.getElementById('ctaCreate').innerText = (lang==='fr')? i18n[lang].cta : i18n[lang].cta;
+      document.getElementById('ctaTop').innerText = (lang==='fr')? (i18n[lang].cta==='Créer mon site' ? 'Démarrer' : 'Start') : 'Start';
+    }
+
+    // initial
+    applyLang(current);
+
+    // simple form handler (demo)
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value || '(empty)';
+      const email = document.getElementById('email').value || '(empty)';
+      const msg = document.getElementById('message').value || '(empty)';
+      // For now open mail client — replace with real API when ready
+      const subject = encodeURIComponent('Demande LDA Web - ' + name);
+      const body = encodeURIComponent(msg + '\n\nContact: ' + name + ' — ' + email);
+      window.location.href = `mailto:contact@ldaweb.example?subject=${subject}&body=${body}`;
+    });
+
+    // small entrance stagger
+    window.addEventListener('load', ()=>{
+      document.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.animationDelay = `${i*80}ms`});
+    });
+  </script>
+</body>
+</html>
